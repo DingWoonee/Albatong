@@ -18,14 +18,14 @@
             android:gravity="center"
             android:textSize="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"/>
+            android:layout_weight="3"/>
         <Button
-            android:id="@+id/changeBtn"
+            android:id="@+id/changeAllBtn"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
-            android:text="교환"/>
+            android:text="전체교환"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

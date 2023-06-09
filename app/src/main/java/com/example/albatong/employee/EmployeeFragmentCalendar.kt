@@ -39,13 +39,10 @@ import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
-import java.text.SimpleDateFormat
+import org.intellij.lang.annotations.JdkConstants
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.temporal.WeekFields
-import java.util.Calendar
-import java.util.Locale
 
 enum class Month(val numStr: String) {
     JANUARY("1"),
