@@ -20,6 +20,7 @@ class EmployeeActivityMain : AppCompatActivity() {
     val viewModel: EmployeeViewModel by viewModels()
     val textarr = arrayListOf<String>("일정", "급여", "근무지")
     var user: UserData ?= null
+    private var backKeyPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,5 +57,17 @@ class EmployeeActivityMain : AppCompatActivity() {
         }.attach()
     }
 
+    override fun onBackPressed() {
+        // 현재 시간이 마지막으로 뒤로 가기 버튼을 눌렀던 시간보다 2초 이상 크면
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis()
+            Toast.makeText(this, "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        // 마지막 '뒤로 가기'버튼 누르기 후, 2초가 지나지 않은 상태에서 '뒤로 가기'버튼을 누르면
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish() // 앱 종료
+        }
+    }
 
 }

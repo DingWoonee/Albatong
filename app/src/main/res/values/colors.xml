@@ -14,6 +14,6 @@
     <color name="employee_main_calendar_2">#77aa00</color>
     <color name="employee_main_calendar_3">#dd1199</color>
     <color name="employee_main_calendar_4">#66ccaa</color>
-    <color name="employee_main_calendar_continuous_selection">#0F000000</color>
+    <color name="eemployee_main_calendar_continuous_selection">#333</color>
     <color name="employee_main_calendar_grey_past">#BEBEBE</color>
 </resources>
