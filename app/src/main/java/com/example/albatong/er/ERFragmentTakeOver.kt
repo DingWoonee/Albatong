@@ -13,13 +13,14 @@ import com.example.albatong.R
 import com.example.albatong.databinding.EeFragmentTransferBinding
 import com.example.albatong.ee.EEMyData
 import com.example.albatong.ee.EEMyDataAdapter
+import com.example.albatong.ee.EEMyDataAdapter2
 import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 
 class ERFragmentTakeOver : Fragment() {
     lateinit var binding: EeFragmentTransferBinding
     val data: ArrayList<EEMyData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter
+    lateinit var adapter: EEMyDataAdapter2
     var storeId: String ?= null
 
     override fun onCreateView(
@@ -129,8 +130,8 @@ class ERFragmentTakeOver : Fragment() {
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter(data)
-        adapter.itemClickListener = object : EEMyDataAdapter.OnItemClickListener {
+        adapter = EEMyDataAdapter2(data)
+        adapter.itemClickListener = object : EEMyDataAdapter2.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("인수인계")
