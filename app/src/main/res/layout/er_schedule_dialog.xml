@@ -70,7 +70,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
 
         <Spinner
             android:id="@+id/endHourSpinner"
@@ -97,5 +98,18 @@
             android:entries="@array/minute_array" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="시급" />
+    <EditText
+        android:id="@+id/editSalary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:hint="현재 최저시급은 9,620원 입니다.(원 미포함)">
+
+    </EditText>
 
 </LinearLayout>
