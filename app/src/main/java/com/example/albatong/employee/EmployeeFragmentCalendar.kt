@@ -111,16 +111,16 @@ class EmployeeFragmentCalendar : Fragment() {
         scheduleAdapter?.notifyDataSetChanged()
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
-
     fun initRecyclerView() {
         binding.scheduleRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
             scheduleAdapter = EmployeeAdapterMainCalendar(mutableListOf())
         scheduleAdapter?.itemClickListener = object : EmployeeAdapterMainCalendar.OnItemClickListener{
-            override fun OnItemClick(position:Int) {
-                requireActivity().startActivity(Intent(activity, EEActivitySpecificMain::class.java))
+            override fun OnItemClick(schedule:Schedule) {
+                val i = Intent(requireActivity(), EEActivitySpecificMain::class.java)
+                i.putExtra("store_id", schedule.store_id)
+                i.putExtra("store_name", schedule.storeName)
+                i.putExtra("user_id", user_id)
+                startActivity(i)
             }
         }
         binding.scheduleRecyclerView.adapter = scheduleAdapter
@@ -276,7 +276,7 @@ class EmployeeFragmentCalendar : Fragment() {
                 schedule1.background = null
                 schedule2.background = null
                 schedule3.background = null
-2
+
                 if (data.position == DayPosition.MonthDate) {
                     //textView.setTextColorRes(R.color.example_5_text_grey)
                     layout.setBackgroundResource(if (selectedDate == data.date) R.drawable.employee_badge_selected else 0)

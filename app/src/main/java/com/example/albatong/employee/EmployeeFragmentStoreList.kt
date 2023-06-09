@@ -2,6 +2,7 @@ package com.example.albatong.employee
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlin.random.Random
 
 class EmployeeFragmentStoreList : Fragment() {
 
@@ -123,7 +125,7 @@ class EmployeeFragmentStoreList : Fragment() {
                     val store = snapshot.getValue(Store::class.java)!!
 
                     // DB 등록
-                    employeeDB!!.child("store").child(code).setValue(StoreList(store.storeInfo.storeName, code))
+                    employeeDB!!.child("store").child(code).setValue(StoreList(store.storeInfo.storeName, code, generateColor()))
                     storeDB.child("$code/storeInfo/employee").child("$userID").setValue(Employee("$userID", "${user?.name}"))
                     Toast.makeText(context, "${store.storeInfo.storeName} 알바 등록됨", Toast.LENGTH_SHORT).show()
                 }
@@ -136,6 +138,14 @@ class EmployeeFragmentStoreList : Fragment() {
                 Log.e("Employee", "Database read error: " + error.message)
             }
         })
+    }
+
+    fun generateColor(): Int {
+        val alphabet = ('A'..'F')
+        val random = Random(System.currentTimeMillis())
+        val randomAlphabet = (1..6).map { alphabet.random(random) }
+
+        return Color.parseColor("#" + randomAlphabet.joinToString(""))
     }
 
     override fun onResume() {

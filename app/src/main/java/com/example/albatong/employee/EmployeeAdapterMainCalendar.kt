@@ -15,7 +15,7 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
         return items.size
     }
     interface OnItemClickListener{
-        fun OnItemClick(position:Int)
+        fun OnItemClick(schedule:Schedule)
     }
     var itemClickListener:OnItemClickListener?=null
     var date = "THU\nJUN 30\n00:00"
@@ -25,7 +25,7 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.scheduleTouchView.setOnClickListener {
-                itemClickListener?.OnItemClick(bindingAdapterPosition)
+                itemClickListener?.OnItemClick(items[bindingAdapterPosition])
             }
         }
     }
