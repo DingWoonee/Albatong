@@ -3,6 +3,7 @@ package com.example.albatong.er
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.selects.select
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
+import java.time.LocalTime
 import java.util.*
 
 
@@ -157,6 +161,7 @@ class ERFragmentScheduleManage : Fragment() {
         val startMinuteSpinner = dialogView.findViewById<Spinner>(R.id.startMinuteSpinner)
         val endHourSpinner = dialogView.findViewById<Spinner>(R.id.endHourSpinner)
         val endMinuteSpinner = dialogView.findViewById<Spinner>(R.id.endMinuteSpinner)
+        val editSalary = dialogView.findViewById<TextView>(R.id.editSalary)
 
         val dialogBuilder = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -166,10 +171,14 @@ class ERFragmentScheduleManage : Fragment() {
                 val name = nameSpinner.selectedItem.toString().split("/")[1]
                 val startTime = "${startHourSpinner.selectedItem}:${startMinuteSpinner.selectedItem}"
                 val endTime = "${endHourSpinner.selectedItem}:${endMinuteSpinner.selectedItem}"
+                val salary = editSalary.text.toString()
 
-                if (name.isNotEmpty() && id.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty()) {
+                if (name.isNotEmpty() && id.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty() && salary.isNotEmpty()) {
                     if (isTimeValid(startTime, endTime)) {
-                        saveScheduleToDatabase(selectedDate, name, id, startTime, endTime)
+                        if(salary.toInt()>=9620)
+                            saveScheduleToDatabase(selectedDate, name, id, startTime, endTime, salary)
+                        else
+                            Toast.makeText(requireContext(),"최저시급 기준을 넘어야 합니다!",Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -178,7 +187,7 @@ class ERFragmentScheduleManage : Fragment() {
                         ).show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "모든 데이터를 입력해주세요!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "모든 데이터를 양식에 맞춰 입력해주세요!", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("취소", null)
@@ -208,6 +217,8 @@ class ERFragmentScheduleManage : Fragment() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("Employer", "김태정 오류: " + databaseError.message)
+
             }
         })
 
@@ -221,7 +232,7 @@ class ERFragmentScheduleManage : Fragment() {
         return start?.before(end) == true
     }
 
-    private fun saveScheduleToDatabase(selectedDate: String, name:String, employeeId: String, startTime: String, endTime: String) {
+    private fun saveScheduleToDatabase(selectedDate: String, name: String, employeeId: String, startTime: String, endTime: String, salary:String) {
         val calendar = Calendar.getInstance()
         calendar.time = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).parse(selectedDate)!!
 
@@ -234,42 +245,66 @@ class ERFragmentScheduleManage : Fragment() {
         val dayRef = monthRef.child(day.toString() + "일")
         val employeeRef = dayRef.child("$employeeId : $startTime-$endTime")
 
-        val schedule = Schedule(name, store_name!!, startTime, endTime,50000)
+        val schedule = Schedule(name, store_name!!, startTime, endTime, salary.toInt())
 
-        employeeRef.setValue(schedule)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(requireContext(), "일정이 추가되었습니다.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "일정 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                }
+        isScheduleOverlap(dayRef, name, employeeId, startTime, endTime) { isOverlap ->
+            if (!isOverlap) {
+                employeeRef.setValue(schedule)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(requireContext(), "일정이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(requireContext(), "일정 추가에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            } else {
+                Toast.makeText(requireContext(), "이미 겹치는 일정이 존재합니다.", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
 
-        employeeRef.addListenerForSingleValueEvent(object :ValueEventListener{
+
+    private fun isScheduleOverlap(dayRef: DatabaseReference, name: String, employeeId: String, startTime: String, endTime: String, callback: (Boolean) -> Unit) {
+        dayRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val scheduleList = mutableListOf<Schedule>()
+                var isOverlap = false
+
                 for (employeeSnapshot in snapshot.children) {
-                    val employeeId = employeeSnapshot.key
+                    val key = employeeSnapshot.key
+                    val startTimeSnapshot = employeeSnapshot.child("startTime").getValue(String::class.java)
+                    val endTimeSnapshot = employeeSnapshot.child("endTime").getValue(String::class.java)
+                    val nameSnapshot = employeeSnapshot.child("name").getValue(String::class.java)
 
-                    if (employeeId != null) {
-                        val startTime =
-                            employeeSnapshot.child("startTime").getValue(String::class.java)
-                        val endTime = employeeSnapshot.child("endTime").getValue(String::class.java)
-                        val name = employeeSnapshot.child("name").getValue(String::class.java)
-
-                        if (startTime != null && endTime != null && name != null) {
-                            val schedule = Schedule(name, store_name!!, startTime, endTime,10000)
-                            scheduleList.add(schedule)
+                    if (key != null
+                        && (key != "$employeeId : $startTime-$endTime" || nameSnapshot != null && nameSnapshot != name)
+                        && startTimeSnapshot != null && endTimeSnapshot != null) {
+                        if (isTimeOverlap(startTime, endTime, startTimeSnapshot, endTimeSnapshot)) {
+                            if (nameSnapshot == name) {
+                                isOverlap = true
+                                break
+                            }
                         }
                     }
                 }
-
+                callback(isOverlap)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                callback(true)
             }
         })
     }
 
+
+    private fun isTimeOverlap(startTime1: String, endTime1: String, startTime2: String, endTime2: String): Boolean
+    {
+        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val start1 = format.parse(startTime1)
+        val end1 = format.parse(endTime1)
+        val start2 = format.parse(startTime2)
+        val end2 = format.parse(endTime2)
+
+        return (start1 != null && end1 != null && start2 != null && end2 != null) &&
+                (start1.before(end2) && end1.after(start2))
+    }
 }
