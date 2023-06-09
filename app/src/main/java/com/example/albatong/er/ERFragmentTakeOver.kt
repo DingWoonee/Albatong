@@ -47,7 +47,7 @@ class ERFragmentTakeOver : Fragment() {
             if(it.exists()){
                 while(true){
                     if(it.child(test.toString()).exists()){
-                        adapter.addItem(EEMyData("1",it.child(test.toString()).child("date").getValue().toString(),
+                        adapter.addItem(EEMyData("사장",it.child(test.toString()).child("date").getValue().toString(),
                             it.child(test.toString()).child("title").getValue().toString(),
                             it.child(test.toString()).child("content").getValue().toString(),"0"))
                         test++
