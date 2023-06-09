@@ -1,12 +1,13 @@
 package com.example.albatong.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build.VERSION_CODES.P
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import com.example.albatong.data.UserData
 import com.example.albatong.databinding.LoginActivityBinding
 import com.example.albatong.employer.EmployerActivityStoreList
 import com.example.albatong.employee.EmployeeActivityMain
@@ -22,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: LoginActivityBinding
     lateinit var rdb: DatabaseReference
     var loginResult :Int = 0
+    lateinit var sharedPref:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LoginActivityBinding.inflate(layoutInflater)
@@ -30,8 +32,32 @@ class LoginActivity : AppCompatActivity() {
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.loginPwInputEditText.setText("")
+
+        val checked = sharedPref.getBoolean("CheckBoxState", false)
+        binding.idStoreCheckBox.isChecked = checked
+
+        if(checked) {
+            binding.loginIdInputEditText.setText(getSavedID(this))
+        }
+    }
+    fun saveID(context: Context, id: String) {
+        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("savedID", id)
+            apply()
+        }
+    }
+    fun getSavedID(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("savedID", null)
+    }
+
     fun init(){
         rdb = Firebase.database.getReference("Users")
+        sharedPref = getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
         binding.loginButton.setOnClickListener {
             if(binding.loginIdInputEditText.text.toString()==""){
                 idRequestDlg()
@@ -44,6 +70,14 @@ class LoginActivity : AppCompatActivity() {
         binding.signUpBotton.setOnClickListener {
             val i = Intent(this, SignUpActivity::class.java)
             startActivity(i)
+        }
+        binding.idStoreCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            val editor = sharedPref.edit()
+            editor.putBoolean("CheckBoxState", isChecked)
+            editor.apply()
+            if(!isChecked) {
+                saveID(this,"")
+            }
         }
     }
     fun detectUser(id: String, pw: String){
@@ -101,12 +135,24 @@ class LoginActivity : AppCompatActivity() {
             0 -> noUserDlg()
             1 -> noMatchPasswordDlg()
             2 -> {
+                if(binding.idStoreCheckBox.isChecked) {
+                    saveID(this,user_id)
+                } else {
+                    saveID(this,"")
+                }
                 val i = Intent(this@LoginActivity, EmployerActivityStoreList::class.java)
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 i.putExtra("user_id",user_id)
                 startActivity(i)
             }
             3 -> {
+                if(binding.idStoreCheckBox.isChecked) {
+                    saveID(this,user_id)
+                } else {
+                    saveID(this,"")
+                }
                 val i = Intent(this@LoginActivity, EmployeeActivityMain::class.java)
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 i.putExtra("user_id",user_id)
                 startActivity(i)
             }
@@ -116,7 +162,7 @@ class LoginActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(
             "아이디를 입력해주세요.")
-            //.setTitle("")
+            //.itle("")
             .setPositiveButton("OK"){ dlg,_ ->
                 dlg.dismiss()
             }
