@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.albatong.R
-import com.example.albatong.databinding.EeAnnouncementBinding
+import com.example.albatong.databinding.EeFragmentAnnouncementBinding
 import com.example.albatong.databinding.EeFragmentStoreListBinding
 import com.example.albatong.databinding.EeFragmentTransferBinding
 import com.example.albatong.employee.EmployeeFragmentStoreList
@@ -18,18 +18,22 @@ import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 
 class EEFragmentAnnouncement : Fragment() {
-    lateinit var binding: EeAnnouncementBinding
+    lateinit var binding: EeFragmentAnnouncementBinding
     val data: ArrayList<EEMyData> = ArrayList()
     var data3: ArrayList<EEMyData> = ArrayList()
     var data2: ArrayList<EEMyData> = ArrayList()
     lateinit var adapter: EEMyDataAdapter
-    var storeId = EmployeeFragmentStoreList.storeid
+    var storeId:String? = "null"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = EeAnnouncementBinding.inflate(inflater,container,false)
+        binding = EeFragmentAnnouncementBinding.inflate(inflater,container,false)
+
+        var i = requireActivity().intent
+        storeId = i.getStringExtra("store_id")
+
         initRecyclerView()
         init()
         return binding.root
@@ -37,9 +41,9 @@ class EEFragmentAnnouncement : Fragment() {
 
     private fun init() {
         val aDB = FirebaseDatabase.getInstance().getReference("Stores")
-            .child(storeId).child("storeManager").child("management").child("announcement")
+            .child(storeId!!).child("storeManager").child("management").child("announcement")
         val aDB2 = FirebaseDatabase.getInstance().getReference("Stores")
-            .child(storeId).child("storeManager").child("management").child("STARannouncement")
+            .child(storeId!!).child("storeManager").child("management").child("STARannouncement")
 
         var test = 0
         var test2 = 0
