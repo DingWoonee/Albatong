@@ -20,7 +20,7 @@ class EEFragmentTransfer : Fragment() {
 
     lateinit var binding: EeFragmentTransferBinding
     val data: ArrayList<EEMyData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter
+    lateinit var adapter: EEMyDataAdapter2
     var userID: String?=null
     var userName:String = ""
     var storeId: String?=null
@@ -145,8 +145,8 @@ class EEFragmentTransfer : Fragment() {
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter(data)
-        adapter.itemClickListener = object : EEMyDataAdapter.OnItemClickListener {
+        adapter = EEMyDataAdapter2(data)
+        adapter.itemClickListener = object : EEMyDataAdapter2.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("인수인계")
