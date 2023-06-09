@@ -48,7 +48,7 @@ class ERFragmentTakeOver : Fragment() {
                     if(it.child(test.toString()).exists()){
                         adapter.addItem(EEMyData("1",it.child(test.toString()).child("date").getValue().toString(),
                             it.child(test.toString()).child("title").getValue().toString(),
-                            it.child(test.toString()).child("content").getValue().toString()))
+                            it.child(test.toString()).child("content").getValue().toString(),"0"))
                         test++
                     }
                     else
@@ -89,6 +89,7 @@ class ERFragmentTakeOver : Fragment() {
                         Data.toString(),
                         dialogTitle.text.toString(),
                         dialogContent.text.toString()
+                        ,"0"
                     )
                 )
                 var b: EEMyData = data[0]
@@ -184,6 +185,10 @@ class ERFragmentTakeOver : Fragment() {
                 val alertDialog = builder.create()
                 alertDialog.show()
                 alertDialog.window?.setLayout(1000,1800)
+            }
+
+            override fun OnStarClick(data: EEMyData, position: Int) {
+                TODO("Not yet implemented")
             }
         }
         binding.recyclerview.adapter = adapter
