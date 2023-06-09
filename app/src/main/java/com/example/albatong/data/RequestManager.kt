@@ -1,5 +1,5 @@
 package com.example.albatong.data
-
+// 수정
 data class RequestManager(var date: String,
                           var startTime: String,
                           var endTime: String,

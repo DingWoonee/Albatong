@@ -5,5 +5,5 @@ data class Employee(var employeeId: String,
                     var salary: Int=10000) {
     constructor(): this("no-data", "no-data")
 
-    // 모르겠어요
+    // 수정작업
 }
