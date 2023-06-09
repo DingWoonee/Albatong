@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:supportsRtl="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".ee.EEActivitySpecificMain"
+            android:exported="false"
+            android:label="알바 특정 점포" />
+        <activity
+            android:name=".employee.EmployeeActivityMain"
+            android:exported="true"
+            android:label="알바 메인" />
+        <activity
+            android:name=".er.ERActivityNotificationList"
+            android:exported="false"
+            android:label="알림 내역"/>
+        <activity
+            android:name=".er.ERActivitySetting"
+            android:exported="false"
+            android:label="설정"/>
+        <activity
+            android:name=".employer.EmployerActivityStoreList"
+            android:exported="false" />
+        <activity
+            android:name=".login.SignUpActivity"
+            android:exported="false"
+            android:label="회원가입"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".er.ERActivitySpecificMain"
+            android:exported="false"
+            android:label="특정 점포"/>
+        <activity
+            android:name=".er.ERActivityTimeTable"
+            android:exported="false"
+            android:label="특정 점포"/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true"
+            android:label="로그인" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

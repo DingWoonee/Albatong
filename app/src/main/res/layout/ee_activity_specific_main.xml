@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/login_background_button"
+        app:popupTheme="@style/Theme.Albatong"
+        app:subtitleTextColor="#FFFFFF"
+        app:titleTextColor="#FFFFFF" >
+
+        <ImageButton
+            android:id="@+id/employeeSettingButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_settings_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:tint="#FFF"/>
+
+        <ImageButton
+            android:id="@+id/employeeNotificationHistoryButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_notifications_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:tint="#FFF"/>
+
+        <ImageButton
+            android:id="@+id/employeeReportButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_report_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:tint="#FFF" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/ee_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/ee_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
