@@ -20,7 +20,7 @@ class EEMyDataAdapter(val items:ArrayList<EEMyData>)
 
     inner class ViewHolder(val binding:EeWriteListBinding): RecyclerView.ViewHolder(binding.root){
         init {
-            binding.cmtTitleTv.setOnClickListener {
+            binding.total2.setOnClickListener {
                 itemClickListener?.OnItemClick(items[adapterPosition], adapterPosition)
             }
             binding.star.setOnClickListener{

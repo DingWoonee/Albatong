@@ -1,6 +1,7 @@
 package com.example.albatong.ee
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EEFragmentCalendar : Fragment() {
+class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
     private lateinit var scheduleDateTextView: TextView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var sdb: DatabaseReference
@@ -40,7 +41,6 @@ class EEFragmentCalendar : Fragment() {
         val view = inflater.inflate(R.layout.ee_fragment_calendar, container, false)
         scheduleDateTextView = view.findViewById(R.id.scheduleDate)
         val calendarView = view.findViewById<CalendarView>(R.id.calendarView)
-        val changeButton = view.findViewById<Button>(R.id.changeBtn)
 
         val i = requireActivity().intent
         store_id = i.getStringExtra("store_id")
@@ -91,11 +91,22 @@ class EEFragmentCalendar : Fragment() {
 
         scheduleAdapter?.notifyDataSetChanged()
 
-        changeButton.setOnClickListener {
-            val selectedDate = scheduleDateTextView.text.toString()
-            showChangeDialog(selectedDate)
-        }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        scheduleAdapter?.itemClickListener = this
+
+    }
+
+    override fun onItemNameClick(name: String) {
+        showChangeDialog(requireContext(), name)
+    }
+
+    override fun onItemChangeClick(item: Schedule) {
+        showChangeDialog(requireContext(), item.name)
     }
 
     private fun updateScheduleAdapter(selectedDate: String) {
@@ -132,21 +143,24 @@ class EEFragmentCalendar : Fragment() {
         scheduleAdapter?.stopListening()
     }
 
-    private fun showChangeDialog(selectedDate: String) {
-        val dialogView = layoutInflater.inflate(R.layout.ee_calendar_dailog, null)
+    private fun showChangeDialog(context: Context, name: String) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.ee_calendar_dailog, null)
         val nameSpinner = dialogView.findViewById<Spinner>(R.id.nameSpinner)
-        val allBtn = dialogView.findViewById<Button>(R.id.allBtn)
 
-        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("$selectedDate")
-            .setPositiveButton("요청") { _, _ ->
-                val id = nameSpinner.selectedItem.toString().split("/")[0]
-                val name = nameSpinner.selectedItem.toString().split("/")[1]
+            .setTitle("교환요청")
+            .setPositiveButton("확인") { dialog, _ ->
+                val employeeId = nameSpinner.selectedItem.toString().split("/")[0]
+                val employeeName = nameSpinner.selectedItem.toString().split("/")[1]
 
-                sendExchangeRequest(id, name)
+                // 선택한 직원 정보를 사용하여 교환 요청 처리
+                sendExchangeRequest(employeeId, employeeName)
+                dialog.dismiss()
             }
-            .setNegativeButton("취소", null)
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()
+            }
 
         val dialog = dialogBuilder.create()
 
@@ -175,12 +189,22 @@ class EEFragmentCalendar : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {
             }
         })
-
-        allBtn.setOnClickListener {
-            sendExchangeRequestToAll(selectedDate)
-            dialog.dismiss()
-        }
     }
+
+    private fun showChangeAllDialog(selectedDate: String) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setTitle("$selectedDate")
+            .setMessage("정말 모두에게 보내겠습니까?")
+            .setPositiveButton("확인") { _, _ ->
+                // "확인" 버튼을 눌렀을 때 실행되는 코드
+                sendExchangeRequestToAll(selectedDate)
+            }
+            .setNegativeButton("취소", null)
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+    }
+
 
     private fun sendExchangeRequestToAll(selectedDate: String) {
         TODO("Not yet implemented")

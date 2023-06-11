@@ -1,9 +1,14 @@
 package com.example.albatong.ee
 
 
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.recyclerview.widget.RecyclerView
+import com.example.albatong.R
 import com.example.albatong.data.Schedule
 import com.example.albatong.databinding.EeItemCalendarListBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -14,7 +19,8 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>) :
     FirebaseRecyclerAdapter<Schedule, EEAdapterCalendar.ScheduleViewHolder>(options) {
 
     interface OnItemClickListener {
-        fun OnItemClick(name: String)
+        fun onItemNameClick(name: String)
+        fun onItemChangeClick(item: Schedule)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -23,7 +29,18 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.nameTextView.setOnClickListener {
-                itemClickListener?.OnItemClick(binding.nameTextView.text.toString())
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    itemClickListener?.onItemNameClick(item.name)
+                }
+            }
+            binding.changeBtn.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    itemClickListener?.onItemChangeClick(item)
+                }
             }
         }
 

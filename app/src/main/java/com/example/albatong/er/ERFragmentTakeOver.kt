@@ -13,13 +13,14 @@ import com.example.albatong.R
 import com.example.albatong.databinding.EeFragmentTransferBinding
 import com.example.albatong.ee.EEMyData
 import com.example.albatong.ee.EEMyDataAdapter
+import com.example.albatong.ee.EEMyDataAdapter2
 import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 
 class ERFragmentTakeOver : Fragment() {
     lateinit var binding: EeFragmentTransferBinding
     val data: ArrayList<EEMyData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter
+    lateinit var adapter: EEMyDataAdapter2
     var storeId: String ?= null
 
     override fun onCreateView(
@@ -46,9 +47,9 @@ class ERFragmentTakeOver : Fragment() {
             if(it.exists()){
                 while(true){
                     if(it.child(test.toString()).exists()){
-                        adapter.addItem(EEMyData("1",it.child(test.toString()).child("date").getValue().toString(),
+                        adapter.addItem(EEMyData("사장",it.child(test.toString()).child("date").getValue().toString(),
                             it.child(test.toString()).child("title").getValue().toString(),
-                            it.child(test.toString()).child("content").getValue().toString()))
+                            it.child(test.toString()).child("content").getValue().toString(),"0"))
                         test++
                     }
                     else
@@ -89,6 +90,7 @@ class ERFragmentTakeOver : Fragment() {
                         Data.toString(),
                         dialogTitle.text.toString(),
                         dialogContent.text.toString()
+                        ,"0"
                     )
                 )
                 var b: EEMyData = data[0]
@@ -128,8 +130,8 @@ class ERFragmentTakeOver : Fragment() {
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter(data)
-        adapter.itemClickListener = object : EEMyDataAdapter.OnItemClickListener {
+        adapter = EEMyDataAdapter2(data)
+        adapter.itemClickListener = object : EEMyDataAdapter2.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("인수인계")
@@ -184,6 +186,10 @@ class ERFragmentTakeOver : Fragment() {
                 val alertDialog = builder.create()
                 alertDialog.show()
                 alertDialog.window?.setLayout(1000,1800)
+            }
+
+            override fun OnStarClick(data: EEMyData, position: Int) {
+                TODO("Not yet implemented")
             }
         }
         binding.recyclerview.adapter = adapter

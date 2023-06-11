@@ -3,25 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:gravity="center_vertical">
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="이름"/>
 
         <TextView
             android:id="@+id/timeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:text="시간"/>
     </LinearLayout>
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_main_color"
+        android:id="@+id/changeBtn"
+        android:textColor="@color/white"
+        android:stateListAnimator="@null"
+        android:drawableLeft="@drawable/baseline_autorenew_24"
+        android:paddingLeft="23dp">
+    </Button>
 </LinearLayout>

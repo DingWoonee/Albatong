@@ -20,7 +20,7 @@ class EEFragmentTransfer : Fragment() {
 
     lateinit var binding: EeFragmentTransferBinding
     val data: ArrayList<EEMyData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter
+    lateinit var adapter: EEMyDataAdapter2
     var userID: String?=null
     var userName:String = ""
     var storeId: String?=null
@@ -60,7 +60,7 @@ class EEFragmentTransfer : Fragment() {
                         adapter.addItem(EEMyData(it.child(test.toString()).child("userid").getValue().toString(),
                             it.child(test.toString()).child("date").getValue().toString(),
                             it.child(test.toString()).child("title").getValue().toString(),
-                            it.child(test.toString()).child("content").getValue().toString()))
+                            it.child(test.toString()).child("content").getValue().toString(),"0"))
                         test++
                     }
                     else
@@ -103,7 +103,8 @@ class EEFragmentTransfer : Fragment() {
                         "$userName($userID)",
                         Data.toString(),
                         dialogTitle.text.toString(),
-                        dialogContent.text.toString()
+                        dialogContent.text.toString(),
+                        "0"
                     )
                 )
                 var b:EEMyData = data[0]
@@ -144,8 +145,8 @@ class EEFragmentTransfer : Fragment() {
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter(data)
-        adapter.itemClickListener = object : EEMyDataAdapter.OnItemClickListener {
+        adapter = EEMyDataAdapter2(data)
+        adapter.itemClickListener = object : EEMyDataAdapter2.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("인수인계")
@@ -204,6 +205,10 @@ class EEFragmentTransfer : Fragment() {
                 val alertDialog = builder.create()
                 alertDialog.show()
                 alertDialog.window?.setLayout(1000,1800)
+            }
+
+            override fun OnStarClick(data: EEMyData, position: Int) {
+                TODO("Not yet implemented")
             }
         }
         binding.recyclerview.adapter = adapter

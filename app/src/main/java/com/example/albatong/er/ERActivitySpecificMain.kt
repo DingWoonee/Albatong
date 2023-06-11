@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import androidx.core.widget.ImageViewCompat
 import com.example.albatong.R
 import com.example.albatong.databinding.ErActivitySpecificMainBinding
+import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ERActivitySpecificMain : AppCompatActivity() {
@@ -37,11 +38,11 @@ class ERActivitySpecificMain : AppCompatActivity() {
     }
     private fun init() {
         binding.employerSettingButton.setOnClickListener {
-            val i = Intent(this@ERActivitySpecificMain, ERActivitySetting::class.java)
+            val i = Intent(this@ERActivitySpecificMain, ERsettingActivity::class.java)
             startActivity(i)
         }
         binding.employerNotificationHistoryButton.setOnClickListener {
-            val i = Intent(this@ERActivitySpecificMain, ERActivityNotificationList::class.java)
+            val i = Intent(this@ERActivitySpecificMain, SignAcitivity::class.java)
             startActivity(i)
         }
     }

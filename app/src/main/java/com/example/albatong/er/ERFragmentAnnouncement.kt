@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
+import com.example.albatong.data.SignData
 import com.example.albatong.databinding.EeFragmentTransferBinding
 import com.example.albatong.ee.EEMyData
 import com.example.albatong.ee.EEMyDataAdapter
 import com.example.albatong.employer.EmployerActivityStoreList
+import com.example.albatong.login.SignAcitivity
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.getValue
 import java.time.LocalDate
@@ -33,13 +35,16 @@ class ERFragmentAnnouncement : Fragment() {
     var data3: ArrayList<EEMyData> = ArrayList()
     var data5: ArrayList<EEMyData> = ArrayList()
     lateinit var adapter: EEMyDataAdapter
-    var storeId = EmployerActivityStoreList.storeid
+    var storeId:String? = "null"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = EeFragmentTransferBinding.inflate(inflater,container,false)
+        var i = requireActivity().intent
+        storeId = i.getStringExtra("store_id")
+
         initRecyclerView()
         init()
         return binding.root
@@ -47,9 +52,9 @@ class ERFragmentAnnouncement : Fragment() {
 
     private fun init() {
         val aDB = FirebaseDatabase.getInstance().getReference("Stores")
-            .child(storeId).child("storeManager").child("management").child("announcement")
+            .child(storeId!!).child("storeManager").child("management").child("announcement")
         val aDB2 = FirebaseDatabase.getInstance().getReference("Stores")
-            .child(storeId).child("storeManager").child("management").child("STARannouncement")
+            .child(storeId!!).child("storeManager").child("management").child("STARannouncement")
 
         var test = 0
         var test2 = 0
@@ -142,21 +147,6 @@ class ERFragmentAnnouncement : Fragment() {
                     )
                 )
 
-//                var b: EEMyData = data[0]
-//                var c: EEMyData
-//
-//                if(data.size>1){
-//                    data[0] = data[data.size-1]
-//                    c = data[1]
-//                    data[1] = b
-//                    for(i in data.size-2 downTo 1){
-//                        if(i==1)
-//                            data[2] = c
-//                        else
-//                            data[i+1] = data[i]
-//                    }
-//                }
-
                 data3.add(EEMyData(
                     "사장",
                     Data.toString(),
@@ -194,7 +184,7 @@ class ERFragmentAnnouncement : Fragment() {
                 adapter.notifyDataSetChanged()
 
 
-                val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management").child("announcement")
+                val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management").child("announcement")
                 aDB.setValue(data3)
             }
 
@@ -244,7 +234,7 @@ class ERFragmentAnnouncement : Fragment() {
                 builder.setNegativeButton("삭제"){
                         p0,p1 ->
                     run {
-                        val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management").child("announcement")
+                        val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management").child("announcement")
 
                         adapter.removeItem(position)
 
@@ -279,7 +269,7 @@ class ERFragmentAnnouncement : Fragment() {
                                 }
                             }
                             data2.removeAt(position)
-                            FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management")
+                            FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                                 .child("STARannouncement").setValue(data2)
                         }
                     }
@@ -295,10 +285,10 @@ class ERFragmentAnnouncement : Fragment() {
 
                     data2.removeAt(position)
 
-                    FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management")
+                    FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                         .child("STARannouncement").setValue(data2)
 
-                    var db = FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management")
+                    var db = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                         .child("announcement")
                     var test4 = 0
                     db.get().addOnSuccessListener {
@@ -352,10 +342,10 @@ class ERFragmentAnnouncement : Fragment() {
                         }
                     }
 
-                    FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management")
+                    FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                         .child("STARannouncement").setValue(data2)
 
-                    var db = FirebaseDatabase.getInstance().getReference("Stores").child(storeId).child("storeManager").child("management")
+                    var db = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                         .child("announcement")
                     var test3 = 0
                     db.get().addOnSuccessListener {
@@ -383,6 +373,16 @@ class ERFragmentAnnouncement : Fragment() {
                         data.clear()
                         data.addAll(data2)
                         data.addAll(data5)
+
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd\nHH:mm:ss")
+                        val Data = current.format(formatter)
+
+                        Toast.makeText(context,"중요공지가 등록되었습니다.",Toast.LENGTH_SHORT).show()
+
+                        /*SignAcitivity.data2.add(
+                            SignData("중요공지가 등록되었습니다.",Data.toString(),1))
+                        SignAcitivity.adapter.notifyDataSetChanged()*/
 
                         adapter.notifyDataSetChanged()
 

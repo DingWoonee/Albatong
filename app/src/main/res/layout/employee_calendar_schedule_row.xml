@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="15dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/scheduleDateText"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/sub_color"
+            android:gravity="center"
+            android:lineSpacingExtra="2.5dp"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            tools:text="THU\nJUN 30"
+            android:layout_marginRight="3dp"/>
+        <TextView
+            android:id="@+id/scheduleNameText"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:text="Mom's Touch"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@color/main_color"/>
+        <TextView
+            android:id="@+id/scheduleStartTimeText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#ddd"
+            android:text="00:00"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="#ddd"
+            android:text="~"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/scheduleEndText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#ddd"
+            android:text="00:00"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/scheduleTouchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

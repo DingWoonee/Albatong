@@ -10,10 +10,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/login_background_button"
         app:popupTheme="@style/Theme.Albatong"
-        app:subtitleTextColor="#FFFFFF"
-        app:titleTextColor="#FFFFFF" >
+        app:title="ALBATONG"
+        app:titleTextAppearance="@style/ToolbarTitleText">
 
         <ImageButton
             android:id="@+id/employeeSettingButton"
@@ -22,8 +21,7 @@
             android:src="@drawable/baseline_settings_24"
             android:layout_gravity="end"
             android:layout_marginRight="10dp"
-            android:background="?android:attr/selectableItemBackground"
-            app:tint="#FFF"/>
+            android:background="?android:attr/selectableItemBackground" />
 
         <ImageButton
             android:id="@+id/employeeNotificationHistoryButton"
@@ -32,19 +30,7 @@
             android:src="@drawable/baseline_notifications_24"
             android:layout_gravity="end"
             android:layout_marginRight="10dp"
-            android:background="?android:attr/selectableItemBackground"
-            app:tint="#FFF"/>
-
-        <ImageButton
-            android:id="@+id/employeeReportButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/baseline_report_24"
-            android:layout_gravity="end"
-            android:layout_marginRight="10dp"
-            android:background="?android:attr/selectableItemBackground"
-            app:tint="#FFF" />
-
+            android:background="?android:attr/selectableItemBackground" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -56,6 +42,12 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/ee_tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/dark_gray"
+        app:tabTextAppearance="@style/tabTextSizeBold"
+        app:tabIndicatorColor="@color/main_color"
+        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorGravity="top"
+        app:tabIconTint="@color/dark_gray"/>
 
 </LinearLayout>
