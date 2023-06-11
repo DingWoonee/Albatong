@@ -138,7 +138,7 @@ class EEFragmentAnnouncement : Fragment() {
             }
 
             override fun OnStarClick(data: EEMyData, position: Int) {
-                TODO("Not yet implemented")
+
             }
         }
         binding.recyclerview.adapter = adapter

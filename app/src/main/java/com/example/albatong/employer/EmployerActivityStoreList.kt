@@ -11,10 +11,12 @@ import com.example.albatong.data.*
 import com.example.albatong.databinding.EmployerActivityStoreListBinding
 import com.example.albatong.databinding.EmployerDialogStoreAddBinding
 import com.example.albatong.er.ERActivityNotificationList
-import com.example.albatong.er.ERActivitySetting
 import com.example.albatong.er.ERActivitySpecificMain
+import com.example.albatong.er.ERsettingActivity
+import com.example.albatong.login.SignAcitivity
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlin.random.Random
@@ -28,6 +30,12 @@ class EmployerActivityStoreList : AppCompatActivity() {
     lateinit var layoutManager: LinearLayoutManager
     var user_id:String? = null
     private var backKeyPressedTime: Long = 0
+    val storelist: ArrayList<String> = ArrayList()
+
+    companion object{
+        var settingUserId2:String? = null
+        var settingStoreId2:String? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +43,28 @@ class EmployerActivityStoreList : AppCompatActivity() {
         bindingDialog = EmployerDialogStoreAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
+
+        ab.get().addOnSuccessListener {
+            var test=0
+            while(true){
+                if(it.child(test.toString()).exists()){
+                    storelist.add(it.child(test.toString()).value.toString())
+                    test++
+                }
+                else{
+                    break
+                }
+            }
+        }
+
         val i = intent
         user_id = i.getStringExtra("user_id")
+
+        binding.employerNotificationHistoryButton.setOnClickListener {
+                val intent = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
+                startActivity(intent)
+        }
 
         init()
         initRecyclereView()
@@ -71,7 +99,7 @@ class EmployerActivityStoreList : AppCompatActivity() {
             storeAddDlg()
         }
         binding.employerSettingButton.setOnClickListener {
-            val i = Intent(this@EmployerActivityStoreList, ERActivitySetting::class.java)
+            val i = Intent(this@EmployerActivityStoreList, ERsettingActivity::class.java)
             startActivity(i)
         }
         binding.employerNotificationHistoryButton.setOnClickListener {
@@ -95,6 +123,8 @@ class EmployerActivityStoreList : AppCompatActivity() {
                 override fun OnItemClick(store_id: String, store_name:String) {
                     binding.apply {
                         val i = Intent(this@EmployerActivityStoreList, ERActivitySpecificMain::class.java)
+                        settingStoreId2 = store_id
+                        settingUserId2 = user_id
                         i.putExtra("store_id",store_id)
                         i.putExtra("store_name",store_name)
                         startActivity(i)
@@ -124,6 +154,9 @@ class EmployerActivityStoreList : AppCompatActivity() {
                         bindingDialog.employerStoreAddTelEditText.text.toString()),
                     StoreManager()
                 ))
+                storelist.add(id.toString())
+                FirebaseDatabase.getInstance().getReference("Stores").child("Storename").setValue(storelist)
+
             }.setNegativeButton("Cancel"){
                     dlg , _ ->
                 dlg.dismiss()

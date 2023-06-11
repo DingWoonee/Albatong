@@ -17,11 +17,9 @@ import com.example.albatong.data.*
 import com.example.albatong.databinding.EmployeeDialogAddBinding
 import com.example.albatong.databinding.EmployeeFragmentItemListBinding
 import com.example.albatong.ee.EEActivitySpecificMain
+import com.example.albatong.ee.EEsettingActivity
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlin.random.Random
@@ -35,12 +33,17 @@ class EmployeeFragmentStoreList : Fragment() {
     var user: UserData?=null
     var userID: String?=null
 
+    companion object{
+        var settingUserId1:String? = null
+        var settingStoreId1:String? = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = EmployeeFragmentItemListBinding.inflate(layoutInflater, container, false)
+
         return binding!!.root
     }
 
@@ -70,6 +73,8 @@ class EmployeeFragmentStoreList : Fragment() {
                 override fun OnItemClick(store_id:String, store_name:String) {
                     binding.apply {
                         val i = Intent(requireActivity(), EEActivitySpecificMain::class.java)
+                        settingStoreId1 = store_id
+                        settingUserId1 = userID
                         i.putExtra("store_id", store_id)
                         i.putExtra("store_name", store_name)
                         i.putExtra("user_id", userID)

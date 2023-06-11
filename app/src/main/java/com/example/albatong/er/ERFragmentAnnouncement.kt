@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
+import com.example.albatong.data.SignData
 import com.example.albatong.databinding.EeFragmentTransferBinding
 import com.example.albatong.ee.EEMyData
 import com.example.albatong.ee.EEMyDataAdapter
 import com.example.albatong.employer.EmployerActivityStoreList
+import com.example.albatong.login.SignAcitivity
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.getValue
 import java.time.LocalDate
@@ -144,21 +146,6 @@ class ERFragmentAnnouncement : Fragment() {
                         "0"
                     )
                 )
-
-//                var b: EEMyData = data[0]
-//                var c: EEMyData
-//
-//                if(data.size>1){
-//                    data[0] = data[data.size-1]
-//                    c = data[1]
-//                    data[1] = b
-//                    for(i in data.size-2 downTo 1){
-//                        if(i==1)
-//                            data[2] = c
-//                        else
-//                            data[i+1] = data[i]
-//                    }
-//                }
 
                 data3.add(EEMyData(
                     "사장",
@@ -386,6 +373,16 @@ class ERFragmentAnnouncement : Fragment() {
                         data.clear()
                         data.addAll(data2)
                         data.addAll(data5)
+
+                        val current = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd\nHH:mm:ss")
+                        val Data = current.format(formatter)
+
+                        Toast.makeText(context,"중요공지가 등록되었습니다.",Toast.LENGTH_SHORT).show()
+
+                        /*SignAcitivity.data2.add(
+                            SignData("중요공지가 등록되었습니다.",Data.toString(),1))
+                        SignAcitivity.adapter.notifyDataSetChanged()*/
 
                         adapter.notifyDataSetChanged()
 

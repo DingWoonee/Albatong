@@ -1,5 +1,6 @@
 package com.example.albatong.employee
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.albatong.data.UserData
 import com.example.albatong.databinding.EmployeeActivityMainBinding
+import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -45,6 +47,11 @@ class EmployeeActivityMain : AppCompatActivity() {
                 Log.e("Employee", "Database read error: " + databaseError.message)
             }
         })
+
+        binding.employerNotificationHistoryButton.setOnClickListener {
+            val intent = Intent(this@EmployeeActivityMain, SignAcitivity::class.java)
+            startActivity(intent)
+        }
 
         initLayout()
     }
