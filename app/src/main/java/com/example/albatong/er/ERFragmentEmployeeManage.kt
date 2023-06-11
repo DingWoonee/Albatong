@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -84,48 +85,16 @@ class ERFragmentEmployeeManage : Fragment() {
                 .setPositiveButton("확인") { _, _ ->
                     val id = nameSpinner.selectedItem.toString().split("/")[0]
 
-                    val query = edb.orderByChild("employeeId").equalTo(id)
-                    query.addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            for (employeeSnapshot in dataSnapshot.children) {
-                                employeeSnapshot.ref.removeValue()
-                            }
+                    val confirmationDialogBuilder = AlertDialog.Builder(requireContext())
+                    confirmationDialogBuilder.setTitle("추방 확인")
+                    confirmationDialogBuilder.setMessage("정말로 추방시키시겠습니까?")
+                    confirmationDialogBuilder.setPositiveButton("확인") { _, _ ->
+                        performFiring(id)
+                    }
+                    confirmationDialogBuilder.setNegativeButton("취소", null)
 
-                            val userRef = Firebase.database.getReference("Users")
-                            userRef.child("employee").child(id).child("store").child(store_id!!)
-                                .removeValue()
-
-                            val calendarRef =
-                                sdb.child(store_id!!).child("storeManager").child("calendar")
-
-                            calendarRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(scheduleSnapshot: DataSnapshot) {
-                                    for (yearSnapshot in scheduleSnapshot.children) {
-                                        for (monthSnapshot in yearSnapshot.children) {
-                                            for (daySnapshot in monthSnapshot.children) {
-                                                for (snapshot in daySnapshot.children) {
-                                                    val key =
-                                                        snapshot.key // "$employeeId : $startTime-$endTime"
-                                                    val employeeId = key?.substringBefore(" : ")
-                                                    if (employeeId == id) {
-                                                        snapshot.ref.removeValue()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                    Log.e("Employer", "김태정 오류 : " + error.message)
-                                }
-                            })
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {
-                            Log.e("Employer", "김태정 오류 : " + databaseError.message)
-                        }
-                    })
+                    val confirmationDialog = confirmationDialogBuilder.create()
+                    confirmationDialog.show()
                 }
                 .setNegativeButton("취소", null)
 
@@ -159,6 +128,52 @@ class ERFragmentEmployeeManage : Fragment() {
         }
 
         fireDialog?.show()
+    }
+
+    private fun performFiring(id: String) {
+        val query = edb.orderByChild("employeeId").equalTo(id)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (employeeSnapshot in dataSnapshot.children) {
+                    employeeSnapshot.ref.removeValue()
+                }
+
+                val userRef = Firebase.database.getReference("Users")
+                userRef.child("employee").child(id).child("store").child(store_id!!)
+                    .removeValue()
+
+                val calendarRef =
+                    sdb.child(store_id!!).child("storeManager").child("calendar")
+
+                calendarRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(scheduleSnapshot: DataSnapshot) {
+                        for (yearSnapshot in scheduleSnapshot.children) {
+                            for (monthSnapshot in yearSnapshot.children) {
+                                for (daySnapshot in monthSnapshot.children) {
+                                    for (snapshot in daySnapshot.children) {
+                                        val key =
+                                            snapshot.key // "$employeeId : $startTime-$endTime"
+                                        val employeeId = key?.substringBefore(" : ")
+                                        if (employeeId == id) {
+                                            snapshot.ref.removeValue()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Toast.makeText(requireContext(),"추방이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("Employer", "김태정 오류 : " + error.message)
+                    }
+                })
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("Employer", "김태정 오류 : " + databaseError.message)
+            }
+        })
     }
 
     private fun loadScheduleData() {
@@ -198,7 +213,6 @@ class ERFragmentEmployeeManage : Fragment() {
 
                 for ((employeeInfo, totalSalary) in employeeSalaryMap) {
                     val name = employeeInfo.split("/")[0]
-                    val employeeId = employeeInfo.split("/")[1]
                     val schedule = Schedule(name, "storeName", "", "", totalSalary)
                     scheduleList.add(schedule)
                 }
