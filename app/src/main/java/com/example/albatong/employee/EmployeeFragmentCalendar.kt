@@ -39,10 +39,13 @@ import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
-import org.intellij.lang.annotations.JdkConstants
+import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.temporal.WeekFields
+import java.util.Calendar
+import java.util.Locale
 
 enum class Month(val numStr: String) {
     JANUARY("1"),
@@ -72,6 +75,7 @@ class EmployeeFragmentCalendar : Fragment() {
     private var scheduleAdapter:EmployeeAdapterMainCalendar? = null
     private var user_id:String? = null
     private var monthSchedule: Array<MutableList<Schedule>> = Array<MutableList<Schedule>>(31) { mutableListOf<Schedule>() }
+    private var storeListMap: MutableMap<String, Int> = mutableMapOf()
     private var monthCalc:Long = 0
     private var isFirst:Boolean = true
 
@@ -168,10 +172,12 @@ class EmployeeFragmentCalendar : Fragment() {
                     val storeList = childSnapshot.getValue(StoreList::class.java)
 
                     if(storeList != null) {
+                        storeListMap[storeList.store_id] = storeList.storeColor
                         searchScheduleByStoreId(storeList!!.store_id, year, month, goWhere2)
                     }
                     goWhere2 = 0
                 }
+                scheduleAdapter?.storeBackColorMap = storeListMap
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.e("Employee", "Database read error: " + databaseError.message)
@@ -283,24 +289,28 @@ class EmployeeFragmentCalendar : Fragment() {
                         textView.setTextColor(Color.parseColor("#FF0000"))
 
                     val daySchedule = monthSchedule[data.date.dayOfMonth-1]
+
                     if (daySchedule.count() > 0) {
                         when(daySchedule.count()){
                             1 -> {
-                                schedule1.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.employee_main_calendar_4))
+                                Log.w("Sungwoon",storeListMap.count().toString()+"개")
+                                Log.w("Sungwoon","id: "+daySchedule[0].store_id)
+                                Log.w("Sungwoon","color: "+storeListMap[daySchedule[0].store_id].toString())
+                                schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
                                 schedule1.text = daySchedule[0].storeName
                             }
                             2 -> {
-                                schedule1.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.employee_main_calendar_4))
+                                schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
                                 schedule1.text = daySchedule[0].storeName
-                                schedule2.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.employee_main_calendar_4))
+                                schedule2.setBackgroundColor(storeListMap[daySchedule[1].store_id]!!)
                                 schedule2.text = daySchedule[1].storeName
                             }
                             3 -> {
-                                schedule1.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.employee_main_calendar_4))
+                                schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
                                 schedule1.text = daySchedule[0].storeName
-                                schedule2.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.employee_main_calendar_4))
+                                schedule2.setBackgroundColor(storeListMap[daySchedule[1].store_id]!!)
                                 schedule2.text = daySchedule[1].storeName
-                                schedule3.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.employee_main_calendar_4))
+                                schedule3.setBackgroundColor(storeListMap[daySchedule[2].store_id]!!)
                                 schedule3.text = daySchedule[2].storeName
                             }
                         }
