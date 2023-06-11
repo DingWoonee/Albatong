@@ -251,7 +251,7 @@ class ERFragmentScheduleManage : Fragment() {
         val dayRef = monthRef.child(day.toString() + "일")
         val employeeRef = dayRef.child("$employeeId : $startTime-$endTime")
 
-        val schedule = Schedule(name, store_name!!, startTime, endTime, salary.toInt())
+        val schedule = Schedule(name, store_name!!, startTime, endTime, salary.toInt(), store_id!!)
 
         isScheduleOverlap(dayRef, name, employeeId, startTime, endTime) { isOverlap ->
             if (!isOverlap) {

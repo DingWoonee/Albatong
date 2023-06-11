@@ -30,17 +30,27 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         init()
+        checkLoginData()
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun checkLoginData() {
         binding.loginPwInputEditText.setText("")
 
-        val checked = sharedPref.getBoolean("CheckBoxState", false)
-        binding.idStoreCheckBox.isChecked = checked
-
-        if(checked) {
+        val idSaveChecked = sharedPref.getBoolean("IDCheckBoxState", false)
+        binding.idStoreCheckBox.isChecked = idSaveChecked
+        if(idSaveChecked) {
             binding.loginIdInputEditText.setText(getSavedID(this))
+        }
+
+        val loginChecked = sharedPref.getBoolean("LoginCheckBoxState", false)
+        binding.autoLoginCheckBox.isChecked = loginChecked
+        if(loginChecked) {
+            if(!idSaveChecked) {
+                binding.loginIdInputEditText.setText(getSavedID(this))
+            }
+            binding.loginPwInputEditText.setText(getSavedPW(this))
+
+            binding.loginButton.performClick()
         }
     }
     fun saveID(context: Context, id: String) {
@@ -50,9 +60,20 @@ class LoginActivity : AppCompatActivity() {
             apply()
         }
     }
+    fun savePW(context: Context, pw: String) {
+        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("savedPW", pw)
+            apply()
+        }
+    }
     fun getSavedID(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getString("savedID", null)
+    }
+    fun getSavedPW(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("user_pw", null)
     }
 
     fun init(){
@@ -73,10 +94,18 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.idStoreCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
             val editor = sharedPref.edit()
-            editor.putBoolean("CheckBoxState", isChecked)
+            editor.putBoolean("IDCheckBoxState", isChecked)
             editor.apply()
             if(!isChecked) {
                 saveID(this,"")
+            }
+        }
+        binding.autoLoginCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            val editor = sharedPref.edit()
+            editor.putBoolean("LoginCheckBoxState", isChecked)
+            editor.apply()
+            if(!isChecked){
+                savePW(this, "")
             }
         }
     }
@@ -137,6 +166,8 @@ class LoginActivity : AppCompatActivity() {
             2 -> {
                 if(binding.idStoreCheckBox.isChecked) {
                     saveID(this,user_id)
+                } else if(binding.autoLoginCheckBox.isChecked) {
+                    savePW(this,binding.loginPwInputEditText.text.toString())
                 } else {
                     saveID(this,"")
                 }
@@ -148,6 +179,8 @@ class LoginActivity : AppCompatActivity() {
             3 -> {
                 if(binding.idStoreCheckBox.isChecked) {
                     saveID(this,user_id)
+                } else if(binding.autoLoginCheckBox.isChecked) {
+                    savePW(this,binding.loginPwInputEditText.text.toString())
                 } else {
                     saveID(this,"")
                 }

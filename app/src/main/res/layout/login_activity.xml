@@ -28,6 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/loginIdInputEditText"
         app:layout_constraintRight_toRightOf="@+id/loginIdInputEditText"
         android:layout_marginBottom="3dp">
+
         <CheckBox
             android:id="@+id/idStoreCheckBox"
             android:layout_width="wrap_content"
@@ -36,6 +37,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ID 저장"
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"/>
+
+        <CheckBox
+            android:id="@+id/autoLoginCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자동 로그인"
             android:textColor="@color/black"/>
     </LinearLayout>
 

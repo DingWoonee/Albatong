@@ -114,7 +114,7 @@ class EmployeeFragmentCalendar : Fragment() {
 
     fun initRecyclerView() {
         binding.scheduleRecyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-            scheduleAdapter = EmployeeAdapterMainCalendar(mutableListOf())
+        scheduleAdapter = EmployeeAdapterMainCalendar(mutableListOf())
         scheduleAdapter?.itemClickListener = object : EmployeeAdapterMainCalendar.OnItemClickListener{
             override fun OnItemClick(schedule:Schedule) {
                 val i = Intent(requireActivity(), EEActivitySpecificMain::class.java)
@@ -166,6 +166,11 @@ class EmployeeFragmentCalendar : Fragment() {
     private fun updateMonthSchedule(year:String, month:String, goWhere:Int = 0) {
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    calendarBinding()
+                    isFirst = false
+                }
+
                 var goWhere2 = goWhere
                 monthSchedule = Array<MutableList<Schedule>>(31) { mutableListOf<Schedule>() }
                 for (childSnapshot in dataSnapshot.children) {
@@ -294,6 +299,7 @@ class EmployeeFragmentCalendar : Fragment() {
                         when(daySchedule.count()){
                             1 -> {
                                 Log.w("Sungwoon",storeListMap.count().toString()+"개")
+                                Log.w("Sungwoon","id: "+daySchedule[0].store_id)
                                 Log.w("Sungwoon","id: "+daySchedule[0].store_id)
                                 Log.w("Sungwoon","color: "+storeListMap[daySchedule[0].store_id].toString())
                                 schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
