@@ -65,6 +65,10 @@ class EmployerActivityStoreList : AppCompatActivity() {
                 val intent = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
                 startActivity(intent)
         }
+        binding.employerSettingButton.setOnClickListener {
+            val intent = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
+            startActivity(intent)
+        }
 
         init()
         initRecyclereView()
