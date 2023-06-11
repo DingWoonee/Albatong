@@ -20,10 +20,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.selects.select
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
-import java.time.LocalTime
 import java.util.*
 
 
@@ -33,6 +30,8 @@ class ERFragmentScheduleManage : Fragment() {
     private lateinit var sdb: DatabaseReference
     private lateinit var edb: DatabaseReference
     private lateinit var cdb: DatabaseReference
+    private var scheduleDialog: AlertDialog? = null
+
 
     private lateinit var scheduleRecyclerView: RecyclerView
     var scheduleAdapter: ERAdapterSchedule ?= null
@@ -144,8 +143,12 @@ class ERFragmentScheduleManage : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        if (scheduleDialog != null && scheduleDialog!!.isShowing) {
+            scheduleDialog!!.dismiss()
+        }
         scheduleAdapter?.stopListening()
     }
+
 
     private fun showTimeTableActivity(selectedDate: String, store_id:String) {
         val intent = Intent(requireContext(), ERActivityTimeTable::class.java)
@@ -192,7 +195,7 @@ class ERFragmentScheduleManage : Fragment() {
             }
             .setNegativeButton("취소", null)
 
-        val dialog = dialogBuilder.create()
+        scheduleDialog = dialogBuilder.create()
 
         edb.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -213,7 +216,6 @@ class ERFragmentScheduleManage : Fragment() {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 nameSpinner.adapter = adapter
 
-                dialog.show()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -221,6 +223,10 @@ class ERFragmentScheduleManage : Fragment() {
 
             }
         })
+
+        scheduleDialog?.show()
+
+
 
     }
 

@@ -30,7 +30,6 @@ class ERAdapterEmployeeManage(private val scheduleList: List<Schedule>) :
             binding.apply {
                 textViewName.text = schedule.name
                 textViewSalary.text = schedule.salary.toString()
-                textViewEmployeeId.text = schedule.endTime
             }
         }
     }

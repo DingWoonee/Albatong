@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F3F3F3">
 
     <Button
         android:id="@+id/fireBtn"
@@ -25,6 +27,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSalary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/er_item_employeemanage"/>
 
 </LinearLayout>

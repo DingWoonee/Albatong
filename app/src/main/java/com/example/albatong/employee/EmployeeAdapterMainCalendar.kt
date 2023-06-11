@@ -18,8 +18,10 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
         fun OnItemClick(schedule:Schedule)
     }
     var itemClickListener:OnItemClickListener?=null
-    var date = "THU\nJUN 30\n00:00"
+
+    var date = "THU\nJUN 30"
     var store_id = ""
+    var storeBackColorMap: MutableMap<String, Int> = mutableMapOf()
 
     inner class EmployeeScheduleViewHolder(val binding: EmployeeCalendarScheduleRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,11 +39,13 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
     }
 
     override fun onBindViewHolder(holder: EmployeeScheduleViewHolder, position: Int) {
+        var tempSchedule = items[position]
         holder.binding.apply {
+            scheduleDateText.setBackgroundColor(storeBackColorMap[tempSchedule.store_id]!!)
             scheduleDateText.text = date
-            scheduleNameText.text = items[position].storeName
-            scheduleStartTimeText.text = items[position].startTime
-            scheduleEndText.text = items[position].endTime
+            scheduleNameText.text = tempSchedule.storeName
+            scheduleStartTimeText.text = tempSchedule.startTime
+            scheduleEndText.text = tempSchedule.endTime
         }
     }
 }
