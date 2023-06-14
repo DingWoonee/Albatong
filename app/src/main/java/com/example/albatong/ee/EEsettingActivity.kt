@@ -5,14 +5,18 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.albatong.R
 import com.example.albatong.databinding.ActivityEesettingBinding
 import com.example.albatong.employee.EmployeeActivityMain
 import com.example.albatong.employee.EmployeeFragmentStoreList
 import com.example.albatong.login.LoginActivity
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.childEvents
+import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.snapshots
+import com.google.firebase.ktx.Firebase
 
 class EEsettingActivity : AppCompatActivity() {
     lateinit var binding:ActivityEesettingBinding
@@ -48,15 +52,38 @@ class EEsettingActivity : AppCompatActivity() {
                     .setMessage("점포를 나가시겠습니까?")
                     .setPositiveButton("나가기",{ dialog, id ->
 
-                        use.child("store").child(storeId.toString()).removeValue()
-
-                        FirebaseDatabase.getInstance().getReference("Stores").child(storeId.toString())
-                            .child("storeInfo").child("employee").child(userID.toString()).removeValue()
 
                         val i = Intent(this, EmployeeActivityMain::class.java)
                         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        i.putExtra("user_id",userID)
-                        startActivity(i)
+
+                        val calendarRef =
+                            FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("calendar")
+
+                        calendarRef.addListenerForSingleValueEvent(object:ValueEventListener{
+                            override fun onDataChange(a: DataSnapshot) {
+                                for (yearSnapshot in a.children) {
+                                    for (monthSnapshot in yearSnapshot.children) {
+                                        for (daySnapshot in monthSnapshot.children) {
+                                            for (snapshot in daySnapshot.children) {
+                                                val key =
+                                                    snapshot.key
+                                                val employeeId = key?.substringBefore(" : ")
+                                                if (employeeId == userID) {
+                                                    snapshot.ref.removeValue()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                i.putExtra("user_id",userID)
+                                startActivity(i)
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+
+                        })
+
                     })
                     .setNegativeButton("취소",{ dialog, id ->
 
@@ -79,6 +106,31 @@ class EEsettingActivity : AppCompatActivity() {
                                 if(it.child(i).child("storeInfo").child("employee").exists()){
                                     a.child(i).child("storeInfo").child("employee").child(userID.toString()).removeValue()
                                 }
+                                val calendarRef =
+                                    Firebase.database.getReference("Stores").child(i!!).child("storeManager").child("calendar")
+
+                                calendarRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(scheduleSnapshot: DataSnapshot) {
+                                        for (yearSnapshot in scheduleSnapshot.children) {
+                                            for (monthSnapshot in yearSnapshot.children) {
+                                                for (daySnapshot in monthSnapshot.children) {
+                                                    for (snapshot in daySnapshot.children) {
+                                                        val key =
+                                                            snapshot.key
+                                                        val employeeId = key?.substringBefore(" : ")
+                                                        if (employeeId == userID) {
+                                                            snapshot.ref.removeValue()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                    }
+                                })
+
                             }
                             val i = Intent(this, LoginActivity::class.java)
                             startActivity(i)

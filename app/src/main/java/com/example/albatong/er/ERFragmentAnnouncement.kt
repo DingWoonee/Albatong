@@ -1,5 +1,6 @@
 package com.example.albatong.er
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,9 +20,15 @@ import com.example.albatong.databinding.EeFragmentTransferBinding
 import com.example.albatong.ee.EEMyData
 import com.example.albatong.ee.EEMyDataAdapter
 import com.example.albatong.employer.EmployerActivityStoreList
+import com.example.albatong.login.LoginActivity
 import com.example.albatong.login.SignAcitivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -34,8 +41,11 @@ class ERFragmentAnnouncement : Fragment() {
     var data2: ArrayList<EEMyData> = ArrayList()
     var data3: ArrayList<EEMyData> = ArrayList()
     var data5: ArrayList<EEMyData> = ArrayList()
+    var SigndataE: ArrayList<SignData> = ArrayList()
+    var SigndataR: ArrayList<SignData> = ArrayList()
     lateinit var adapter: EEMyDataAdapter
     var storeId:String? = "null"
+    var userId:String? = LoginActivity.uId
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,6 +112,10 @@ class ERFragmentAnnouncement : Fragment() {
                 }
             }
         }
+
+
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -375,14 +389,102 @@ class ERFragmentAnnouncement : Fragment() {
                         data.addAll(data5)
 
                         val current = LocalDateTime.now()
-                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd\nHH:mm:ss")
-                        val Data = current.format(formatter)
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss")
+                        val Date = current.format(formatter)
 
                         Toast.makeText(context,"중요공지가 등록되었습니다.",Toast.LENGTH_SHORT).show()
 
-                        /*SignAcitivity.data2.add(
-                            SignData("중요공지가 등록되었습니다.",Data.toString(),1))
-                        SignAcitivity.adapter.notifyDataSetChanged()*/
+                        FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeInfo").child("employee")
+                            .addValueEventListener(object:ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                    for(i in snapshot.children){
+
+                                        FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                            .child("Sign").addListenerForSingleValueEvent(object:ValueEventListener{
+                                                override fun onDataChange(snapshot: DataSnapshot) {
+                                                    var count = 0
+                                                    for(i1 in snapshot.children){
+                                                        count++
+                                                    }
+                                                    if(count!=0){
+                                                        FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                            .child("Sign").get().addOnSuccessListener {
+                                                                for(i in 0..count-1){
+                                                                    var title =   it.child(i.toString()).child("title").getValue().toString()
+                                                                    var date =   it.child(i.toString()).child("date").getValue().toString()
+                                                                    var type =   it.child(i.toString()).child("type").getValue().toString()
+                                                                    SigndataE.add(SignData(title,date,type))
+                                                                }
+                                                                SigndataE.add(SignData("중요공지가 등록되었습니다.",Date, "1"))
+
+                                                                FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                                    .child("Sign").setValue(SigndataE)
+
+                                                                SigndataE.clear()
+                                                            }
+                                                    }
+                                                    else{
+                                                        SigndataE.add(SignData("중요공지가 등록되었습니다.",Date, "1"))
+
+                                                        FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                            .child("Sign").setValue(SigndataE)
+
+                                                        SigndataE.clear()
+                                                    }
+                                                }
+
+                                                override fun onCancelled(error: DatabaseError) {
+
+                                                }
+
+                                            })
+
+                                    }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+
+                            }
+
+                        })
+
+                        FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                            .child("Sign").addListenerForSingleValueEvent(object:ValueEventListener{
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    var count = 0
+                                    for(i in snapshot.children){
+                                        count++
+                                    }
+                                    if(count!=0){
+                                        FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                            .child("Sign").get().addOnSuccessListener {
+                                                for(i in 0..count-1){
+                                                    var title =   it.child(i.toString()).child("title").getValue().toString()
+                                                    var date =   it.child(i.toString()).child("date").getValue().toString()
+                                                    var type =   it.child(i.toString()).child("type").getValue().toString()
+                                                    SigndataR.add(SignData(title,date,type))
+                                                }
+                                                SigndataR.add(SignData("중요공지를 등록하였습니다.",Date,"1"))
+
+                                                FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                                    .child("Sign").setValue(SigndataR)
+                                                SigndataR.clear()
+                                            }
+                                    }
+                                    else{
+                                        SigndataR.add(SignData("중요공지를 등록하였습니다.",Date,"1"))
+
+                                        FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                            .child("Sign").setValue(SigndataR)
+                                        SigndataR.clear()
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+
+                                }
+
+                            })
 
                         adapter.notifyDataSetChanged()
 

@@ -9,10 +9,12 @@
     android:background="#eeeeee"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/sign_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:text="date" />
 
         <TextView
             android:id="@+id/sign_title"
@@ -22,15 +24,7 @@
             android:textStyle="bold"
             android:text="내용" />
 
-        <TextView
-            android:id="@+id/sign_date"
-            android:gravity="right"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="date" />
 
-    </LinearLayout>
 
 
 </LinearLayout>

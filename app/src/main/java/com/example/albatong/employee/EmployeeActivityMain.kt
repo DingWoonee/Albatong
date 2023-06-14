@@ -48,6 +48,11 @@ class EmployeeActivityMain : AppCompatActivity() {
             }
         })
 
+        binding.employerSettingButton.setOnClickListener {
+            val intent = Intent(this@EmployeeActivityMain, Employeesetting::class.java)
+            startActivity(intent)
+        }
+
         binding.employerNotificationHistoryButton.setOnClickListener {
             val intent = Intent(this@EmployeeActivityMain, SignAcitivity::class.java)
             startActivity(intent)

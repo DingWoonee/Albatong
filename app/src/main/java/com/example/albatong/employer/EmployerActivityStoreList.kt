@@ -3,6 +3,7 @@ package com.example.albatong.employer
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -61,15 +62,6 @@ class EmployerActivityStoreList : AppCompatActivity() {
         val i = intent
         user_id = i.getStringExtra("user_id")
 
-        binding.employerNotificationHistoryButton.setOnClickListener {
-                val intent = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
-                startActivity(intent)
-        }
-        binding.employerSettingButton.setOnClickListener {
-            val intent = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
-            startActivity(intent)
-        }
-
         init()
         initRecyclereView()
     }
@@ -107,7 +99,7 @@ class EmployerActivityStoreList : AppCompatActivity() {
             startActivity(i)
         }
         binding.employerNotificationHistoryButton.setOnClickListener {
-            val i = Intent(this@EmployerActivityStoreList, ERActivityNotificationList::class.java)
+            val i = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
             startActivity(i)
         }
     }
@@ -128,7 +120,6 @@ class EmployerActivityStoreList : AppCompatActivity() {
                     binding.apply {
                         val i = Intent(this@EmployerActivityStoreList, ERActivitySpecificMain::class.java)
                         settingStoreId2 = store_id
-                        settingUserId2 = user_id
                         i.putExtra("store_id",store_id)
                         i.putExtra("store_name",store_name)
                         startActivity(i)

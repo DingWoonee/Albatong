@@ -24,6 +24,11 @@ class LoginActivity : AppCompatActivity() {
     lateinit var rdb: DatabaseReference
     var loginResult :Int = 0
     lateinit var sharedPref:SharedPreferences
+
+    companion object{
+        var uId:String = "null"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LoginActivityBinding.inflate(layoutInflater)
@@ -119,10 +124,12 @@ class LoginActivity : AppCompatActivity() {
                 for (userSnapshot in dataSnapshot.children) {
                     if(userSnapshot.child("user_id").value == id) {
                         if(userSnapshot.child("password").value == getSHA256Hash(pw)){
+                            uId = id
                             loginResult = 2
                             break
                         }
                         else {
+                            uId = id
                             loginResult = 1
                             break
                         }

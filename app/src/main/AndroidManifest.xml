@@ -13,10 +13,10 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Employeesetting"
+            android:name=".employee.Employeesetting"
             android:exported="false" />
         <activity
-            android:name=".Employersetting"
+            android:name=".employer.Employersetting"
             android:exported="false" />
         <activity
             android:name=".login.SignAcitivity"

@@ -87,7 +87,7 @@ class ERsettingActivity : AppCompatActivity() {
                                         override fun onDataChange(employee: DataSnapshot) {
                                             for (ee in employee.children) {
                                                 User.child(ee.key.toString()).child("store").child(storeId.toString()).removeValue()
-                                                Log.i("ee",ee.key.toString())
+
                                             }
                                         }
                                         override fun onCancelled(error: DatabaseError) {

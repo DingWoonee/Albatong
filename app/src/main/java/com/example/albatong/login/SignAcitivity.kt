@@ -2,6 +2,7 @@ package com.example.albatong.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -11,24 +12,88 @@ import com.example.albatong.data.SignData
 import com.example.albatong.databinding.ActivitySignAcitivityBinding
 import com.example.albatong.ee.EEMyData
 import com.example.albatong.ee.EEMyDataAdapter
+import com.example.albatong.employer.EmployerActivityStoreList
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class SignAcitivity : AppCompatActivity() {
     lateinit var binding:ActivitySignAcitivityBinding
     lateinit var adapter: SignAdapter
     var data2: ArrayList<SignData> = ArrayList()
-
-  /*  companion object{
-        lateinit var adapter: SignAdapter
-        var data2: ArrayList<SignData> = ArrayList()
-    }*/
+    var storeId = EmployerActivityStoreList.settingStoreId2
+    var userId = LoginActivity.uId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignAcitivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        data2.add(SignData("중요공지가 등록되었습니다","1",1))
+        init()
         initRecyclerView()
+    }
+
+    private fun init() {
+        val emplo = FirebaseDatabase.getInstance().getReference("Users")
+        var test = 0
+
+        emplo.get().addOnSuccessListener {
+            if(it.child("employee").child(userId).exists()){
+                while(true){
+                    if(it.child("employee").child(userId.toString()).child("Sign").child(test.toString()).exists()){
+                            data2.add(SignData(it.child("employee").child(userId.toString()).child("Sign").child(test.toString()).child("title").getValue().toString(),
+                            it.child("employee").child(userId.toString()).child("Sign").child(test.toString()).child("date").getValue().toString(),
+                            it.child("employee").child(userId.toString()).child("Sign").child(test.toString()).child("type").getValue().toString()))
+                            test++
+                    }
+                    else
+                        break
+                }
+                var b:SignData = data2[0]
+                var c:SignData
+
+                if(data2.size>1){
+                    data2[0] = data2[data2.size-1]
+                    c = data2[1]
+                    data2[1] = b
+                    for(i in data2.size-2 downTo 1){
+                        if(i==1)
+                            data2[2] = c
+                        else
+                            data2[i+1] = data2[i]
+                    }
+
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            if(it.child("employer").child(userId).exists()){
+                while(true){
+                    if(it.child("employer").child(userId.toString()).child("Sign").child(test.toString()).exists()){
+                            data2.add(SignData(it.child("employer").child(userId).child("Sign").child(test.toString()).child("title").getValue().toString(),
+                            it.child("employer").child(userId.toString()).child("Sign").child(test.toString()).child("date").getValue().toString(),
+                            it.child("employer").child(userId.toString()).child("Sign").child(test.toString()).child("type").getValue().toString()))
+                            test++
+                    }
+                    else
+                        break
+                }
+                var b:SignData = data2[0]
+                var c:SignData
+
+                if(data2.size>1){
+                    data2[0] = data2[data2.size-1]
+                    c = data2[1]
+                    data2[1] = b
+                    for(i in data2.size-2 downTo 1){
+                        if(i==1)
+                            data2[2] = c
+                        else
+                            data2[i+1] = data2[i]
+                    }
+
+                }
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     fun initRecyclerView() {
@@ -58,7 +123,6 @@ class SignAcitivity : AppCompatActivity() {
 
 
                 }
-
                 }
 
 

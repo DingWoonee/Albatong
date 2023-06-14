@@ -8,7 +8,12 @@ import com.example.albatong.R
 import com.example.albatong.databinding.ActivityEesettingBinding
 import com.example.albatong.databinding.ActivityEmployeesettingBinding
 import com.example.albatong.login.LoginActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class Employeesetting : AppCompatActivity() {
     lateinit var binding: ActivityEmployeesettingBinding
@@ -54,6 +59,31 @@ class Employeesetting : AppCompatActivity() {
                                 if(it.child(i).child("storeInfo").child("employee").exists()){
                                     a.child(i).child("storeInfo").child("employee").child(userID.toString()).removeValue()
                                 }
+                                val calendarRef =
+                                    Firebase.database.getReference("Stores").child(i!!).child("storeManager").child("calendar")
+
+                                calendarRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(scheduleSnapshot: DataSnapshot) {
+                                        for (yearSnapshot in scheduleSnapshot.children) {
+                                            for (monthSnapshot in yearSnapshot.children) {
+                                                for (daySnapshot in monthSnapshot.children) {
+                                                    for (snapshot in daySnapshot.children) {
+                                                        val key =
+                                                            snapshot.key
+                                                        val employeeId = key?.substringBefore(" : ")
+                                                        if (employeeId == userID) {
+                                                            snapshot.ref.removeValue()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                    }
+                                })
+
                             }
                             val i = Intent(this, LoginActivity::class.java)
                             startActivity(i)
