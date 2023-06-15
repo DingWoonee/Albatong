@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/list"
         android:name="com.example.albatong.employee.FragmentEmployeeItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".EmployeeItemFragment"
         tools:listitem="@layout/employee_fragment_item" />
@@ -23,7 +20,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="#FB6F22"
-        app:srcCompat="@drawable/baseline_add_24" />
+        app:backgroundTint="@color/main_color"
+        app:srcCompat="@drawable/baseline_add_24"
+        app:elevation="2dp" />
 
 </FrameLayout>
