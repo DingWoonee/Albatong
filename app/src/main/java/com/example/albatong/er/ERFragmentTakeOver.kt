@@ -75,7 +75,7 @@ class ERFragmentTakeOver : Fragment() {
 
     private fun showDialog() {
         val dlgBinding = ActivityEereBinding.inflate(layoutInflater)
-        val current = LocalDateTime.now()
+        val current = LocalDateTime.now().plusSeconds(32398)
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val Data = current.format(formatter)
 

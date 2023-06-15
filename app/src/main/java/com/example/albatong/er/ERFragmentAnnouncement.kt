@@ -128,7 +128,7 @@ class ERFragmentAnnouncement : Fragment() {
 
     private fun showDialog() {
         val dlgBinding = ActivityEereBinding.inflate(layoutInflater)
-        val current = LocalDateTime.now()
+        val current = LocalDateTime.now().plusSeconds(32398)
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val Data = current.format(formatter)
 
@@ -233,10 +233,20 @@ class ERFragmentAnnouncement : Fragment() {
                         var test = position
                         var test2 = 0
 
+                        var dataAll: ArrayList<EEMyData> = ArrayList()
+                        var dateAll2: ArrayList<EEMyData> = ArrayList()
+
+                        for(i in data3)
+                            if(i.check!="1")
+                                dataAll.add(i)
+
+                        dateAll2.addAll(data2)
+                        dateAll2.addAll(dataAll)
+
                         aDB.get().addOnSuccessListener {
                             if(it.exists()){
                                 while(true){
-                                    if(data2[position].date==it.child(test2.toString()).child("date").value){
+                                    if(dateAll2[position].date==it.child(test2.toString()).child("date").value){
                                         data3.removeAt(test2)
 
                                         while(true){
@@ -260,7 +270,8 @@ class ERFragmentAnnouncement : Fragment() {
                                     }
                                 }
                             }
-                            data2.removeAt(position)
+                            if(position<data2.size)
+                                data2.removeAt(position)
                             FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                                 .child("STARannouncement").setValue(data2)
                         }
@@ -281,6 +292,7 @@ class ERFragmentAnnouncement : Fragment() {
                     var db = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management")
                         .child("announcement")
                     var test4 = 0
+
                     db.get().addOnSuccessListener {
                         if(it.exists()){
                             while(true){
@@ -364,7 +376,7 @@ class ERFragmentAnnouncement : Fragment() {
                         data.addAll(data2)
                         data.addAll(data5)
 
-                        val current = LocalDateTime.now()
+                        val current = LocalDateTime.now().plusSeconds(32398)
                         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss")
                         val Date = current.format(formatter)
 
