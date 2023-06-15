@@ -19,7 +19,7 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>) :
     FirebaseRecyclerAdapter<Schedule, EEAdapterCalendar.ScheduleViewHolder>(options) {
 
     interface OnItemClickListener {
-        fun onItemNameClick(name: String)
+        fun onItemNameClick(item: Schedule)
         fun onItemChangeClick(item: Schedule)
     }
 
@@ -32,7 +32,7 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
-                    itemClickListener?.onItemNameClick(item.name)
+                    itemClickListener?.onItemNameClick(item)
                 }
             }
             binding.changeBtn.setOnClickListener {

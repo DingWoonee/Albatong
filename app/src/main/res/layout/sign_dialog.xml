@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_dialog_bottom">
+
+    <Button
+        android:id="@+id/closeBtn"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="닫기"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="교환 요청"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_margin="5dp" />
+
+    <TextView
+        android:id="@+id/storeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="storename"
+        android:background="@drawable/background_gray"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2023/06/16"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0:00 - 2:00"
+        android:gravity="center"
+        android:textSize="28sp"
+        android:layout_marginBottom="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="20dp">
+
+        <Button
+            android:id="@+id/acceptBtn"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:background="@drawable/button_main_color"
+            android:text="수락"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginRight="15dp"/>
+
+        <Button
+            android:id="@+id/rejectBtn"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:background="@drawable/button_main_color"
+            android:text="거절"
+            android:textColor="@color/white"
+            android:layout_marginLeft="15dp"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

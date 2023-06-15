@@ -122,6 +122,7 @@ class EmployerActivityStoreList : AppCompatActivity() {
                         settingStoreId2 = store_id
                         i.putExtra("store_id",store_id)
                         i.putExtra("store_name",store_name)
+                        i.putExtra("user_id", user_id)
                         startActivity(i)
                     }
                 }

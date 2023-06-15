@@ -30,6 +30,7 @@ class EmployeeActivityMain : AppCompatActivity() {
         setContentView(binding.root)
 
         val userID = intent.getStringExtra("user_id")
+        val userName = intent.getStringExtra("user_name")
         val userDB = Firebase.database.getReference("Users/employee")
 
         userDB.child("$userID").addListenerForSingleValueEvent(object :
@@ -55,6 +56,7 @@ class EmployeeActivityMain : AppCompatActivity() {
 
         binding.employerNotificationHistoryButton.setOnClickListener {
             val intent = Intent(this@EmployeeActivityMain, SignAcitivity::class.java)
+            intent.putExtra("user_id", userID)
             startActivity(intent)
         }
 

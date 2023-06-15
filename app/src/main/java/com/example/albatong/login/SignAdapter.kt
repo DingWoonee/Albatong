@@ -45,9 +45,15 @@ class SignAdapter(val items:ArrayList<SignData>)
     }
 
     override fun onBindViewHolder(holder: SignAdapter.ViewHolder, position: Int) {
-        if(items[position].type=="1"){
-            holder.binding.signTitle.text = items[position].title
-            holder.binding.signDate.text = items[position].date
+        when(items[position].type) {
+            "1" -> {
+                holder.binding.signTitle.text = items[position].title
+                holder.binding.signDate.text = items[position].date
+            }
+            "2" -> {
+                holder.binding.signTitle.text = items[position].title
+                holder.binding.signDate.text = items[position].date
+            }
         }
     }
 

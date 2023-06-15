@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
+import com.example.albatong.data.Employee
+import com.example.albatong.data.RequestManager
 import com.example.albatong.data.Schedule
+import com.example.albatong.data.SignData
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,7 +23,10 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
     private lateinit var scheduleDateTextView: TextView
@@ -33,6 +39,9 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
     var scheduleAdapter: EEAdapterCalendar? = null
     var store_id: String? = null
     var store_name: String? = null
+    var userID: String? = null
+    var employeeCount = 0
+    var currentDate: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +54,7 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         val i = requireActivity().intent
         store_id = i.getStringExtra("store_id")
         store_name = i.getStringExtra("store_name")
+        userID = i.getStringExtra("user_id")
 
         scheduleRecyclerView = view.findViewById(R.id.recyclerView)
         layoutManager = LinearLayoutManager(requireContext())
@@ -101,12 +111,12 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
 
     }
 
-    override fun onItemNameClick(name: String) {
-        showChangeDialog(requireContext(), name)
+    override fun onItemNameClick(item: Schedule) {
+        showChangeDialog(requireContext(), currentDate!!, item)
     }
 
     override fun onItemChangeClick(item: Schedule) {
-        showChangeDialog(requireContext(), item.name)
+        showChangeDialog(requireContext(), currentDate!!, item)
     }
 
     private fun updateScheduleAdapter(selectedDate: String) {
@@ -117,6 +127,7 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
+        currentDate = "${year}-${month}-${day}"
 
         cdb = Firebase.database.getReference("Stores").child(store_id!!)
             .child("storeManager").child("calendar")
@@ -143,7 +154,7 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         scheduleAdapter?.stopListening()
     }
 
-    private fun showChangeDialog(context: Context, name: String) {
+    private fun showChangeDialog(context: Context,  selectedDate: String, schedule: Schedule) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.ee_calendar_dailog, null)
         val nameSpinner = dialogView.findViewById<Spinner>(R.id.nameSpinner)
 
@@ -151,11 +162,15 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
             .setView(dialogView)
             .setTitle("교환요청")
             .setPositiveButton("확인") { dialog, _ ->
-                val employeeId = nameSpinner.selectedItem.toString().split("/")[0]
-                val employeeName = nameSpinner.selectedItem.toString().split("/")[1]
+                if(nameSpinner.selectedItem.toString() == "모두") {
+                    sendExchangeRequestToAll(selectedDate, schedule)
+                } else {
+                    val employeeId = nameSpinner.selectedItem.toString().split("/")[0]
+                    val employeeName = nameSpinner.selectedItem.toString().split("/")[1]
 
-                // 선택한 직원 정보를 사용하여 교환 요청 처리
-                sendExchangeRequest(employeeId, employeeName)
+                    // 선택한 직원 정보를 사용하여 교환 요청 처리
+                    sendExchangeRequest(selectedDate, employeeId, employeeName, schedule)
+                }
                 dialog.dismiss()
             }
             .setNegativeButton("취소") { dialog, _ ->
@@ -169,11 +184,15 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
                 val employeeList: MutableList<String> = ArrayList()
 
                 for (employeeSnapshot in dataSnapshot.children) {
-                    val employeeInfo = employeeSnapshot.child("employeeId").value.toString() +
-                            "/" +
-                            employeeSnapshot.child("name").value.toString()
-                    employeeList.add(employeeInfo)
+                    if(employeeSnapshot.child("employeeId").value.toString() != userID) {
+                        val employeeInfo = employeeSnapshot.child("employeeId").value.toString() +
+                                "/" +
+                                employeeSnapshot.child("name").value.toString()
+                        employeeList.add(employeeInfo)
+                        employeeCount++
+                    }
                 }
+                employeeList.add("모두")
 
                 val adapter = ArrayAdapter(
                     requireContext(),
@@ -191,27 +210,73 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         })
     }
 
-    private fun showChangeAllDialog(selectedDate: String) {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-            .setTitle("$selectedDate")
-            .setMessage("정말 모두에게 보내겠습니까?")
-            .setPositiveButton("확인") { _, _ ->
-                // "확인" 버튼을 눌렀을 때 실행되는 코드
-                sendExchangeRequestToAll(selectedDate)
+    private fun sendExchangeRequestToAll(selectedDate: String, schedule: Schedule) {
+        val request = RequestManager(schedule, userID!!, schedule.name, "all", employeeCount)
+
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val date = current.format(formatter)
+
+        val storeRef = Firebase.database.getReference("Stores/$store_id")
+        storeRef.child("storeInfo/employee").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(employee in snapshot.children) {
+                    val notificationRef = Firebase.database.getReference("Users/employee/${employee.key}/Sign")
+                    notificationRef.addListenerForSingleValueEvent(
+                        object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                var count = 0
+                                for(n in snapshot.children) {
+                                    count++
+                                }
+
+                                val msg = "${store_name}\n${schedule.name}님께서 대타 요청을 보냈습니다."
+                                notificationRef.child(count.toString()).setValue(SignData(msg, date, "2", schedule, selectedDate))
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+                        }
+                    )
+                }
             }
-            .setNegativeButton("취소", null)
 
-        val dialog = dialogBuilder.create()
-        dialog.show()
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        storeRef.child("storeManager/request").child("all: $selectedDate ${schedule.startTime}-${schedule.endTime}").setValue(request)
+        Toast.makeText(context, "모두에게 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
     }
 
+    private fun sendExchangeRequest( selectedDate: String, employeeId: String, employeeName: String, schedule: Schedule) {
+        val request = RequestManager(schedule, userID!!, schedule.name, employeeId, 1)
 
-    private fun sendExchangeRequestToAll(selectedDate: String) {
-        TODO("Not yet implemented")
-    }
-
-    private fun sendExchangeRequest(employeeId: String, employeeName: String) {
         val requestsRef = Firebase.database.getReference("Stores/$store_id/storeManager/request")
+        requestsRef.child("${employeeId}: $selectedDate ${schedule.startTime}-${schedule.endTime}").setValue(request)
+
+        val notificationRef = Firebase.database.getReference("Users/employee/${employeeId}/Sign")
+        notificationRef.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var count = 0
+                    for(n in snapshot.children) {
+                        count++
+                    }
+                    val current = LocalDateTime.now()
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    val date = current.format(formatter)
+
+                    val msg = "${store_name}\n${schedule.name}님께서 대타 요청을 보냈습니다."
+                    notificationRef.child(count.toString()).setValue(SignData(msg, date, "2", schedule, selectedDate))
+
+                    Toast.makeText(context, "${employeeName}님에게 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            }
+        )
     }
 }
 
