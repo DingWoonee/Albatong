@@ -7,47 +7,47 @@
     tools:context=".employer.EmployerActivityStoreList"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.Albatong">
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/Theme.Albatong">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/Theme.Albatong"
-            app:subtitleTextColor="#FFFFFF"
-            app:titleTextColor="#FFFFFF" >
-            <ImageButton
-                android:id="@+id/employerSettingButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/baseline_settings_24"
-                android:layout_gravity="end"
-                android:layout_marginRight="10dp"
-                android:background="?android:attr/selectableItemBackground"
-                app:tint="#FFF" />
-            <ImageButton
-                android:id="@+id/employerNotificationHistoryButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/baseline_notifications_24"
-                android:layout_gravity="end"
-                android:layout_marginRight="10dp"
-                android:background="?android:attr/selectableItemBackground"
-                app:tint="#FFF" />
-        </androidx.appcompat.widget.Toolbar>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo1"
+            android:layout_margin="14dp"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <ImageButton
+            android:id="@+id/employerSettingButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_settings_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground" />
+
+        <ImageButton
+            android:id="@+id/employerNotificationHistoryButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_notifications_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground" />
+    </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/storeListRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/employer_item_row"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/employerStoreAdd"
@@ -56,8 +56,9 @@
             android:layout_gravity="bottom|end"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="#FB6F22"
-            app:srcCompat="@drawable/baseline_add_24" />
-    </FrameLayout>
+            app:backgroundTint="@color/sub_color"
+            app:srcCompat="@drawable/baseline_add_24"
+            app:elevation="2dp" />
 
+    </FrameLayout>
 </LinearLayout>
