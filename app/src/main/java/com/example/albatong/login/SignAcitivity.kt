@@ -2,19 +2,14 @@ package com.example.albatong.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.albatong.R
 import com.example.albatong.data.SignData
 import com.example.albatong.databinding.ActivitySignAcitivityBinding
-import com.example.albatong.ee.EEMyData
-import com.example.albatong.ee.EEMyDataAdapter
 import com.example.albatong.employer.EmployerActivityStoreList
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class SignAcitivity : AppCompatActivity() {
     lateinit var binding:ActivitySignAcitivityBinding

@@ -17,7 +17,7 @@ class EmployerAdapterStoreList(options: FirebaseRecyclerOptions<StoreList>)
 
     inner class ViewHolder(val binding: EmployerItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
         init{
-            binding.storeName.setOnClickListener {
+            binding.rowLayout.setOnClickListener {
                 itemClickListener?.OnItemClick(binding.storeId.text.toString(), binding.storeName.text.toString())
             }
         }

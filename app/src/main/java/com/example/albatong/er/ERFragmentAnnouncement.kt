@@ -1,5 +1,8 @@
 package com.example.albatong.er
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
 import com.example.albatong.data.SignData
 import com.example.albatong.databinding.EeFragmentTransferBinding
+import com.example.albatong.databinding.ActivityEereBinding
+import com.example.albatong.databinding.ActivityDetailBinding
 import com.example.albatong.ee.EEMyData
-import com.example.albatong.ee.EEMyDataAdapter
+import com.example.albatong.ee.EEAdapterAnnouncement
 import com.example.albatong.employer.EmployerActivityStoreList
 import com.example.albatong.login.LoginActivity
 import com.example.albatong.login.SignAcitivity
@@ -34,8 +39,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ERFragmentAnnouncement : Fragment() {
-
-
     lateinit var binding: EeFragmentTransferBinding
     var data: ArrayList<EEMyData> = ArrayList()
     var data2: ArrayList<EEMyData> = ArrayList()
@@ -43,7 +46,7 @@ class ERFragmentAnnouncement : Fragment() {
     var data5: ArrayList<EEMyData> = ArrayList()
     var SigndataE: ArrayList<SignData> = ArrayList()
     var SigndataR: ArrayList<SignData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter
+    lateinit var adapter: EEAdapterAnnouncement
     var storeId:String? = "null"
     var userId:String? = LoginActivity.uId
 
@@ -112,51 +115,36 @@ class ERFragmentAnnouncement : Fragment() {
                 }
             }
         }
-
-
-
-
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addItemBtn1.setOnClickListener{
             showDialog()
         }
-
     }
 
     private fun showDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("글 작성")
-
-        var inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.activity_eere,null)
-
-        val dialogTitle = dialogView.findViewById<EditText>(R.id.title_et)
-        val dialogContent = dialogView.findViewById<EditText>(R.id.content_et)
+        val dlgBinding = ActivityEereBinding.inflate(layoutInflater)
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd\nHH:mm:ss")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val Data = current.format(formatter)
 
-        builder.setView(dialogView)
-        builder.setCancelable(false)
+        val dlgBuilder = AlertDialog.Builder(requireContext())
+        val dlg = dlgBuilder.setView(dlgBinding.root).show()
 
-        builder.setPositiveButton("등록"){
-                p0,p1->
+        dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.BOTTOM)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dlgBinding.registerBtn.setOnClickListener {
             run {
                 adapter.addItem(
                     EEMyData(
                         "사장",
                         Data.toString(),
-                        dialogTitle.text.toString(),
-                        dialogContent.text.toString(),
+                        dlgBinding.titleEt.text.toString(),
+                        dlgBinding.contentEt.text.toString(),
                         "0"
                     )
                 )
@@ -164,8 +152,8 @@ class ERFragmentAnnouncement : Fragment() {
                 data3.add(EEMyData(
                     "사장",
                     Data.toString(),
-                    dialogTitle.text.toString(),
-                    dialogContent.text.toString(),
+                    dlgBinding.titleEt.text.toString(),
+                    dlgBinding.contentEt.text.toString(),
                     "0"
                 ))
 
@@ -201,16 +189,11 @@ class ERFragmentAnnouncement : Fragment() {
                 val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management").child("announcement")
                 aDB.setValue(data3)
             }
+        }
 
+        dlgBinding.cancelBtn.setOnClickListener {
+            dlg.dismiss()
         }
-        builder.setNegativeButton("취소"){
-                p0,p1 ->{
-
-        }
-        }
-        val alertDialog = builder.create()
-        alertDialog.show()
-        alertDialog.window?.setLayout(1000,1800)
     }
 
     fun initRecyclerView() {
@@ -218,35 +201,27 @@ class ERFragmentAnnouncement : Fragment() {
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter(data)
+        adapter = EEAdapterAnnouncement(data)
 
-        adapter.itemClickListener = object : EEMyDataAdapter.OnItemClickListener {
+        adapter.itemClickListener = object : EEAdapterAnnouncement.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("공지사항")
+                val dlgBinding = ActivityDetailBinding.inflate(layoutInflater)
 
-                var inflater = layoutInflater
-                val dialogView = inflater.inflate(R.layout.activity_detail,null)
-                val dialogTitle = dialogView.findViewById<TextView>(R.id.title_tv)
-                val dialogContent = dialogView.findViewById<TextView>(R.id.content_tv)
-                val dialogDate = dialogView.findViewById<TextView>(R.id.date_tv)
+                dlgBinding.titleTv.text = data.title
+                dlgBinding.contentTv.text = data.content
+                dlgBinding.dateTv.text = data.date
+                dlgBinding.removeBtn.visibility = View.VISIBLE
 
-                dialogTitle.text = data.title
-                dialogContent.text = data.content
-                dialogDate.text = data.date
+                val dlgBuilder = AlertDialog.Builder(requireContext())
+                val dlg = dlgBuilder.setView(dlgBinding.root).show()
+                dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                dlg.window?.setGravity(Gravity.TOP)
+                dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                builder.setView(dialogView)
-                builder.setCancelable(false)
-
-                builder.setPositiveButton("확인"){
-                        p0,p1->{
-
-
+                dlgBinding.closeBtn.setOnClickListener {
+                    dlg.dismiss()
                 }
-
-                }
-                builder.setNegativeButton("삭제"){
-                        p0,p1 ->
+                dlgBinding.removeBtn.setOnClickListener {
                     run {
                         val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("management").child("announcement")
 
@@ -287,10 +262,8 @@ class ERFragmentAnnouncement : Fragment() {
                                 .child("STARannouncement").setValue(data2)
                         }
                     }
+                    dlg.dismiss()
                 }
-                val alertDialog = builder.create()
-                alertDialog.show()
-                alertDialog.window?.setLayout(1000,1800)
             }
 
             override fun OnStarClick(data4: EEMyData, position: Int) {

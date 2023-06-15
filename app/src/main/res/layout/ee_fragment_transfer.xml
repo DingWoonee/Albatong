@@ -10,7 +10,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/ee_write_list2"/>
+        tools:listitem="@layout/ee_item_takeover"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addItemBtn1"

@@ -1,14 +1,16 @@
 package com.example.albatong.ee
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.albatong.R
+import com.example.albatong.databinding.ActivityDetailBinding
 import com.example.albatong.databinding.EeFragmentAnnouncementBinding
 import com.google.firebase.database.FirebaseDatabase
 
@@ -17,8 +19,8 @@ class EEFragmentAnnouncement : Fragment() {
     val data: ArrayList<EEMyData> = ArrayList()
     var data3: ArrayList<EEMyData> = ArrayList()
     var data2: ArrayList<EEMyData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter
-    var storeId:String? = "null"
+    lateinit var adapter: EEAdapterAnnouncement
+    var storeId:String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,53 +90,29 @@ class EEFragmentAnnouncement : Fragment() {
         }
     }
 
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     fun initRecyclerView() {
         binding.recyclerview.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter(data)
-        adapter.itemClickListener = object : EEMyDataAdapter.OnItemClickListener {
+        adapter = EEAdapterAnnouncement(data)
+        adapter.itemClickListener = object : EEAdapterAnnouncement.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("공지사항")
+                val dlgBinding = ActivityDetailBinding.inflate(layoutInflater)
 
-                var inflater = layoutInflater
-                val dialogView = inflater.inflate(R.layout.activity_detail,null)
-                val dialogTitle = dialogView.findViewById<TextView>(R.id.title_tv)
-                val dialogContent = dialogView.findViewById<TextView>(R.id.content_tv)
-                val dialogDate = dialogView.findViewById<TextView>(R.id.date_tv)
+                dlgBinding.titleTv.text = data.title
+                dlgBinding.contentTv.text = data.content
+                dlgBinding.dateTv.text = data.date
 
-                dialogTitle.text = data.title
-                dialogContent.text = data.content
-                dialogDate.text = data.date
+                val dlgBuilder = AlertDialog.Builder(requireContext())
+                val dlg = dlgBuilder.setView(dlgBinding.root).show()
+                dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                dlg.window?.setGravity(Gravity.TOP)
+                dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                builder.setView(dialogView)
-                builder.setCancelable(false)
-
-                builder.setPositiveButton("확인"){
-                        p0,p1->{
-
-
+                dlgBinding.closeBtn.setOnClickListener {
+                    dlg.dismiss()
                 }
-
-                }
-                val alertDialog = builder.create()
-                alertDialog.show()
-                alertDialog.window?.setLayout(1000,1800)
             }
 
             override fun OnStarClick(data: EEMyData, position: Int) {

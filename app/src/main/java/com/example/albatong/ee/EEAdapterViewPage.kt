@@ -13,7 +13,7 @@ class EEAdapterViewPage(fragmentActivity: FragmentActivity): FragmentStateAdapte
         return when(position) {
             0 -> EEFragmentCalendar()
             1 -> EEFragmentAnnouncement()
-            2 -> EEFragmentTransfer()
+            2 -> EEFragmentTakeOver()
             else -> EEFragmentCalendar() // default
         }
     }

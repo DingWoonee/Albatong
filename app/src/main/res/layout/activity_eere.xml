@@ -3,48 +3,49 @@
     android:id="@+id/linear2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_dialog_bottom"
     android:orientation="vertical"
     android:padding="16dp">
 
-
     <LinearLayout
-        android:id="@+id/linear3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="제목" />
+            android:text="등록"
+            android:background="@android:color/transparent"/>
 
-        <EditText
-            android:id="@+id/title_et"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#eeeeee"
-            android:hint="제목을 입력하세요."
-            android:padding="16dp" />
+            android:text="취소"
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <TextView
-
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/title_et"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="제목"
         android:padding="16dp"
-        android:text="내용" />
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/content_et"
         android:layout_width="match_parent"
-        android:layout_height="2000dp"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#eeeeee"
         android:gravity="start"
         android:hint="내용을 입력하세요."
-        android:padding="16dp" />
-
+        android:textSize="18sp"
+        android:padding="20dp"
+        android:scrollbars="vertical"
+        android:background="@null"/>
 
 </LinearLayout>

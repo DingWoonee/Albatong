@@ -1,6 +1,9 @@
 package com.example.albatong.er
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +13,20 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.albatong.R
+import com.example.albatong.databinding.ActivityDetailBinding
+import com.example.albatong.databinding.ActivityEereBinding
 import com.example.albatong.databinding.EeFragmentTransferBinding
+import com.example.albatong.ee.EEAdapterTakeOver
 import com.example.albatong.ee.EEMyData
-import com.example.albatong.ee.EEMyDataAdapter
-import com.example.albatong.ee.EEMyDataAdapter2
 import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ERFragmentTakeOver : Fragment() {
     lateinit var binding: EeFragmentTransferBinding
     val data: ArrayList<EEMyData> = ArrayList()
-    lateinit var adapter: EEMyDataAdapter2
+    lateinit var adapter: EEAdapterTakeOver
     var storeId: String ?= null
 
     override fun onCreateView(
@@ -68,28 +74,26 @@ class ERFragmentTakeOver : Fragment() {
     }
 
     private fun showDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("글 작성")
+        val dlgBinding = ActivityEereBinding.inflate(layoutInflater)
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val Data = current.format(formatter)
 
-        var inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.activity_eere,null)
+        val dlgBuilder = AlertDialog.Builder(requireContext())
+        val dlg = dlgBuilder.setView(dlgBinding.root).show()
 
-        val dialogTitle = dialogView.findViewById<EditText>(R.id.title_et)
-        val dialogContent = dialogView.findViewById<EditText>(R.id.content_et)
-        val Data = LocalDate.now()
+        dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.BOTTOM)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        builder.setView(dialogView)
-        builder.setCancelable(false)
-
-        builder.setPositiveButton("등록"){
-                p0,p1->
+        dlgBinding.registerBtn.setOnClickListener {
             run {
                 adapter.addItem(
                     EEMyData(
                         "1",
                         Data.toString(),
-                        dialogTitle.text.toString(),
-                        dialogContent.text.toString()
+                        dlgBinding.titleEt.text.toString(),
+                        dlgBinding.contentEt.text.toString()
                         ,"0"
                     )
                 )
@@ -113,16 +117,12 @@ class ERFragmentTakeOver : Fragment() {
                     .child("storeManager").child("management").child("task")
                 aDB.setValue(data)
             }
+            dlg.dismiss()
+        }
 
+        dlgBinding.cancelBtn.setOnClickListener {
+            dlg.dismiss()
         }
-        builder.setNegativeButton("취소"){
-                p0,p1 ->{
-
-        }
-        }
-        val alertDialog = builder.create()
-        alertDialog.show()
-        alertDialog.window?.setLayout(1000,1800)
     }
 
     fun initRecyclerView() {
@@ -130,34 +130,27 @@ class ERFragmentTakeOver : Fragment() {
             context,
             LinearLayoutManager.VERTICAL, false
         )
-        adapter = EEMyDataAdapter2(data)
-        adapter.itemClickListener = object : EEMyDataAdapter2.OnItemClickListener {
+        adapter = EEAdapterTakeOver(data)
+        adapter.itemClickListener = object : EEAdapterTakeOver.OnItemClickListener {
             override fun OnItemClick(data: EEMyData, position: Int) {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("인수인계")
+                val dlgBinding = ActivityDetailBinding.inflate(layoutInflater)
 
-                var inflater = layoutInflater
-                val dialogView = inflater.inflate(R.layout.activity_detail,null)
-                val dialogTitle = dialogView.findViewById<TextView>(R.id.title_tv)
-                val dialogContent = dialogView.findViewById<TextView>(R.id.content_tv)
-                val dialogDate = dialogView.findViewById<TextView>(R.id.date_tv)
+                dlgBinding.titleTv.text = data.title
+                dlgBinding.contentTv.text = data.content
+                dlgBinding.dateTv.text = data.date
+                dlgBinding.type.text = "인수인계"
+                dlgBinding.removeBtn.visibility = View.VISIBLE
 
-                dialogTitle.text = data.title
-                dialogContent.text = data.content
-                dialogDate.text = data.date
+                val dlgBuilder = AlertDialog.Builder(requireContext())
+                val dlg = dlgBuilder.setView(dlgBinding.root).show()
+                dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                dlg.window?.setGravity(Gravity.TOP)
+                dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                builder.setView(dialogView)
-                builder.setCancelable(false)
-
-                builder.setPositiveButton("확인"){
-                        p0,p1->{
-
-
+                dlgBinding.closeBtn.setOnClickListener {
+                    dlg.dismiss()
                 }
-
-                }
-                builder.setNegativeButton("삭제"){
-                        p0,p1 ->
+                dlgBinding.removeBtn.setOnClickListener {
                     run {
                         val aDB = FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!)
                             .child("storeManager").child("management").child("task")
@@ -181,16 +174,12 @@ class ERFragmentTakeOver : Fragment() {
                                 }
                             }
                         }
+
                     }
+                    dlg.dismiss()
                 }
-                val alertDialog = builder.create()
-                alertDialog.show()
-                alertDialog.window?.setLayout(1000,1800)
             }
 
-            override fun OnStarClick(data: EEMyData, position: Int) {
-                TODO("Not yet implemented")
-            }
         }
         binding.recyclerview.adapter = adapter
 

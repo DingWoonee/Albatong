@@ -1,14 +1,13 @@
 package com.example.albatong.ee
 
-import android.icu.text.Transliterator.Position
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
-import com.example.albatong.databinding.EeWriteListBinding
+import com.example.albatong.databinding.EeItemAnnouncementBinding
 
-class EEMyDataAdapter(val items:ArrayList<EEMyData>)
-    :RecyclerView.Adapter<EEMyDataAdapter.ViewHolder>(){
+class EEAdapterAnnouncement(val items:ArrayList<EEMyData>)
+    :RecyclerView.Adapter<EEAdapterAnnouncement.ViewHolder>(){
 
 
     interface OnItemClickListener{
@@ -18,13 +17,13 @@ class EEMyDataAdapter(val items:ArrayList<EEMyData>)
 
     var itemClickListener:OnItemClickListener?=null
 
-    inner class ViewHolder(val binding:EeWriteListBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: EeItemAnnouncementBinding): RecyclerView.ViewHolder(binding.root){
         init {
-            binding.total2.setOnClickListener {
+            binding.star.setOnClickListener {
                 itemClickListener?.OnItemClick(items[adapterPosition], adapterPosition)
             }
-            binding.star.setOnClickListener{
-                itemClickListener?.OnStarClick(items[adapterPosition], adapterPosition)
+            binding.item.setOnClickListener {
+                itemClickListener?.OnItemClick(items[adapterPosition], adapterPosition)
             }
         }
     }
@@ -42,14 +41,14 @@ class EEMyDataAdapter(val items:ArrayList<EEMyData>)
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EEMyDataAdapter.ViewHolder {
-        val view = EeWriteListBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EEAdapterAnnouncement.ViewHolder {
+        val view = EeItemAnnouncementBinding.inflate(
+        LayoutInflater.from(parent.context),
+        parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: EEMyDataAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EEAdapterAnnouncement.ViewHolder, position: Int) {
         holder.binding.cmtDateTv.text = items[position].date
         holder.binding.cmtTitleTv.text = items[position].title
         holder.binding.cmtUseridTv.text = items[position].userid
