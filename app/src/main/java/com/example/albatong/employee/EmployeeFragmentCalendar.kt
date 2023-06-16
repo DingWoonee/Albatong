@@ -298,10 +298,6 @@ class EmployeeFragmentCalendar : Fragment() {
                     if (daySchedule.count() > 0) {
                         when(daySchedule.count()){
                             1 -> {
-                                Log.w("Sungwoon",storeListMap.count().toString()+"개")
-                                Log.w("Sungwoon","id: "+daySchedule[0].store_id)
-                                Log.w("Sungwoon","id: "+daySchedule[0].store_id)
-                                Log.w("Sungwoon","color: "+storeListMap[daySchedule[0].store_id].toString())
                                 schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
                                 schedule1.text = daySchedule[0].storeName
                             }

@@ -100,6 +100,7 @@ class EmployerActivityStoreList : AppCompatActivity() {
         }
         binding.employerNotificationHistoryButton.setOnClickListener {
             val i = Intent(this@EmployerActivityStoreList, SignAcitivity::class.java)
+            i.putExtra("user_Id", user_id)
             startActivity(i)
         }
     }

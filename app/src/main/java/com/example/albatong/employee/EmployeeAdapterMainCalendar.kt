@@ -1,5 +1,6 @@
 package com.example.albatong.employee
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,8 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
     override fun onBindViewHolder(holder: EmployeeScheduleViewHolder, position: Int) {
         var tempSchedule = items[position]
         holder.binding.apply {
-            scheduleDateText.setBackgroundColor(storeBackColorMap[tempSchedule.store_id]!!)
+            //root.setBackgroundColor(storeBackColorMap[tempSchedule.store_id]!!)
+            root.backgroundTintList = ColorStateList.valueOf(storeBackColorMap[tempSchedule.store_id]!!)
             scheduleDateText.text = date
             scheduleNameText.text = tempSchedule.storeName
             scheduleStartTimeText.text = tempSchedule.startTime

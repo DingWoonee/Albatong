@@ -9,4 +9,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/main_color</item>
     </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColorHint">@color/main_color</item>
+    </style>
 </resources>
