@@ -404,7 +404,7 @@ class ERFragmentAnnouncement : Fragment() {
                                                                         var type =   it.child(i.toString()).child("type").getValue().toString()
                                                                         SigndataE.add(SignData(title,date, type))
                                                                     }
-                                                                    SigndataE.add(SignData("${storeName!!}: 중요공지가 등록되었습니다.",Date, "1"))
+                                                                    SigndataE.add(SignData("${storeName!!}\n중요공지가 등록되었습니다.",Date, "1"))
 
                                                                     FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
                                                                         .child("Sign").setValue(SigndataE)
@@ -413,7 +413,7 @@ class ERFragmentAnnouncement : Fragment() {
                                                                 }
                                                         }
                                                         else{
-                                                            SigndataE.add(SignData("${storeName!!}: 중요공지가 등록되었습니다.",Date, "1"))
+                                                            SigndataE.add(SignData("${storeName!!}\n중요공지가 등록되었습니다.",Date, "1"))
 
                                                             FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
                                                                 .child("Sign").setValue(SigndataE)
@@ -454,7 +454,7 @@ class ERFragmentAnnouncement : Fragment() {
                                                         var type =   it.child(i.toString()).child("type").getValue().toString()
                                                         SigndataR.add(SignData(title,date, type))
                                                     }
-                                                    SigndataR.add(SignData("${storeName!!}: 중요공지를 등록하였습니다.",Date,"1"))
+                                                    SigndataR.add(SignData("${storeName!!}\n중요공지를 등록하였습니다.",Date,"1"))
 
                                                     FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
                                                         .child("Sign").setValue(SigndataR)
@@ -462,7 +462,7 @@ class ERFragmentAnnouncement : Fragment() {
                                                 }
                                         }
                                         else{
-                                            SigndataR.add(SignData("${storeName!!}: 중요공지를 등록하였습니다.",Date,"1"))
+                                            SigndataR.add(SignData("${storeName!!}\n중요공지를 등록하였습니다.",Date,"1"))
 
                                             FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
                                                 .child("Sign").setValue(SigndataR)
