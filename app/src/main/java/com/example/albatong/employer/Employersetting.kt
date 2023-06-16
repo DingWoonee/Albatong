@@ -34,6 +34,20 @@ class Employersetting : AppCompatActivity() {
 
         userID = intent.getStringExtra("user_id")
 
+        var use1 = FirebaseDatabase.getInstance().getReference("Users").child("employer")
+            .child(userID.toString())
+
+        use1.get().addOnSuccessListener {
+            var name = it.child("name").value.toString() + "("  +it.child("user_id").value.toString()+")"
+            var email =  it.child("email").value.toString()
+            var tel = it.child("tel").value.toString()
+
+            binding.eeemail.text = email
+            binding.eetel.text = tel
+            binding.eename.text = name
+        }
+
+
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
 
 

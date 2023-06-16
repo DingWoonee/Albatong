@@ -1,5 +1,6 @@
 package com.example.albatong.ee
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -52,10 +53,14 @@ class EEAdapterAnnouncement(val items:ArrayList<EEMyData>)
         holder.binding.cmtDateTv.text = items[position].date
         holder.binding.cmtTitleTv.text = items[position].title
         holder.binding.cmtUseridTv.text = items[position].userid
-        if(items[position].check=="1")
+        if(items[position].check=="1"){
             holder.binding.star.setImageResource(R.drawable.baseline_star_24)
-        else
-            holder.binding.star.setImageResource(R.drawable.baseline_star_border_24)
+            holder.binding.star.setColorFilter(Color.parseColor("#FFD400"))
+        }
+        else{
+            holder.binding.star.setImageResource(R.drawable.baseline_star_24)
+            holder.binding.star.setColorFilter(Color.parseColor("#DDDDDD"))
+        }
     }
 
     override fun getItemCount(): Int {

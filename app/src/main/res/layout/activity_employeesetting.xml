@@ -8,53 +8,143 @@
     tools:context=".ee.EEsettingActivity">
 
 
-    <Button
-        android:id="@+id/userLogout"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/round_button"
-        android:text="로그아웃"
-        android:textColor="#F5A9A9"
-        android:textSize="20sp"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="360dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/gray2"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="계정 설정"
+        android:textColor="@color/set2"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/userdelete"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/userLogout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginBottom="29dp"
-        android:backgroundTint="@color/set2"
-        android:text="환경설정"
-        android:textColor="#FBEFEF"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/userLogout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/userdelete"
-        android:layout_width="350dp"
+        android:layout_width="500dp"
         android:layout_height="50dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginBottom="9dp"
         android:background="@drawable/round_button"
         android:text="회원탈퇴"
         android:textColor="#F5A9A9"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userLogout" />
+        app:layout_constraintTop_toBottomOf="@+id/userLogout"
+        app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/userLogout"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_button"
+        android:text="로그아웃"
+        android:textColor="#F5A9A9"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.465"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="68dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/albatonglogo" />
+
+    <Button
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="323dp"
+        android:background="@color/gray2"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="계정"
+        android:textColor="@color/set2"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/eeemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="17dp"
+        android:text="이메일"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eename" />
+
+    <TextView
+        android:id="@+id/eename"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="38dp"
+        android:text="이름 "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+    <TextView
+        android:id="@+id/eetel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="16dp"
+        android:text="전화번호"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eeemail" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="98dp"
+        android:layout_marginBottom="38dp"
+        app:cardCornerRadius="80dp"
+        app:civ_border_color="@color/black"
+        app:civ_border_overlay="true"
+        app:civ_border_width="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/eename"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="130dp"
+            android:layout_height="118dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/baseline_person_24"
+            tools:layout_editor_absoluteY="98dp" />
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
