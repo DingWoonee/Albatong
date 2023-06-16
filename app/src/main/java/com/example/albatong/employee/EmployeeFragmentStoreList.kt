@@ -146,11 +146,13 @@ class EmployeeFragmentStoreList : Fragment() {
     }
 
     fun generateColor(): Int {
-        val alphabet = ('A'..'F')
-        val random = Random(System.currentTimeMillis())
-        val randomAlphabet = (1..6).map { alphabet.random(random) }
+        val random = java.util.Random()
+        val red = random.nextInt(256)
+        val green = random.nextInt(256)
+        val blue = random.nextInt(256)
+        val color = String.format("%02X%02X%02X", red, green, blue)
 
-        return Color.parseColor("#" + randomAlphabet.joinToString(""))
+        return Color.parseColor("#" + color)
     }
 
     override fun onResume() {
