@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import com.example.albatong.R
+import com.example.albatong.data.Employee
 import com.example.albatong.databinding.EeActivitySpecificMainBinding
+import com.example.albatong.employee.EmployeeFragmentStoreList
+import com.example.albatong.login.LoginActivity
 import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.FirebaseDatabase
@@ -24,6 +27,8 @@ class EEActivitySpecificMain : AppCompatActivity() {
         binding = EeActivitySpecificMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val userID = intent.getStringExtra("user_id")
+
         binding.eeViewPager.adapter = EEAdapterViewPage(this)
         TabLayoutMediator(binding.eeTabLayout, binding.eeViewPager) {
                 tab, pos ->
@@ -39,6 +44,7 @@ class EEActivitySpecificMain : AppCompatActivity() {
 
         binding.employeeNotificationHistoryButton.setOnClickListener {
             val intent = Intent(this@EEActivitySpecificMain,SignAcitivity::class.java)
+            intent.putExtra("user_id", userID)
             startActivity(intent)
         }
 

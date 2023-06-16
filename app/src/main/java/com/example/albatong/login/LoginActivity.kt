@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.example.albatong.databinding.LoginActivityBinding
+import com.example.albatong.ee.EEActivitySpecificMain
 import com.example.albatong.employer.EmployerActivityStoreList
 import com.example.albatong.employee.EmployeeActivityMain
+import com.example.albatong.er.ERActivitySpecificMain
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -27,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
     companion object{
         var uId:String = "null"
+        var sign:Int = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -179,8 +182,11 @@ class LoginActivity : AppCompatActivity() {
                     saveID(this,"")
                 }
                 val i = Intent(this@LoginActivity, EmployerActivityStoreList::class.java)
+                val i2 = Intent(this@LoginActivity, ERActivitySpecificMain::class.java)
                 i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                i2.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 i.putExtra("user_id",user_id)
+                i2.putExtra("user_id",user_id)
                 startActivity(i)
             }
             3 -> {
@@ -192,8 +198,11 @@ class LoginActivity : AppCompatActivity() {
                     saveID(this,"")
                 }
                 val i = Intent(this@LoginActivity, EmployeeActivityMain::class.java)
+                val i1 = Intent(this@LoginActivity, EEActivitySpecificMain::class.java)
                 i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                i1.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 i.putExtra("user_id",user_id)
+                i1.putExtra("user_id",user_id)
                 startActivity(i)
             }
         }

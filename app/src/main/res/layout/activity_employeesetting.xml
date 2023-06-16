@@ -4,57 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray2"
     tools:context=".ee.EEsettingActivity">
 
 
     <Button
-        android:id="@+id/userdelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="회원탈퇴"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
         android:id="@+id/userLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/round_button"
         android:text="로그아웃"
-        android:textColor="#000000"
+        android:textColor="#F5A9A9"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Switch
-        android:id="@+id/userswitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="35dp"
-        android:height="48dp"
-        android:checked="true"
-        android:switchPadding="200sp"
-        android:text="알림 설정"
-        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/userdelete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <TextView
+    <Button
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginBottom="29dp"
+        android:backgroundTint="@color/set2"
         android:text="환경설정"
-        android:textColor="#D147C3"
+        android:textColor="#FBEFEF"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/userLogout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/userdelete"
+        android:layout_width="350dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/round_button"
+        android:text="회원탈퇴"
+        android:textColor="#F5A9A9"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/userswitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userLogout" />
+
+    <Switch
+        android:id="@+id/userswitch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="322dp"
+        android:height="48dp"
+        android:checked="true"
+        android:outlineAmbientShadowColor="#8C3939"
+        android:showText="false"
+        android:splitTrack="false"
+        android:switchPadding="190sp"
+        android:text="알림"
+        android:textAllCaps="true"
+        android:textColor="#F5A9A9"
+        android:textColorHighlight="#853E3E"
+        android:textColorLink="#CA8F8F"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:thumb="@drawable/thumb"
+        android:track="@drawable/track"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userdelete" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

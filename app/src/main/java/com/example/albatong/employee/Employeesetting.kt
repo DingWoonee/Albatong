@@ -102,10 +102,10 @@ class Employeesetting : AppCompatActivity() {
 
             binding.userswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
                 if(isChecked){
-
+                    LoginActivity.sign=0
                 }
                 else{
-
+                    LoginActivity.sign=1
                 }
             }
 

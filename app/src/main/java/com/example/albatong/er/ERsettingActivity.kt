@@ -115,9 +115,9 @@ class ERsettingActivity : AppCompatActivity() {
 
             binding.erswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
                 if (isChecked) {
-
+                    LoginActivity.sign=0
                 } else {
-
+                    LoginActivity.sign=1
                 }
             }
 

@@ -20,7 +20,7 @@ class EEAdapterAnnouncement(val items:ArrayList<EEMyData>)
     inner class ViewHolder(val binding: EeItemAnnouncementBinding): RecyclerView.ViewHolder(binding.root){
         init {
             binding.star.setOnClickListener {
-                itemClickListener?.OnItemClick(items[adapterPosition], adapterPosition)
+                itemClickListener?.OnStarClick(items[adapterPosition], adapterPosition)
             }
             binding.item.setOnClickListener {
                 itemClickListener?.OnItemClick(items[adapterPosition], adapterPosition)

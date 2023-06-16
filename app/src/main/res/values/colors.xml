@@ -17,5 +17,11 @@
     <color name="eemployee_main_calendar_continuous_selection">#333</color>
     <color name="employee_main_calendar_grey_past">#BEBEBE</color>
     <color name="gray">#DDDDDD</color>
+    <color name="yellow">#FFFF00</color>
     <color name="dark_gray">#A0A0A0</color>
+    <color name="set">#FFFB9EBA</color>
+    <color name="set2">#FC5185</color>
+    <color name="gray2">#FAFAFA</color>
+    <color name="set3">#F7819F</color>
+    <color name="set5">#F5A9BC</color>
 </resources>
