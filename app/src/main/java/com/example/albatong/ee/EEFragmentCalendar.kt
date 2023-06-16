@@ -2,11 +2,16 @@ package com.example.albatong.ee
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.*
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +20,7 @@ import com.example.albatong.data.Employee
 import com.example.albatong.data.RequestManager
 import com.example.albatong.data.Schedule
 import com.example.albatong.data.SignData
+import com.example.albatong.databinding.EeCalendarDailogBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -82,11 +88,15 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         cdb = Firebase.database.getReference("Stores").child(store_id!!)
             .child("storeManager").child("calendar")
             .child(year.toString() + "년").child(month.toString() + "월").child(day.toString() + "일")
+        sdb = Firebase.database.getReference("Stores")
+        edb = Firebase.database.getReference("Stores").child(store_id!!).child("storeInfo").child("employee")
 
         val option = FirebaseRecyclerOptions.Builder<Schedule>()
             .setQuery(cdb, Schedule::class.java)
             .build()
-        scheduleAdapter = EEAdapterCalendar(option)
+
+
+        scheduleAdapter = EEAdapterCalendar(option, userID, store_id)
         scheduleRecyclerView.adapter = scheduleAdapter
 
         //초기 선택된 상태
@@ -94,10 +104,6 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         scheduleDateTextView.text = initialDate
         updateScheduleAdapter(initialDate)
         calendarView.date = calendar.timeInMillis
-
-        //database 설정
-        sdb = Firebase.database.getReference("Stores")
-        edb = Firebase.database.getReference("Stores").child(store_id!!).child("storeInfo").child("employee")
 
         scheduleAdapter?.notifyDataSetChanged()
 
@@ -155,29 +161,33 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
     }
 
     private fun showChangeDialog(context: Context,  selectedDate: String, schedule: Schedule) {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.ee_calendar_dailog, null)
-        val nameSpinner = dialogView.findViewById<Spinner>(R.id.nameSpinner)
+        val dlgBinding = EeCalendarDailogBinding.inflate(layoutInflater)
+        val nameSpinner = dlgBinding.nameSpinner
 
         val dialogBuilder = AlertDialog.Builder(context)
-            .setView(dialogView)
-            .setTitle("교환요청")
-            .setPositiveButton("확인") { dialog, _ ->
-                if(nameSpinner.selectedItem.toString() == "모두") {
-                    sendExchangeRequestToAll(selectedDate, schedule)
-                } else {
-                    val employeeId = nameSpinner.selectedItem.toString().split("/")[0]
-                    val employeeName = nameSpinner.selectedItem.toString().split("/")[1]
+        val dlg = dialogBuilder.setView(dlgBinding.root).show()
 
-                    // 선택한 직원 정보를 사용하여 교환 요청 처리
-                    sendExchangeRequest(selectedDate, employeeId, employeeName, schedule)
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton("취소") { dialog, _ ->
-                dialog.dismiss()
-            }
+        dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.BOTTOM)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val dialog = dialogBuilder.create()
+        dlgBinding.registerBtn.setOnClickListener {
+            if(nameSpinner.selectedItem.toString() == "모두") {
+                sendExchangeRequestToAll(selectedDate, schedule)
+            } else {
+                val employeeId = nameSpinner.selectedItem.toString().split("/")[0]
+                val employeeName = nameSpinner.selectedItem.toString().split("/")[1]
+
+                // 선택한 직원 정보를 사용하여 교환 요청 처리
+                sendExchangeRequest(selectedDate, employeeId, employeeName, schedule)
+            }
+            dlg.dismiss()
+        }
+
+        dlgBinding.cancelBtn.setOnClickListener{
+            dlg.dismiss()
+
+        }
 
         edb.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -202,7 +212,7 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 nameSpinner.adapter = adapter
 
-                dialog.show()
+                dlg.show()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

@@ -3,37 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/employer_background_storelist"
-    android:layout_margin="10dp"
-    android:padding="10dp">
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:gravity="center_vertical">
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이름"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="이름"/>
 
         <TextView
             android:id="@+id/timeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="시간"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            android:text="시간"/>
     </LinearLayout>
     <Button
-        android:layout_width="0dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:background="@drawable/button_main_color"
         android:id="@+id/deleteButton"
-        android:text="삭제"/>
+        android:textColor="@color/white"
+        android:stateListAnimator="@null"
+        android:drawableLeft="@drawable/baseline_delete_24"
+        android:paddingLeft="23dp"/>
 
 
 

@@ -55,7 +55,7 @@
         <activity
             android:name=".er.ERActivityTimeTable"
             android:exported="false"
-            android:label="특정 점포" />
+            android:label="타임 테이블" />
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"

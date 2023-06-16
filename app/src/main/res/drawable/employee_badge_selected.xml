@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:shape="rectangle">
-
+    <corners android:radius="7dp"/>
     <stroke
         android:width="3dp"
-        android:color="@color/eemployee_main_calendar_continuous_selection" />
+        android:color="@color/main_color" />
 </shape>

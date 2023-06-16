@@ -54,14 +54,16 @@
                     android:layout_marginRight="5dp"
                     android:checked="true"
                     android:text="사장"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:buttonTint="@color/main_color"/>
 
                 <RadioButton
                     android:id="@+id/signUpEmployeeRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="알바"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:buttonTint="@color/main_color"/>
             </RadioGroup>
 
             <LinearLayout

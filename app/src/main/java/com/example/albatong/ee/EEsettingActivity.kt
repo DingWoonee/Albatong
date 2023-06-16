@@ -1,6 +1,7 @@
 package com.example.albatong.ee
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,10 @@ import com.google.firebase.database.ktx.childEvents
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.ktx.Firebase
+import com.example.albatong.login.LoginActivity.Companion.KEY_USER_ID_FOR_AUTO_LOGIN
+import com.example.albatong.login.LoginActivity.Companion.KEY_USER_PW_FOR_AUTO_LOGIN
+import com.example.albatong.login.LoginActivity.Companion.KEY_WAS_LOGOUT
+import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 
 class EEsettingActivity : AppCompatActivity() {
     lateinit var binding:ActivityEesettingBinding
@@ -156,8 +161,17 @@ class EEsettingActivity : AppCompatActivity() {
                 }
 
                 binding.userLogout.setOnClickListener {
-                    val i = Intent(this, LoginActivity::class.java)
-                    startActivity(i)
+                    val sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putBoolean(KEY_WAS_LOGOUT, true)
+                editor.putString(KEY_USER_PW_FOR_AUTO_LOGIN, "")
+                editor.putString(KEY_USER_ID_FOR_AUTO_LOGIN, "")
+                val result = editor.commit()
+                if (result) {
+                    val intent = Intent(applicationContext, LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                }
                 }
 
                 binding.userswitch.setOnCheckedChangeListener { compoundButton, isChecked ->

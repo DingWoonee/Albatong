@@ -26,9 +26,17 @@ class LoginActivity : AppCompatActivity() {
     lateinit var rdb: DatabaseReference
     var loginResult :Int = 0
     lateinit var sharedPref:SharedPreferences
+    var wasLogout = true
 
     companion object{
         var uId:String = "null"
+
+        public const val SHARED_PREF_NAME = "SharedPref"
+        public const val KEY_WAS_LOGOUT = "wasLogout"
+        public const val KEY_USER_PW_FOR_AUTO_LOGIN = "user_pw_for_auto_login"
+        public const val KEY_USER_ID_FOR_AUTO_LOGIN = "user_id_for_auto_login"
+        public const val KEY_SAVED_ID = "savedID"
+
         var sign:Int = 1
     }
 
@@ -41,7 +49,14 @@ class LoginActivity : AppCompatActivity() {
         checkLoginData()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        checkLoginData()
+    }
+
     fun checkLoginData() {
+        wasLogout = sharedPref.getBoolean("wasLogout", true)
         binding.loginPwInputEditText.setText("")
 
         val idSaveChecked = sharedPref.getBoolean("IDCheckBoxState", false)
@@ -54,39 +69,41 @@ class LoginActivity : AppCompatActivity() {
         binding.autoLoginCheckBox.isChecked = loginChecked
         if(loginChecked) {
             if(!idSaveChecked) {
-                binding.loginIdInputEditText.setText(getSavedID(this))
+                binding.loginIdInputEditText.setText(getSavedIdForAutoLogin(this))
             }
-            binding.loginPwInputEditText.setText(getSavedPW(this))
+            binding.loginPwInputEditText.setText(getSavedPwForAutoLogin(this))
 
-            binding.loginButton.performClick()
+            if(!wasLogout) {
+                binding.loginButton.performClick()
+            }
         }
     }
     fun saveID(context: Context, id: String) {
-        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
-            putString("savedID", id)
+        with(sharedPref.edit()) {
+            putString(KEY_SAVED_ID, id)
             apply()
         }
     }
-    fun savePW(context: Context, pw: String) {
-        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
-            putString("savedPW", pw)
+    fun saveForAutoLogin(context: Context, id: String, pw: String) {
+        with(sharedPref.edit()) {
+            putString(KEY_USER_PW_FOR_AUTO_LOGIN, pw)
+            putString(KEY_USER_ID_FOR_AUTO_LOGIN, id)
             apply()
         }
     }
     fun getSavedID(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("savedID", null)
+        return sharedPref.getString(KEY_SAVED_ID, null)
     }
-    fun getSavedPW(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("user_pw", null)
+    fun getSavedPwForAutoLogin(context: Context): String? {
+        return sharedPref.getString(KEY_USER_PW_FOR_AUTO_LOGIN, null)
+    }
+    fun getSavedIdForAutoLogin(context: Context): String? {
+        return sharedPref.getString(KEY_USER_ID_FOR_AUTO_LOGIN, null)
     }
 
     fun init(){
         rdb = Firebase.database.getReference("Users")
-        sharedPref = getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
+        sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
         binding.loginButton.setOnClickListener {
             if(binding.loginIdInputEditText.text.toString()==""){
                 idRequestDlg()
@@ -113,7 +130,7 @@ class LoginActivity : AppCompatActivity() {
             editor.putBoolean("LoginCheckBoxState", isChecked)
             editor.apply()
             if(!isChecked){
-                savePW(this, "")
+                saveForAutoLogin(this, "", "")
             }
         }
     }
@@ -174,12 +191,16 @@ class LoginActivity : AppCompatActivity() {
             0 -> noUserDlg()
             1 -> noMatchPasswordDlg()
             2 -> {
+                saveID(this,"")
                 if(binding.idStoreCheckBox.isChecked) {
                     saveID(this,user_id)
-                } else if(binding.autoLoginCheckBox.isChecked) {
-                    savePW(this,binding.loginPwInputEditText.text.toString())
-                } else {
-                    saveID(this,"")
+                }
+                if(binding.autoLoginCheckBox.isChecked) {
+                    saveForAutoLogin(this,binding.loginIdInputEditText.text.toString(),binding.loginPwInputEditText.text.toString())
+
+                    val editor = sharedPref.edit()
+                    editor.putBoolean("wasLogout", false)
+                    editor.apply()
                 }
                 val i = Intent(this@LoginActivity, EmployerActivityStoreList::class.java)
                 val i2 = Intent(this@LoginActivity, ERActivitySpecificMain::class.java)
@@ -190,12 +211,16 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(i)
             }
             3 -> {
+                saveID(this,"")
                 if(binding.idStoreCheckBox.isChecked) {
                     saveID(this,user_id)
-                } else if(binding.autoLoginCheckBox.isChecked) {
-                    savePW(this,binding.loginPwInputEditText.text.toString())
-                } else {
-                    saveID(this,"")
+                }
+                if(binding.autoLoginCheckBox.isChecked) {
+                    saveForAutoLogin(this,binding.loginIdInputEditText.text.toString(),binding.loginPwInputEditText.text.toString())
+
+                    val editor = sharedPref.edit()
+                    editor.putBoolean("wasLogout", false)
+                    editor.apply()
                 }
                 val i = Intent(this@LoginActivity, EmployeeActivityMain::class.java)
                 val i1 = Intent(this@LoginActivity, EEActivitySpecificMain::class.java)

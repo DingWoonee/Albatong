@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,24 +17,27 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/login_background_button"
             app:popupTheme="@style/Theme.Albatong"
-            app:subtitleTextColor="#FFFFFF"
+            app:title="Time Table"
+            app:titleTextAppearance="@style/ToolbarTitleText"
             app:titleTextColor="#FFFFFF" >
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
+        android:padding="15dp"
+        android:text="2023/01/01"
         android:id="@+id/dateTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timeTableRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/er_item_time_table"/>
 
 </LinearLayout>

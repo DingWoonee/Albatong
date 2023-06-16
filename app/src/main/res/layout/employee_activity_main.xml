@@ -7,39 +7,36 @@
     android:orientation="vertical"
     tools:context=".employee.EmployeeActivityMain">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.Albatong">
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/Theme.Albatong">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/Theme.Albatong"
-            app:subtitleTextColor="#FFFFFF"
-            app:titleTextColor="#FFFFFF" >
-            <ImageButton
-                android:id="@+id/employerSettingButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/baseline_settings_24"
-                android:layout_gravity="end"
-                android:layout_marginRight="10dp"
-                android:background="?android:attr/selectableItemBackground"
-                app:tint="#FFF" />
-            <ImageButton
-                android:id="@+id/employerNotificationHistoryButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/baseline_notifications_24"
-                android:layout_gravity="end"
-                android:layout_marginRight="10dp"
-                android:background="?android:attr/selectableItemBackground"
-                app:tint="#FFF" />
-        </androidx.appcompat.widget.Toolbar>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo1"
+            android:layout_margin="14dp"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <ImageButton
+            android:id="@+id/employerSettingButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_settings_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground" />
+
+        <ImageButton
+            android:id="@+id/employerNotificationHistoryButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_notifications_24"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:background="?android:attr/selectableItemBackground" />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/employee_viewPager"

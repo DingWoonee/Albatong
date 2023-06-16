@@ -7,20 +7,14 @@
     android:orientation="vertical"
     tools:context=".er.ERActivitySpecificMain">
 
-
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.Albatong">
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/Theme.Albatong"
+        app:title="ALBATONG"
+        app:titleTextAppearance="@style/ToolbarTitleText">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/login_background_button"
-            app:popupTheme="@style/Theme.Albatong"
-            app:subtitleTextColor="#FFFFFF"
-            app:titleTextColor="#FFFFFF" >
 
             <ImageButton
                 android:id="@+id/employerSettingButton"
@@ -28,7 +22,8 @@
                 android:layout_height="40dp"
                 android:src="@drawable/baseline_settings_24"
                 android:layout_gravity="end"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:background="?android:attr/selectableItemBackground" />
 
             <ImageButton
                 android:id="@+id/employerNotificationHistoryButton"
@@ -36,10 +31,10 @@
                 android:layout_height="40dp"
                 android:src="@drawable/baseline_notifications_24"
                 android:layout_gravity="end"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:background="?android:attr/selectableItemBackground" />
 
         </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
@@ -51,6 +46,12 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/dark_gray"
+        app:tabTextAppearance="@style/tabTextSizeBold"
+        app:tabIndicatorColor="@color/main_color"
+        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorGravity="top"
+        app:tabIconTint="@color/dark_gray"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

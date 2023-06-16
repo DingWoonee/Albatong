@@ -2,6 +2,7 @@ package com.example.albatong.employee
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.albatong.R
@@ -14,6 +15,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.example.albatong.login.LoginActivity.Companion.KEY_USER_ID_FOR_AUTO_LOGIN
+import com.example.albatong.login.LoginActivity.Companion.KEY_USER_PW_FOR_AUTO_LOGIN
+import com.example.albatong.login.LoginActivity.Companion.KEY_WAS_LOGOUT
+import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 
 class Employeesetting : AppCompatActivity() {
     lateinit var binding: ActivityEmployeesettingBinding
@@ -111,10 +116,19 @@ class Employeesetting : AppCompatActivity() {
                     builder.show()
                 }
 
-                binding.userLogout.setOnClickListener {
-                    val i = Intent(this, LoginActivity::class.java)
-                    startActivity(i)
+            binding.userLogout.setOnClickListener {
+                val sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putBoolean(KEY_WAS_LOGOUT, true)
+                editor.putString(KEY_USER_PW_FOR_AUTO_LOGIN, "")
+                editor.putString(KEY_USER_ID_FOR_AUTO_LOGIN, "")
+                val result = editor.commit()
+                if (result) {
+                    val intent = Intent(applicationContext, LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
                 }
+            }
 
                 binding.userswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
                     if(check=="1"){
