@@ -23,7 +23,7 @@ import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 class Employeesetting : AppCompatActivity() {
     lateinit var binding: ActivityEmployeesettingBinding
     var storeId: String?= EmployeeFragmentStoreList.settingStoreId1
-    var userID: String?=EmployeeFragmentStoreList.settingUserId1
+    var userID: String?=LoginActivity.uId
     val storelist: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {

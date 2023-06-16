@@ -8,10 +8,6 @@
     android:width="1dp"
         android:color="@color/set"
         />
-    <corners
-        android:bottomRightRadius="30dp"
-        android:bottomLeftRadius="30dp"
-        android:topLeftRadius="30dp"
-        android:topRightRadius="30dp"/>
+
 
 </shape>

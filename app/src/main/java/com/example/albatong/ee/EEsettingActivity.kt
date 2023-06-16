@@ -26,7 +26,7 @@ import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 class EEsettingActivity : AppCompatActivity() {
     lateinit var binding:ActivityEesettingBinding
     var storeId: String?= EmployeeFragmentStoreList.settingStoreId1
-    var userID: String?=EmployeeFragmentStoreList.settingUserId1
+    var userID: String?=LoginActivity.uId
     val storelist: ArrayList<String> = ArrayList()
     var check:String = "1"
 
@@ -107,6 +107,7 @@ class EEsettingActivity : AppCompatActivity() {
                             val a =  FirebaseDatabase.getInstance().getReference("Stores")
 
                             a.get().addOnSuccessListener {
+
                                 for(i in storelist){
                                     if(it.child(i).child("storeInfo").child("employee").exists()){
                                         a.child(i).child("storeInfo").child("employee").child(userID.toString()).removeValue()

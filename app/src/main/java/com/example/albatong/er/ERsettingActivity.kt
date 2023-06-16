@@ -26,10 +26,10 @@ import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 
 class ERsettingActivity : AppCompatActivity() {
     lateinit var binding: ActivityErsettingBinding
-    var userID: String? = EmployerActivityStoreList.settingUserId2
+    var userID: String? = LoginActivity.uId
     var storeId: String? = EmployerActivityStoreList.settingStoreId2
     val storelist: ArrayList<String> = ArrayList()
-    var check:String = "1"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityErsettingBinding.inflate(layoutInflater)

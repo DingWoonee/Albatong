@@ -21,7 +21,7 @@ import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 
 class Employersetting : AppCompatActivity() {
     lateinit var binding: ActivityEmployersettingBinding
-    var userID: String? = EmployerActivityStoreList.settingUserId2
+    var userID: String? = LoginActivity.uId
     var storeId: String? = EmployerActivityStoreList.settingStoreId2
     val storelist: ArrayList<String> = ArrayList()
 
