@@ -226,6 +226,8 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val date = current.format(formatter)
+        val dateTime = LocalDateTime.parse(date, formatter)
+        val dayOfWeek = dateTime.dayOfWeek.toString()
 
         val storeRef = Firebase.database.getReference("Stores/$store_id")
         storeRef.child("storeInfo/employee").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -241,7 +243,7 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
                                 }
 
                                 val msg = "${store_name}\n${schedule.name}님께서 대타 요청을 보냈습니다."
-                                notificationRef.child(count.toString()).setValue(SignData(msg, date, "2", schedule, selectedDate))
+                                notificationRef.child(count.toString()).setValue(SignData(msg, date, "2", schedule, selectedDate, dayOfWeek))
                             }
 
                             override fun onCancelled(error: DatabaseError) {
@@ -276,9 +278,11 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
                     val current = LocalDateTime.now()
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     val date = current.format(formatter)
+                    val dateTime = LocalDateTime.parse(date, formatter)
+                    val dayOfWeek = dateTime.dayOfWeek.toString()
 
                     val msg = "${store_name}\n${schedule.name}님께서 대타 요청을 보냈습니다."
-                    notificationRef.child(count.toString()).setValue(SignData(msg, date, "2", schedule, selectedDate))
+                    notificationRef.child(count.toString()).setValue(SignData(msg, date, "2", schedule, selectedDate, dayOfWeek))
 
                     Toast.makeText(context, "${employeeName}님에게 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
                 }

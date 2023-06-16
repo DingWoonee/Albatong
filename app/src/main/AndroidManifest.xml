@@ -59,7 +59,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"
-            android:label="로그인">
+            android:label="알바통">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

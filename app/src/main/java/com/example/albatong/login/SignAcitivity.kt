@@ -113,6 +113,7 @@ class SignAcitivity : AppCompatActivity() {
                     dlgBinding.storeName.text = data.schedule?.storeName
                     dlgBinding.date.text = "${data.selectedDate}"
                     dlgBinding.time.text = "${data.schedule?.startTime} - ${data.schedule?.endTime}"
+                    dlgBinding.dayOfWeek.text = data.dayOfWeek
 
                     val dlgBuilder = AlertDialog.Builder(this@SignAcitivity)
                     val dlg = dlgBuilder.setView(dlgBinding.root).show()
