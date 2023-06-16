@@ -39,6 +39,7 @@ class EEActivitySpecificMain : AppCompatActivity() {
 
         binding.employeeSettingButton.setOnClickListener {
             val intent = Intent(this@EEActivitySpecificMain,EEsettingActivity::class.java)
+            intent.putExtra("user_id", userID)
             startActivity(intent)
         }
 

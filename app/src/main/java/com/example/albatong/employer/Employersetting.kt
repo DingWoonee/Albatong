@@ -1,5 +1,6 @@
 package com.example.albatong.employer
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.Context
@@ -25,10 +26,13 @@ class Employersetting : AppCompatActivity() {
     var storeId: String? = EmployerActivityStoreList.settingStoreId2
     val storelist: ArrayList<String> = ArrayList()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmployersettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userID = intent.getStringExtra("user_id")
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
 

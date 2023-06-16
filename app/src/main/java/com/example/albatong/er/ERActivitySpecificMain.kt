@@ -38,12 +38,13 @@ class ERActivitySpecificMain : AppCompatActivity() {
         init()
     }
     private fun init() {
-
+        val userID = intent.getStringExtra("user_id")
         binding.employerSettingButton.setOnClickListener {
             val i = Intent(this@ERActivitySpecificMain, ERsettingActivity::class.java)
+            i.putExtra("user_id", userID)
             startActivity(i)
         }
-        val userID = intent.getStringExtra("user_id")
+
         binding.employerNotificationHistoryButton.setOnClickListener {
             val i = Intent(this@ERActivitySpecificMain, SignAcitivity::class.java)
             i.putExtra("user_id", userID)

@@ -51,6 +51,7 @@ class EmployeeActivityMain : AppCompatActivity() {
 
         binding.employerSettingButton.setOnClickListener {
             val intent = Intent(this@EmployeeActivityMain, Employeesetting::class.java)
+            intent.putExtra("user_id", userID)
             startActivity(intent)
         }
 

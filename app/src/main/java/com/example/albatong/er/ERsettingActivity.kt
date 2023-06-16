@@ -1,5 +1,6 @@
 package com.example.albatong.er
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.Context
@@ -35,6 +36,8 @@ class ERsettingActivity : AppCompatActivity() {
         binding = ActivityErsettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userID = intent.getStringExtra("user_id")
+
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
 
 
@@ -59,6 +62,7 @@ class ERsettingActivity : AppCompatActivity() {
                     builder.setTitle("회원 탈퇴")
                         .setMessage("회원을 탈퇴하시겠습니까?")
                         .setPositiveButton("나가기", { dialog, id ->
+                            Log.i("user",use.toString())
                             use.removeValue()
 
                             val a = FirebaseDatabase.getInstance().getReference("Stores")

@@ -96,6 +96,7 @@ class EmployerActivityStoreList : AppCompatActivity() {
         }
         binding.employerSettingButton.setOnClickListener {
             val i = Intent(this@EmployerActivityStoreList, ERsettingActivity::class.java)
+            i.putExtra("user_id", user_id)
             startActivity(i)
         }
         user_id = intent.getStringExtra("user_id")

@@ -1,5 +1,6 @@
 package com.example.albatong.ee
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -34,8 +35,10 @@ class EEsettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEesettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userID = intent.getStringExtra("user_id")
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
+
             ab.get().addOnSuccessListener {
                 var test=0
                 while(true){
