@@ -376,103 +376,107 @@ class ERFragmentAnnouncement : Fragment() {
                         data.addAll(data2)
                         data.addAll(data5)
 
-                        val current = LocalDateTime.now().plusSeconds(32398)
-                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss")
-                        val Date = current.format(formatter)
+                        if(LoginActivity.sign==1){
+                            val current = LocalDateTime.now().plusSeconds(32398)
+                            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss")
+                            val Date = current.format(formatter)
 
-                        Toast.makeText(context,"중요공지가 등록되었습니다.",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,"중요공지가 등록되었습니다.",Toast.LENGTH_SHORT).show()
 
-                        FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeInfo").child("employee")
-                            .addValueEventListener(object:ValueEventListener{
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                    for(i in snapshot.children){
+                            FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeInfo").child("employee")
+                                .addValueEventListener(object:ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        for(i in snapshot.children){
 
-                                        FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
-                                            .child("Sign").addListenerForSingleValueEvent(object:ValueEventListener{
-                                                override fun onDataChange(snapshot: DataSnapshot) {
-                                                    var count = 0
-                                                    for(i1 in snapshot.children){
-                                                        count++
-                                                    }
-                                                    if(count!=0){
-                                                        FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
-                                                            .child("Sign").get().addOnSuccessListener {
-                                                                for(i in 0..count-1){
-                                                                    var title =   it.child(i.toString()).child("title").getValue().toString()
-                                                                    var date =   it.child(i.toString()).child("date").getValue().toString()
-                                                                    var type =   it.child(i.toString()).child("type").getValue().toString()
-                                                                    SigndataE.add(SignData(title,date, type))
+                                            FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                .child("Sign").addListenerForSingleValueEvent(object:ValueEventListener{
+                                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                                        var count = 0
+                                                        for(i1 in snapshot.children){
+                                                            count++
+                                                        }
+                                                        if(count!=0){
+                                                            FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                                .child("Sign").get().addOnSuccessListener {
+                                                                    for(i in 0..count-1){
+                                                                        var title =   it.child(i.toString()).child("title").getValue().toString()
+                                                                        var date =   it.child(i.toString()).child("date").getValue().toString()
+                                                                        var type =   it.child(i.toString()).child("type").getValue().toString()
+                                                                        SigndataE.add(SignData(title,date, type))
+                                                                    }
+                                                                    SigndataE.add(SignData("${storeName!!}: 중요공지가 등록되었습니다.",Date, "1"))
+
+                                                                    FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                                        .child("Sign").setValue(SigndataE)
+
+                                                                    SigndataE.clear()
                                                                 }
-                                                                SigndataE.add(SignData("${storeName!!}: 중요공지가 등록되었습니다.",Date, "1"))
+                                                        }
+                                                        else{
+                                                            SigndataE.add(SignData("${storeName!!}: 중요공지가 등록되었습니다.",Date, "1"))
 
-                                                                FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
-                                                                    .child("Sign").setValue(SigndataE)
+                                                            FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
+                                                                .child("Sign").setValue(SigndataE)
 
-                                                                SigndataE.clear()
-                                                            }
+                                                            SigndataE.clear()
+                                                        }
                                                     }
-                                                    else{
-                                                        SigndataE.add(SignData("${storeName!!}: 중요공지가 등록되었습니다.",Date, "1"))
 
-                                                        FirebaseDatabase.getInstance().getReference("Users").child("employee").child(i.key.toString())
-                                                            .child("Sign").setValue(SigndataE)
+                                                    override fun onCancelled(error: DatabaseError) {
 
-                                                        SigndataE.clear()
                                                     }
+
+                                                })
+
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+
+                                    }
+
+                                })
+
+
+                            FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                .child("Sign").addListenerForSingleValueEvent(object:ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        var count = 0
+                                        for(i in snapshot.children){
+                                            count++
+                                        }
+                                        if(count!=0){
+                                            FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                                .child("Sign").get().addOnSuccessListener {
+                                                    for(i in 0..count-1){
+                                                        var title =   it.child(i.toString()).child("title").getValue().toString()
+                                                        var date =   it.child(i.toString()).child("date").getValue().toString()
+                                                        var type =   it.child(i.toString()).child("type").getValue().toString()
+                                                        SigndataR.add(SignData(title,date, type))
+                                                    }
+                                                    SigndataR.add(SignData("${storeName!!}: 중요공지를 등록하였습니다.",Date,"1"))
+
+                                                    FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                                        .child("Sign").setValue(SigndataR)
+                                                    SigndataR.clear()
                                                 }
+                                        }
+                                        else{
+                                            SigndataR.add(SignData("${storeName!!}: 중요공지를 등록하였습니다.",Date,"1"))
 
-                                                override fun onCancelled(error: DatabaseError) {
+                                            FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
+                                                .child("Sign").setValue(SigndataR)
+                                            SigndataR.clear()
+                                        }
+                                    }
 
-                                                }
-
-                                            })
+                                    override fun onCancelled(error: DatabaseError) {
 
                                     }
-                            }
 
-                            override fun onCancelled(error: DatabaseError) {
+                                })
+                        }
 
-                            }
-
-                        })
-
-                        FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
-                            .child("Sign").addListenerForSingleValueEvent(object:ValueEventListener{
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    var count = 0
-                                    for(i in snapshot.children){
-                                        count++
-                                    }
-                                    if(count!=0){
-                                        FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
-                                            .child("Sign").get().addOnSuccessListener {
-                                                for(i in 0..count-1){
-                                                    var title =   it.child(i.toString()).child("title").getValue().toString()
-                                                    var date =   it.child(i.toString()).child("date").getValue().toString()
-                                                    var type =   it.child(i.toString()).child("type").getValue().toString()
-                                                    SigndataR.add(SignData(title,date, type))
-                                                }
-                                                SigndataR.add(SignData("${storeName!!}: 중요공지를 등록하였습니다.",Date,"1"))
-
-                                                FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
-                                                    .child("Sign").setValue(SigndataR)
-                                                SigndataR.clear()
-                                            }
-                                    }
-                                    else{
-                                        SigndataR.add(SignData("${storeName!!}: 중요공지를 등록하였습니다.",Date,"1"))
-
-                                        FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
-                                            .child("Sign").setValue(SigndataR)
-                                        SigndataR.clear()
-                                    }
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-
-                                }
-
-                            })
 
                         adapter.notifyDataSetChanged()
 
