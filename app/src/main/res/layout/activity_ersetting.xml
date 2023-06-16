@@ -58,32 +58,7 @@ tools:context=".er.ERsettingActivity">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/erLogout" />
 
-<Switch
-    android:id="@+id/erswitch"
-    android:layout_width="0dp"
-    android:layout_height="50dp"
-    android:layout_marginStart="30dp"
-    android:layout_marginEnd="30dp"
-    android:layout_marginBottom="202dp"
-    android:height="48dp"
-    android:checked="true"
-    android:outlineAmbientShadowColor="#8C3939"
-    android:showText="false"
-    android:splitTrack="false"
-    android:switchPadding="190sp"
-    android:text="알림"
-    android:textAllCaps="true"
-    android:textColor="#F5A9A9"
-    android:textColorHighlight="#853E3E"
-    android:textColorLink="#CA8F8F"
-    android:textSize="20sp"
-    android:textStyle="bold"
-    android:thumb="@drawable/thumb"
-    android:track="@drawable/track"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/erexit" />
+
 
 <Button
     android:id="@+id/erexit"
@@ -95,7 +70,7 @@ tools:context=".er.ERsettingActivity">
     android:textColor="#F5A9A9"
     android:textSize="20sp"
     android:textStyle="bold"
-    app:layout_constraintBottom_toTopOf="@+id/erswitch"
+    app:layout_constraintBottom_toTopOf="@+id/erdelete"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.491"
     app:layout_constraintStart_toStartOf="parent"
