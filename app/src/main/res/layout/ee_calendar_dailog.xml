@@ -3,8 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/background_dialog_bottom"
     android:padding="16dp">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="등록"
+            android:background="@android:color/transparent"/>
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="match_parent"

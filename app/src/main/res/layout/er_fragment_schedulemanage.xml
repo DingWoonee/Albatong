@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.Albatong"
     android:orientation="vertical">
 
     <CalendarView
@@ -18,30 +19,41 @@
             android:id="@+id/scheduleDate"
             android:layout_width="0dp"
             android:gravity="center"
-            android:textSize="24dp"
+            android:textSize="20dp"
+            android:text="2023/05/24"
             android:layout_height="match_parent"
-            android:layout_weight="4"/>
+            android:layout_weight="4"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
         <Button
             android:id="@+id/timeTable"
-            android:layout_width="0dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="t"/>
+            android:textColor="@color/white"
+            android:stateListAnimator="@null"
+            android:background="@drawable/button_main_color"
+            android:paddingLeft="23dp"
+            android:layout_marginRight="8dp"
+            android:drawableLeft="@drawable/baseline_schedule_24" />
 
         <Button
             android:id="@+id/schedulePlus"
-            android:layout_width="0dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="p"/>
+            android:textColor="@color/white"
+            android:stateListAnimator="@null"
+            android:background="@drawable/button_main_color"
+            android:layout_marginRight="16dp"
+            android:paddingLeft="23dp"
+            android:drawableLeft="@drawable/baseline_post_add_24"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
-        tools:listitem="@layout/er_item_schedule_list"/>
+        tools:listitem="@layout/er_item_schedule_list"
+        android:background="@drawable/background_white"
+        android:layout_margin="16dp"/>
 
 </LinearLayout>

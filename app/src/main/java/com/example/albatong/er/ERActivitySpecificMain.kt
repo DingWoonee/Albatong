@@ -30,8 +30,7 @@ class ERActivitySpecificMain : AppCompatActivity() {
         val employerNotificationHistoryButton: ImageButton = findViewById(R.id.employerNotificationHistoryButton)
         employerSettingButton.background = null
         employerNotificationHistoryButton.background = null
-        ImageViewCompat.setImageTintList(employerSettingButton, ColorStateList.valueOf(Color.WHITE))
-        ImageViewCompat.setImageTintList(employerNotificationHistoryButton, ColorStateList.valueOf(Color.WHITE))
+
 
         initLayout()
         init()

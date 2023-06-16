@@ -2,11 +2,15 @@ package com.example.albatong.er
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -196,6 +200,8 @@ class ERFragmentScheduleManage : Fragment() {
             .setNegativeButton("취소", null)
 
         scheduleDialog = dialogBuilder.create()
+        scheduleDialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
 
         edb.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -224,6 +230,8 @@ class ERFragmentScheduleManage : Fragment() {
             }
         })
 
+        scheduleDialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        scheduleDialog?.window?.setGravity(Gravity.BOTTOM)
         scheduleDialog?.show()
 
 
