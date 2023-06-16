@@ -24,7 +24,6 @@ class Employersetting : AppCompatActivity() {
     var userID: String? = EmployerActivityStoreList.settingUserId2
     var storeId: String? = EmployerActivityStoreList.settingStoreId2
     val storelist: ArrayList<String> = ArrayList()
-    var check:String = "1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +31,7 @@ class Employersetting : AppCompatActivity() {
         setContentView(binding.root)
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
-        var ab1 = FirebaseDatabase.getInstance().getReference("Users").child("employer")
-            .child(userID.toString())
 
-        ab1.get().addOnSuccessListener {
-            if (!it.child("SignCheck").exists()) {
-                ab1.child("SignCheck").setValue("1")
-            }
-            check = it.child("SignCheck").value.toString()
-            if (check == "1")
-                binding.erswitch.setEnabled(true)
-            else
-                binding.erswitch.setEnabled(false)
 
             ab.get().addOnSuccessListener {
                 var test = 0
@@ -104,19 +92,10 @@ class Employersetting : AppCompatActivity() {
                 }
             }
 
-                binding.erswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
-                    if(check=="1"){
-                        ab1.child("SignCheck").setValue("0")
-                        binding.erswitch.setEnabled(false)
-                    }
-                    else{
-                        ab1.child("SignCheck").setValue("1")
-                        binding.erswitch.setEnabled(true)
-                    }
-                }
+
 
 
             }
         }
-    }
+
 }
