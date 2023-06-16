@@ -47,6 +47,12 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/employee_tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/black"
+        app:tabTextAppearance="@style/tabTextSizeBold"
+        app:tabIndicatorColor="@color/main_color"
+        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorGravity="top"
+        app:tabIconTint="@color/black"/>
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.example.albatong.R
 import com.example.albatong.data.UserData
 import com.example.albatong.databinding.EmployeeActivityMainBinding
 import com.example.albatong.login.SignAcitivity
@@ -21,6 +22,8 @@ class EmployeeActivityMain : AppCompatActivity() {
     lateinit var binding: EmployeeActivityMainBinding
     val viewModel: EmployeeViewModel by viewModels()
     val textarr = arrayListOf<String>("일정", "급여", "근무지")
+    val imgarr = arrayListOf<Int>(
+        R.drawable.baseline_calendar_month_24, R.drawable.money_image, R.drawable.workspace_image)
     var user: UserData ?= null
     private var backKeyPressedTime: Long = 0
 
@@ -69,6 +72,7 @@ class EmployeeActivityMain : AppCompatActivity() {
         TabLayoutMediator(binding.employeeTabLayout, binding.employeeViewPager) {
                 tab, pos ->
             tab.text = textarr[pos]
+            tab.setIcon(imgarr[pos])
         }.attach()
     }
 
