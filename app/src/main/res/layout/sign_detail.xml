@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:layout_margin="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
     android:background="@drawable/background_white"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical" >
 
     <TextView
         android:textColor="#FFFB9EBA"
@@ -19,16 +20,13 @@
         android:layout_weight="1"
         android:text="date" />
 
-        <TextView
-            android:id="@+id/sign_title"
-            android:layout_width="500dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="내용" />
-
-
-
+    <TextView
+        android:id="@+id/sign_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textStyle="bold"
+        android:text="내용" />
 
 </LinearLayout>
 
