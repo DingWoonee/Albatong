@@ -39,6 +39,21 @@ class EEsettingActivity : AppCompatActivity() {
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
 
+
+        var use1 = FirebaseDatabase.getInstance().getReference("Users").child("employee")
+            .child(userID.toString())
+
+        use1.get().addOnSuccessListener {
+            var name = it.child("name").value.toString() + "("  +it.child("user_id").value.toString()+")"
+            var email =  it.child("email").value.toString()
+            var tel = it.child("tel").value.toString()
+
+            binding.eeemail.text = email
+            binding.eetel.text = tel
+            binding.eename.text = name
+        }
+
+
             ab.get().addOnSuccessListener {
                 var test=0
                 while(true){
@@ -63,6 +78,12 @@ class EEsettingActivity : AppCompatActivity() {
 
                             val i = Intent(this, EmployeeActivityMain::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                            FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeInfo")
+                                .child("employee").child(userID.toString()).removeValue()
+
+                            FirebaseDatabase.getInstance().getReference("Users").child("employee")
+                                .child(userID.toString()).child("store").child(storeId.toString()).removeValue()
 
                             val calendarRef =
                                 FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("calendar")
