@@ -1,23 +1,30 @@
 package com.example.albatong.employer
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import com.example.albatong.R
 import com.example.albatong.databinding.ActivityEmployersettingBinding
+import com.example.albatong.databinding.ActivityErsettingBinding
 import com.example.albatong.login.LoginActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.example.albatong.login.LoginActivity.Companion.KEY_USER_ID_FOR_AUTO_LOGIN
 import com.example.albatong.login.LoginActivity.Companion.KEY_USER_PW_FOR_AUTO_LOGIN
 import com.example.albatong.login.LoginActivity.Companion.KEY_WAS_LOGOUT
 import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
-import com.google.firebase.database.FirebaseDatabase
 
 class Employersetting : AppCompatActivity() {
     lateinit var binding: ActivityEmployersettingBinding
     var userID: String? = EmployerActivityStoreList.settingUserId2
     var storeId: String? = EmployerActivityStoreList.settingStoreId2
     val storelist: ArrayList<String> = ArrayList()
+    var check:String = "1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,47 +32,61 @@ class Employersetting : AppCompatActivity() {
         setContentView(binding.root)
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
+        var ab1 = FirebaseDatabase.getInstance().getReference("Users").child("employer")
+            .child(userID.toString())
 
-        ab.get().addOnSuccessListener {
-            var test = 0
-            while (true) {
-                if (it.child(test.toString()).exists()) {
-                    storelist.add(it.child(test.toString()).value.toString())
-                    test++
-                } else {
-                    break
+        ab1.get().addOnSuccessListener {
+            if (!it.child("SignCheck").exists()) {
+                ab1.child("SignCheck").setValue("1")
+            }
+            check = it.child("SignCheck").value.toString()
+            if (check == "1")
+                binding.erswitch.setEnabled(true)
+            else
+                binding.erswitch.setEnabled(false)
+
+            ab.get().addOnSuccessListener {
+                var test = 0
+                while (true) {
+                    if (it.child(test.toString()).exists()) {
+                        storelist.add(it.child(test.toString()).value.toString())
+                        test++
+                    } else {
+                        break
+                    }
                 }
-            }
 
-            val use = FirebaseDatabase.getInstance().getReference("Users").child("employer")
-                .child(userID.toString())
-            val User = FirebaseDatabase.getInstance().getReference("Users").child("employee")
-            val use1 = FirebaseDatabase.getInstance().getReference("Stores")
+                val use = FirebaseDatabase.getInstance().getReference("Users").child("employer")
+                    .child(userID.toString())
+                val User = FirebaseDatabase.getInstance().getReference("Users").child("employee")
+                val use1 = FirebaseDatabase.getInstance().getReference("Stores")
 
-            binding.erexit.setOnClickListener {
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("회원 탈퇴")
-                    .setMessage("회원을 탈퇴하시겠습니까?")
-                    .setPositiveButton("나가기", { dialog, id ->
-                        use.removeValue()
+                binding.erexit.setOnClickListener {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("회원 탈퇴")
+                        .setMessage("회원을 탈퇴하시겠습니까?")
+                        .setPositiveButton("나가기", { dialog, id ->
+                            use.removeValue()
 
-                        val a =  FirebaseDatabase.getInstance().getReference("Stores")
+                            val a = FirebaseDatabase.getInstance().getReference("Stores")
 
-                        a.get().addOnSuccessListener {
-                            for(i in storelist){
-                                if(it.child(i).child("storeInfo").child("employerId").child(storeId.toString()).exists()){
-                                    a.child(i).removeValue()
+                            a.get().addOnSuccessListener {
+                                for (i in storelist) {
+                                    if (it.child(i).child("storeInfo").child("employerId")
+                                            .child(storeId.toString()).exists()
+                                    ) {
+                                        a.child(i).removeValue()
+                                    }
                                 }
+                                val i = Intent(this, LoginActivity::class.java)
+                                startActivity(i)
                             }
-                            val i = Intent(this, LoginActivity::class.java)
-                            startActivity(i)
-                        }
-                    })
-                    .setNegativeButton("취소", { dialog, id ->
+                        })
+                        .setNegativeButton("취소", { dialog, id ->
 
-                    })
-                builder.show()
-            }
+                        })
+                    builder.show()
+                }
 
 
 
@@ -83,15 +104,19 @@ class Employersetting : AppCompatActivity() {
                 }
             }
 
-            binding.erswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
-                if (isChecked) {
-                    LoginActivity.sign=0
-                } else {
-                    LoginActivity.sign=1
+                binding.erswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
+                    if(check=="1"){
+                        ab1.child("SignCheck").setValue("0")
+                        binding.erswitch.setEnabled(false)
+                    }
+                    else{
+                        ab1.child("SignCheck").setValue("1")
+                        binding.erswitch.setEnabled(true)
+                    }
                 }
+
+
             }
-
-
         }
     }
 }
