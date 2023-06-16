@@ -29,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
     companion object{
         var uId:String = "null"
+        var sign:Int = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
