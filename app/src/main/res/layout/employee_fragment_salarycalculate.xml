@@ -4,41 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".employee.EmployeeFragmentCalendar"
-    android:background="#F3F3F3">
+    tools:context=".employee.EmployeeFragmentCalendar">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
         <Button
             android:id="@+id/leftBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/left"
-            android:textSize="20sp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:textColor="@color/main_color"
-            android:background="@android:color/transparent" />
+            android:background="@drawable/employee_calendar_left_button"
+            android:layout_marginStart="12dp"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/main_color"/>
 
         <TextView
             android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="2023년 6월"
+            android:text="2023-06"
             android:gravity="center"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:padding="10dp"
-            android:textSize="20sp" />
+            android:textSize="22sp" />
         <Button
             android:id="@+id/rightBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/right"
-            android:textSize="20sp"
-            android:textColor="@color/main_color"
-            android:background="@android:color/transparent"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/employee_calendar_right_button"
+            android:layout_marginEnd="12dp"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/main_color"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -58,5 +65,10 @@
         android:textSize="20sp"
         android:background="@color/main_color"
         android:textColor="@color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
 
 </LinearLayout>

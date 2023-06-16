@@ -29,11 +29,15 @@ class EmployeeAdapterSalaryRecyclerView(var values: ArrayList<UserSalary>)
             storeName.text = values[position].storeName
 
             val totalMinutes = values[position].totalMinutes
-            val hours = totalMinutes / 60
-            val minutes = totalMinutes % 60
+            val hour = totalMinutes / 60
+            val minute = totalMinutes % 60
 
-            totalTime.text = "$hours 시간 $minutes 분"
-            monthlySalary.text = values[position].monthlySalary.toString()+"원"
+            totalTime.text = String.format("%02d:%02d", hour, minute)
+            monthlySalary.text = "￦"+formatNumberWithCommas(values[position].monthlySalary)
         }
+    }
+
+    fun formatNumberWithCommas(number: Int): String {
+        return String.format("%,d", number)
     }
 }
