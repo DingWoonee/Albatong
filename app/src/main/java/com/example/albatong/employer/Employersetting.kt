@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.example.albatong.R
 import com.example.albatong.databinding.ActivityEmployersettingBinding

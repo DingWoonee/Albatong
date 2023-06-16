@@ -161,7 +161,7 @@ class EEsettingActivity : AppCompatActivity() {
                 }
 
                 binding.userLogout.setOnClickListener {
-                    val sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+                    val sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
                 val editor = sharedPref.edit()
                 editor.putBoolean(KEY_WAS_LOGOUT, true)
                 editor.putString(KEY_USER_PW_FOR_AUTO_LOGIN, "")
