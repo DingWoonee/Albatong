@@ -11,7 +11,7 @@
     <Button
         android:id="@+id/erLogout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="28dp"
@@ -44,7 +44,7 @@
     <Button
         android:id="@+id/erexit"
         android:layout_width="350dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/round_button"
         android:text="회원탈퇴"
@@ -59,7 +59,7 @@
     <Switch
         android:id="@+id/erswitch"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="322dp"
