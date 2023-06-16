@@ -36,18 +36,8 @@ class ERsettingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
-        var ab1 = FirebaseDatabase.getInstance().getReference("Users").child("employer")
-            .child(userID.toString())
 
-        ab1.get().addOnSuccessListener {
-            if (!it.child("SignCheck").exists()) {
-                ab1.child("SignCheck").setValue("1")
-            }
-            check = it.child("SignCheck").value.toString()
-            if (check == "1")
-                binding.erswitch.setEnabled(true)
-            else
-                binding.erswitch.setEnabled(false)
+
             ab.get().addOnSuccessListener {
                 var test = 0
                 while (true) {
@@ -147,19 +137,10 @@ class ERsettingActivity : AppCompatActivity() {
                 }
             }
 
-                binding.erswitch.setOnCheckedChangeListener { compoundButton, isChecked ->
-                    if(check=="1"){
-                        ab1.child("SignCheck").setValue("0")
-                        binding.erswitch.setEnabled(false)
-                    }
-                    else{
-                    ab1.child("SignCheck").setValue("1")
-                    binding.erswitch.setEnabled(true)
-                     }
-                }
+
 
 
             }
         }
-    }
+
 }
