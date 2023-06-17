@@ -27,12 +27,12 @@
 
     <Button
         android:id="@+id/userdelete"
-        android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_width="356dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/round_button"
-        android:text="회원탈퇴"
         android:gravity="center"
+        android:text="회원탈퇴"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView5"
@@ -45,7 +45,7 @@
     <Button
         android:id="@+id/userLogout"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button"
         android:text="로그아웃"
@@ -61,7 +61,7 @@
     <Button
         android:id="@+id/userexit"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:background="@drawable/round_button"
         android:gravity="center"
         android:text="점포 나가기"

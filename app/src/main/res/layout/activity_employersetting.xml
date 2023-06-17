@@ -28,7 +28,7 @@
     <Button
         android:id="@+id/erexit"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/round_button"
         android:text="회원탈퇴"
@@ -45,7 +45,7 @@
     <Button
         android:id="@+id/erLogout"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:background="@drawable/round_button"
         android:text="로그아웃"
         android:gravity="center"

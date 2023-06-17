@@ -28,7 +28,7 @@
     <Button
         android:id="@+id/erexit"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/round_button"
         android:text="회원탈퇴"
@@ -45,7 +45,7 @@
     <Button
         android:id="@+id/erLogout"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button"
         android:text="로그아웃"
@@ -61,7 +61,7 @@
     <Button
         android:id="@+id/erdelete"
         android:layout_width="360dp"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:background="@drawable/round_button"
         android:text="점포 삭제"
         android:textColor="#000000"
