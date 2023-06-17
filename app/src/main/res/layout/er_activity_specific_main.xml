@@ -47,11 +47,11 @@
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="@color/dark_gray"
+        app:tabTextColor="#454545"
         app:tabTextAppearance="@style/tabTextSizeBold"
         app:tabIndicatorColor="@color/main_color"
         app:tabIndicatorHeight="5dp"
         app:tabIndicatorGravity="top"
-        app:tabIconTint="@color/dark_gray"/>
+        app:tabIconTint="#454545"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

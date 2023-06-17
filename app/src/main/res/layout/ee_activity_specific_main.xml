@@ -43,11 +43,11 @@
         android:id="@+id/ee_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="@color/dark_gray"
+        app:tabTextColor="#434343"
         app:tabTextAppearance="@style/tabTextSizeBold"
         app:tabIndicatorColor="@color/main_color"
         app:tabIndicatorHeight="5dp"
         app:tabIndicatorGravity="top"
-        app:tabIconTint="@color/dark_gray"/>
+        app:tabIconTint="#434343"/>
 
 </LinearLayout>

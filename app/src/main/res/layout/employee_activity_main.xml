@@ -21,7 +21,7 @@
             android:src="@drawable/baseline_settings_24"
             android:layout_gravity="end"
             android:layout_marginRight="10dp"
-            android:background="?android:attr/selectableItemBackground" />
+            android:background="?android:attr/selectableItemBackground"/>
 
         <ImageButton
             android:id="@+id/employerNotificationHistoryButton"
@@ -49,11 +49,11 @@
         android:id="@+id/employee_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="@color/black"
+        app:tabTextColor="#434343"
         app:tabTextAppearance="@style/tabTextSizeBold"
         app:tabIndicatorColor="@color/main_color"
         app:tabIndicatorHeight="5dp"
         app:tabIndicatorGravity="top"
-        app:tabIconTint="@color/black"/>
+        app:tabIconTint="#434343"/>
 
 </LinearLayout>

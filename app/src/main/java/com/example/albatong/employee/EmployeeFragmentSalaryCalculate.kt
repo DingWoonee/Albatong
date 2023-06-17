@@ -110,10 +110,12 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                                 }
                             }
 
-                            totalSalary += storeSalary
-                            binding!!.totalSalary.text = "총 급여: ￦"+formatNumberWithCommas(totalSalary)
-
                             if(storeName != null && totalMinutes != 0) {
+                                totalSalary += storeSalary
+                                Log.w("ss",storeSalary.toString())
+                                binding!!.totalSalary.text = "총 급여: ￦"+formatNumberWithCommas(totalSalary)
+                                Log.w("total",totalSalary.toString())
+
                                 adapter!!.values.add(UserSalary(storeName!!, totalMinutes, storeSalary))
                             }
                             adapter!!.notifyDataSetChanged()

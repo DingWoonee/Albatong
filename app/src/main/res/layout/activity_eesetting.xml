@@ -27,10 +27,11 @@
 
     <Button
         android:id="@+id/userdelete"
-        android:layout_width="500dp"
-        android:layout_height="50dp"
+        android:layout_width="356dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/round_button"
+        android:gravity="center"
         android:text="회원탈퇴"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -43,11 +44,12 @@
 
     <Button
         android:id="@+id/userLogout"
-        android:layout_width="500dp"
-        android:layout_height="50dp"
+        android:layout_width="360dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button"
         android:text="로그아웃"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/userexit"
@@ -58,14 +60,15 @@
 
     <Button
         android:id="@+id/userexit"
-        android:layout_width="500dp"
-        android:layout_height="50dp"
+        android:layout_width="360dp"
+        android:layout_height="55dp"
         android:background="@drawable/round_button"
+        android:gravity="center"
         android:text="점포 나가기"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userLogout" />
 
@@ -142,7 +145,7 @@
         android:layout_marginTop="98dp"
         android:layout_marginBottom="38dp"
         app:cardCornerRadius="80dp"
-        app:civ_border_color="@color/black"
+        app:civ_border_color="@color/gray"
         app:civ_border_overlay="true"
         app:civ_border_width="30dp"
         app:layout_constraintBottom_toTopOf="@+id/eename"
@@ -152,6 +155,7 @@
 
         <ImageView
             android:id="@+id/imageView2"
+            app:tint="#A4A4A4"
             android:layout_width="130dp"
             android:layout_height="118dp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,6 +14,7 @@
         android:gravity="right">
         <Button
             android:id="@+id/registerBtn"
+            android:textColor="@color/black"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="등록"
@@ -24,6 +25,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="취소"
+            android:textColor="@color/black"
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="제목"
+        android:textColor="@color/black"
         android:padding="16dp"
         android:textSize="24sp"
         android:textStyle="bold"/>
@@ -39,6 +42,7 @@
     <EditText
         android:id="@+id/content_et"
         android:layout_width="match_parent"
+        android:textColor="@color/black"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="start"

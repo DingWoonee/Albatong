@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="공지사항"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="18sp"
         android:gravity="center"
@@ -20,6 +21,7 @@
         android:id="@+id/title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:text="제목"
@@ -31,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
         android:text="작성일" />
 
     <View
@@ -46,6 +49,7 @@
         android:id="@+id/content_tv"
         android:layout_margin="10dp"
         android:scrollbars="vertical"
+        android:textColor="@color/black"
         android:text="내용"
         android:textSize="20sp"
         android:layout_marginBottom="10dp"/>
