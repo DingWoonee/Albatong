@@ -1,9 +1,12 @@
 package com.example.albatong.employer
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +27,6 @@ import kotlin.random.Random
 
 class EmployerActivityStoreList : AppCompatActivity() {
     lateinit var binding: EmployerActivityStoreListBinding
-    lateinit var bindingDialog: EmployerDialogStoreAddBinding
     lateinit var adapter: EmployerAdapterStoreList
     lateinit var rdb: DatabaseReference
     lateinit var sdb: DatabaseReference
@@ -41,7 +43,6 @@ class EmployerActivityStoreList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = EmployerActivityStoreListBinding.inflate(layoutInflater)
-        bindingDialog = EmployerDialogStoreAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
@@ -133,40 +134,47 @@ class EmployerActivityStoreList : AppCompatActivity() {
     }
 
     fun storeAddDlg(){
+        val bindingDialog = EmployerDialogStoreAddBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(this)
 
         val parentView = bindingDialog.root.parent as? ViewGroup
         parentView?.removeView(bindingDialog.root)
-        builder.setView(bindingDialog.root)
 
-        builder
-            .setTitle("매장 추가")
-            .setPositiveButton("OK"){
-                    _,_ ->
-                var id = generateRandomAlphabet()
-                rdb.child(id).setValue(StoreList(bindingDialog.employerStoreAddNameEditText.text.toString(),id))
-                sdb.child(id).setValue(Store(id,
-                    StoreInfo(bindingDialog.employerStoreAddNameEditText.text.toString(),
-                        user_id+"",
-                        bindingDialog.employerStoreAddAddressEditText.text.toString(),
-                        bindingDialog.employerStoreAddTelEditText.text.toString()),
-                    StoreManager()
-                ))
-                storelist.add(id.toString())
-                FirebaseDatabase.getInstance().getReference("Stores").child("Storename").setValue(storelist)
+        val dlg = builder.setView(bindingDialog.root).show()
 
-            }.setNegativeButton("Cancel"){
-                    dlg , _ ->
-                dlg.dismiss()
-            }
-        val dlg = builder.create()
+        dlg.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.CENTER)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        bindingDialog.registerBtn.setOnClickListener {
+            var id = generateRandomAlphabet()
+            rdb.child(id).setValue(StoreList(bindingDialog.employerStoreAddNameEditText.text.toString(),id))
+            sdb.child(id).setValue(Store(id,
+                StoreInfo(bindingDialog.employerStoreAddNameEditText.text.toString(),
+                    user_id+"",
+                    bindingDialog.employerStoreAddAddressEditText.text.toString(),
+                    bindingDialog.employerStoreAddTelEditText.text.toString()),
+                StoreManager()
+            ))
+
+            storelist.add(id.toString())
+            FirebaseDatabase.getInstance().getReference("Stores").child("Storename").setValue(storelist)
+
+            dlg.dismiss()
+        }
+
+
+        bindingDialog.cancelBtn.setOnClickListener {
+            dlg.dismiss()
+
+        }
+
         dlg.setOnDismissListener {
             // 다이얼로그가 닫힐 때, EditText를 초기화합니다.
             bindingDialog.employerStoreAddNameEditText.setText("")
             bindingDialog.employerStoreAddAddressEditText.setText("")
             bindingDialog.employerStoreAddTelEditText.setText("")
         }
-        dlg.show()
     }
     fun generateRandomAlphabet(): String {
         val alphabet = ('A'..'Z')

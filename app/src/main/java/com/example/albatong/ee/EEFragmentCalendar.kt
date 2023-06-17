@@ -117,10 +117,6 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
 
     }
 
-    override fun onItemNameClick(item: Schedule) {
-        showChangeDialog(requireContext(), currentDate!!, item)
-    }
-
     override fun onItemChangeClick(item: Schedule) {
         showChangeDialog(requireContext(), currentDate!!, item)
     }
@@ -167,8 +163,8 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
         val dialogBuilder = AlertDialog.Builder(context)
         val dlg = dialogBuilder.setView(dlgBinding.root).show()
 
-        dlg.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dlg.window?.setGravity(Gravity.BOTTOM)
+        dlg.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.CENTER)
         dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         dlgBinding.registerBtn.setOnClickListener {

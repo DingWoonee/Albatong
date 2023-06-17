@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:gravity="center"
         android:textSize="20dp"
-        android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:text="2023/05/24"
         android:layout_marginLeft="16dp"

@@ -2,6 +2,7 @@ package com.example.albatong.ee
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -23,7 +24,6 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>, private val 
     private lateinit var edb: DatabaseReference
 
     interface OnItemClickListener {
-        fun onItemNameClick(item: Schedule)
         fun onItemChangeClick(item: Schedule)
     }
 
@@ -32,13 +32,6 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>, private val 
     inner class ScheduleViewHolder(val binding: EeItemCalendarListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.nameTextView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val item = getItem(position)
-                    itemClickListener?.onItemNameClick(item)
-                }
-            }
             binding.changeBtn.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -68,21 +61,18 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>, private val 
         holder: ScheduleViewHolder, position: Int, model: Schedule
     ) {
         holder.binding.apply {
-            nameTextView.text = model.name
-            timeTextView.text = "${model.startTime} - ${model.endTime}"
 
+            changeBtn.isVisible = false
 
-           edb = Firebase.database.getReference("Stores").child(storeID!!).child("storeInfo")
+            edb = Firebase.database.getReference("Stores").child(storeID!!).child("storeInfo")
                 .child("employee")
             val userRef = edb.child(userID!!)
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val userName = snapshot.child("name").value?.toString()
 
-                    if (userName == model.name) {
+                    if(userName == model.name){
                         changeBtn.isVisible = true
-                    } else {
-                        changeBtn.isInvisible = true
                     }
                 }
 
@@ -90,6 +80,8 @@ class EEAdapterCalendar(options: FirebaseRecyclerOptions<Schedule>, private val 
                 }
             })
 
+            nameTextView.text = model.name
+            timeTextView.text = "${model.startTime} - ${model.endTime}"
 
         }
     }
