@@ -45,8 +45,8 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:drawableStart="@drawable/baseline_error_outline_24"
-            android:paddingStart="70dp"
-            android:paddingEnd="70dp"
+            android:paddingStart="55dp"
+            android:paddingEnd="55dp"
             android:background="@drawable/background_button_fire_left"/>
 
         <Button

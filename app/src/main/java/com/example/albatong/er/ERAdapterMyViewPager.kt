@@ -13,8 +13,8 @@ class ERAdapterMyViewPager(fragmentActivity: FragmentActivity) : FragmentStateAd
         return when(position){
             0-> ERFragmentScheduleManage()
             1-> ERFragmentEmployeeManage()
-            2-> ERFragmentTakeOver()
-            3-> ERFragmentAnnouncement()
+            2-> ERFragmentAnnouncement()
+            3-> ERFragmentTakeOver()
             else-> ERFragmentScheduleManage()
         }
     }
