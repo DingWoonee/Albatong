@@ -6,6 +6,7 @@
     android:theme="@style/Theme.Albatong"
     android:orientation="vertical">
 
+    <!--suppress AndroidUnresolvableTag -->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
@@ -28,6 +29,7 @@
         android:id="@+id/recyclerView"
         tools:listitem="@layout/ee_item_calendar_list"
         android:background="@drawable/background_white"
+        android:paddingTop="10dp"
         android:layout_margin="16dp"/>
 
 </LinearLayout>

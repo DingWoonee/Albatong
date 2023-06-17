@@ -54,6 +54,7 @@
         android:id="@+id/recyclerView"
         tools:listitem="@layout/er_item_schedule_list"
         android:background="@drawable/background_white"
+        android:paddingTop="10dp"
         android:layout_margin="16dp"/>
 
 </LinearLayout>

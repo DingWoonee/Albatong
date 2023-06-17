@@ -20,13 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:text="이름"/>
 
         <TextView
             android:id="@+id/timeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:text="시간"/>
     </LinearLayout>
