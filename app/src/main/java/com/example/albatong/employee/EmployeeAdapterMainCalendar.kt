@@ -26,7 +26,7 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
     inner class EmployeeScheduleViewHolder(val binding: EmployeeCalendarScheduleRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.scheduleTouchView.setOnClickListener {
+            binding.touchView.setOnClickListener {
                 itemClickListener?.OnItemClick(items[bindingAdapterPosition])
             }
         }
