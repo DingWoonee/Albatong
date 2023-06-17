@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="8dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:layout_marginBottom="8dp"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:text="이름"/>
 
         <TextView
@@ -27,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
+            android:textColor="@color/black"
             android:text="시간"/>
     </LinearLayout>
 
@@ -37,7 +39,8 @@
         android:id="@+id/changeBtn"
         android:textColor="@color/white"
         android:stateListAnimator="@null"
-        android:drawableLeft="@drawable/baseline_autorenew_24"
+        android:visibility="invisible"
+        android:drawableLeft="@drawable/baseline_sync_alt_24"
         android:paddingLeft="23dp">
     </Button>
 </LinearLayout>

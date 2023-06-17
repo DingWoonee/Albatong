@@ -3,8 +3,10 @@ package com.example.albatong.employee
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,31 +97,38 @@ class EmployeeFragmentStoreList : Fragment() {
         val dlgBinding = EmployeeDialogAddBinding.inflate(layoutInflater)
 
         val dlgBuilder = AlertDialog.Builder(context)
-        dlgBuilder.setView(dlgBinding.root)
-            .setNegativeButton("취소") {
-                    _, _ ->
-            }
-            .setPositiveButton("추가") {
-                    _, _ ->
-                val code = dlgBinding.code.text.toString()
+        val dlg = dlgBuilder.setView(dlgBinding.root).show()
 
-                // 이미 등록된 가게인지 check
-                employeeDB!!.child("store/$code").addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if(snapshot.exists()) {
-                            Toast.makeText(context, "이미 등록된 알바입니다.", Toast.LENGTH_SHORT).show()
-                        } else {
-                            // 알바통에 등록된 가게인지 check
-                            checkStoreDB(code)
-                        }
-                    }
+        dlg.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.CENTER)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("Employee", "Database read error: " + error.message)
+        dlgBinding.registerBtn.setOnClickListener {
+            val code = dlgBinding.code.text.toString()
+
+            // 이미 등록된 가게인지 check
+            employeeDB!!.child("store/$code").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()) {
+                        Toast.makeText(context, "이미 등록된 알바입니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // 알바통에 등록된 가게인지 check
+                        checkStoreDB(code)
                     }
-                })
-            }
-            .show()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Employee", "Database read error: " + error.message)
+                }
+            })
+
+            dlg.dismiss()
+        }
+
+        dlgBinding.cancelBtn.setOnClickListener{
+            dlg.dismiss()
+
+        }
     }
 
     private fun checkStoreDB(code: String) {

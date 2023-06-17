@@ -3,22 +3,16 @@ package com.example.albatong.ee
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import com.example.albatong.R
-import com.example.albatong.data.Employee
 import com.example.albatong.databinding.EeActivitySpecificMainBinding
-import com.example.albatong.employee.EmployeeFragmentStoreList
-import com.example.albatong.login.LoginActivity
 import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.database.ktx.values
 
 class EEActivitySpecificMain : AppCompatActivity() {
     val textarr = arrayListOf<String>("캘린더", "공지사항", "인수인계")
     val imgarr = arrayListOf<Int>(R.drawable.baseline_calendar_month_24, R.drawable.baseline_assignment_24,R.drawable.baseline_feed_24)
+    var store_name:String ?= null
 
     private lateinit var binding : EeActivitySpecificMainBinding
 
@@ -49,7 +43,13 @@ class EEActivitySpecificMain : AppCompatActivity() {
             startActivity(intent)
         }
 
-        setSupportActionBar(binding.toolbar)
+        store_name = intent.getStringExtra("store_name")
+
+
+        setSupportActionBar(binding.toolbarEeSpecific)
+        if (store_name != null) {
+            supportActionBar?.title = store_name
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 

@@ -1,67 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:rowCount="3"
-    android:columnCount="2"
-    android:orientation="horizontal"
-    android:layout_gravity="center">
+    android:orientation="vertical"
+    android:background="@drawable/background_dialog_all"
+    android:paddingTop="20dp">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="매장 추가"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
         android:gravity="center"
-        android:layout_margin="16dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="매장 추가"
-            android:gravity="center"
-            android:padding="5dp"
-            android:background="@color/main_color"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="15dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="점포명"
-            android:gravity="center"
-            android:layout_marginTop="10dp"/>
-        <EditText
-            android:id="@+id/employerStoreAddNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="전화번호"
-            android:gravity="center"
-            android:layout_marginTop="10dp"/>
-        <EditText
-            android:id="@+id/employerStoreAddTelEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="주소"
-            android:gravity="center"
-            android:layout_marginTop="10dp"/>
-        <EditText
-            android:id="@+id/employerStoreAddAddressEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
+        android:layout_marginBottom="20dp" />
 
-</GridLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="점포명"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/employerStoreAddNameEditText"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="전화번호"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/employerStoreAddTelEditText"
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="주소"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/employerStoreAddAddressEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="추가"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/background_button_left"/>
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/background_button_right"/>
+    </LinearLayout>
+</LinearLayout>
+
