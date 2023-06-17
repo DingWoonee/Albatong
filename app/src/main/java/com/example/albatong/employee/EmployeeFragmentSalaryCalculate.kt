@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EmployeeFragmentSalaryCalculate : Fragment() {
@@ -50,7 +51,7 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
 
             var year = Calendar.getInstance().get(Calendar.YEAR)
             var month= Calendar.getInstance().get(Calendar.MONTH)+1
-            date.text = "${year}년 ${month}월"
+            date.text = String.format("%04d-%02d", year, month)
             loadSalary(year, month)
 
             leftBtn.setOnClickListener {
@@ -61,7 +62,7 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                     year--
                     month=12
                 }
-                date.text = "${year}년 ${month}월"
+                date.text = String.format("%04d-%02d", year, month)
                 loadSalary(year, month)
             }
 
@@ -73,22 +74,24 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                     year++
                     month=1
                 }
-                date.text = "${year}년 ${month}월"
+                date.text = String.format("%04d-%02d", year, month)
                 loadSalary(year, month)
             }
         }
     }
 
     private fun loadSalary(year: Int, month: Int) {
-        var totalMinutes = 0
-        var storeSalary = 0.0f
-        var totalSalary = 0.0f
-
         employeeDB!!.child("store").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                var totalMinutes: Int
+                var storeSalary: Int
+                var totalSalary = 0
+
                 for (store in snapshot.children) {
                     val storeID = store.key!!
                     var storeName: String?=null
+                    totalMinutes = 0
+                    storeSalary = 0
 
                     val storeDB = Firebase.database.getReference("Stores/$storeID/storeManager/calendar")
                     storeDB.child(year.toString()+"년").child(month.toString()+"월")
@@ -100,19 +103,20 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                                     if(schedule.key!!.contains(userID!!)) {
                                         val time = schedule.getValue(Schedule::class.java)!!
                                         storeName = time.storeName
-                                        totalMinutes += calculateTimeDifference(time.startTime, time.endTime)
-                                        storeSalary += (totalMinutes / 60.0f) * time.salary
-                                        totalSalary += storeSalary
-                                        binding!!.totalSalary.text = "이번달 월급: $totalSalary 원"
+                                        var dayMinutes = calculateSalary(time.startTime, time.endTime)
+                                        totalMinutes += dayMinutes
+                                        storeSalary += (dayMinutes / 60) * time.salary
                                     }
                                 }
                             }
+
+                            totalSalary += storeSalary
+                            binding!!.totalSalary.text = "총 급여: ￦"+formatNumberWithCommas(totalSalary)
+
                             if(storeName != null && totalMinutes != 0) {
                                 adapter!!.values.add(UserSalary(storeName!!, totalMinutes, storeSalary))
                             }
                             adapter!!.notifyDataSetChanged()
-                            totalMinutes = 0
-                            storeSalary = 0.0f
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -128,16 +132,19 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
         })
     }
 
-    fun calculateTimeDifference(startTime: String, endTime: String): Int {
-        val startTimeParts = startTime.split(":")
-        val endTimeParts = endTime.split(":")
+    private fun calculateSalary(startTime: String?, endTime: String?): Int {
+        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val start = format.parse(startTime)
+        val end = format.parse(endTime)
 
-        val startHour = startTimeParts[0].toInt()
-        val startMinute = startTimeParts[1].toInt()
-        val endHour = endTimeParts[0].toInt()
-        val endMinute = endTimeParts[1].toInt()
+        val diffInMillis = end.time - start.time
+        val diffInMinutes = diffInMillis / (1000 * 60)
 
-        return (endHour * 60 + endMinute) - (startHour * 60 + startMinute)
+        return diffInMinutes.toInt()
+    }
+
+    fun formatNumberWithCommas(number: Int): String {
+        return String.format("%,d", number)
     }
 }
 
