@@ -29,8 +29,12 @@ class ERAdapterEmployeeManage(private val scheduleList: List<Schedule>) :
         fun bind(schedule: Schedule) {
             binding.apply {
                 textViewName.text = schedule.name
-                textViewSalary.text = schedule.salary.toString()
+                textViewSalary.text = "￦"+formatNumberWithCommas(schedule.salary)
             }
         }
+    }
+
+    fun formatNumberWithCommas(number: Int): String {
+        return String.format("%,d", number)
     }
 }

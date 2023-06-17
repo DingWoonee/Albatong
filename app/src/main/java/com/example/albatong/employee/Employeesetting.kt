@@ -1,10 +1,12 @@
 package com.example.albatong.employee
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.albatong.R
 import com.example.albatong.databinding.ActivityEesettingBinding
 import com.example.albatong.databinding.ActivityEmployeesettingBinding
@@ -23,13 +25,29 @@ import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 class Employeesetting : AppCompatActivity() {
     lateinit var binding: ActivityEmployeesettingBinding
     var storeId: String?= EmployeeFragmentStoreList.settingStoreId1
-    var userID: String?=EmployeeFragmentStoreList.settingUserId1
+    var userID: String?="null"
     val storelist: ArrayList<String> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmployeesettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userID = intent.getStringExtra("user_id")
+
+        var use1 = FirebaseDatabase.getInstance().getReference("Users").child("employee")
+            .child(userID.toString())
+
+        use1.get().addOnSuccessListener {
+            var name = it.child("name").value.toString() + "("  +it.child("user_id").value.toString()+")"
+            var email =  it.child("email").value.toString()
+            var tel = it.child("tel").value.toString()
+
+            binding.eeemail.text = email
+            binding.eetel.text = tel
+            binding.eename.text = name
+        }
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
 

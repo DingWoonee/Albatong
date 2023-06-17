@@ -16,8 +16,8 @@
         android:id="@+id/star"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_star_border_24"
-        app:tint="@color/yellow" />
+        app:srcCompat="@drawable/baseline_star_24"
+        app:tint="@color/gray" />
 
     <LinearLayout
         android:layout_width="0dp"

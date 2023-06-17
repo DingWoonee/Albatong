@@ -1,5 +1,6 @@
 package com.example.albatong.ee
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -26,7 +27,7 @@ import com.example.albatong.login.LoginActivity.Companion.SHARED_PREF_NAME
 class EEsettingActivity : AppCompatActivity() {
     lateinit var binding:ActivityEesettingBinding
     var storeId: String?= EmployeeFragmentStoreList.settingStoreId1
-    var userID: String?=EmployeeFragmentStoreList.settingUserId1
+    var userID: String?=LoginActivity.uId
     val storelist: ArrayList<String> = ArrayList()
     var check:String = "1"
 
@@ -34,8 +35,25 @@ class EEsettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEesettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userID = intent.getStringExtra("user_id")
 
         var ab = FirebaseDatabase.getInstance().getReference("Stores").child("Storename")
+
+
+        var use1 = FirebaseDatabase.getInstance().getReference("Users").child("employee")
+            .child(userID.toString())
+
+        use1.get().addOnSuccessListener {
+            var name = it.child("name").value.toString() + "("  +it.child("user_id").value.toString()+")"
+            var email =  it.child("email").value.toString()
+            var tel = it.child("tel").value.toString()
+
+            binding.eeemail.text = email
+            binding.eetel.text = tel
+            binding.eename.text = name
+        }
+
+
             ab.get().addOnSuccessListener {
                 var test=0
                 while(true){
@@ -60,6 +78,12 @@ class EEsettingActivity : AppCompatActivity() {
 
                             val i = Intent(this, EmployeeActivityMain::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                            FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeInfo")
+                                .child("employee").child(userID.toString()).removeValue()
+
+                            FirebaseDatabase.getInstance().getReference("Users").child("employee")
+                                .child(userID.toString()).child("store").child(storeId.toString()).removeValue()
 
                             val calendarRef =
                                 FirebaseDatabase.getInstance().getReference("Stores").child(storeId!!).child("storeManager").child("calendar")
@@ -107,6 +131,7 @@ class EEsettingActivity : AppCompatActivity() {
                             val a =  FirebaseDatabase.getInstance().getReference("Stores")
 
                             a.get().addOnSuccessListener {
+
                                 for(i in storelist){
                                     if(it.child(i).child("storeInfo").child("employee").exists()){
                                         a.child(i).child("storeInfo").child("employee").child(userID.toString()).removeValue()
