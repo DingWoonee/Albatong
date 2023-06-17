@@ -37,8 +37,7 @@
                 android:id="@+id/exFiveMonthYearText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/main_color"
+                android:textColor="@color/black"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/exFiveNextMonthImage"
@@ -77,12 +76,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@color/sub_color"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="7dp"
-            android:layout_marginTop="7dp"/>
+            android:background="@color/main_color"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="2.5dp"
+            android:layout_height="1.5dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scheduleRecyclerView"

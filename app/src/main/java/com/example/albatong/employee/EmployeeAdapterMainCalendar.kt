@@ -20,7 +20,6 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
     }
     var itemClickListener:OnItemClickListener?=null
 
-    var date = "THU\nJUN 30"
     var store_id = ""
     var storeBackColorMap: MutableMap<String, Int> = mutableMapOf()
 
@@ -43,8 +42,10 @@ class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
         var tempSchedule = items[position]
         holder.binding.apply {
             //root.setBackgroundColor(storeBackColorMap[tempSchedule.store_id]!!)
-            root.backgroundTintList = ColorStateList.valueOf(storeBackColorMap[tempSchedule.store_id]!!)
-            scheduleDateText.text = date
+            //root.backgroundTintList = ColorStateList.valueOf(storeBackColorMap[tempSchedule.store_id]!!)
+            //storeColorView.setBackgroundColor(storeBackColorMap[tempSchedule.store_id]!!)
+            storeColorView.backgroundTintList = ColorStateList.valueOf(storeBackColorMap[tempSchedule.store_id]!!)
+            scheduleNameText.setTextColor(storeBackColorMap[tempSchedule.store_id]!!)
             scheduleNameText.text = tempSchedule.storeName
             scheduleStartTimeText.text = tempSchedule.startTime
             scheduleEndText.text = tempSchedule.endTime

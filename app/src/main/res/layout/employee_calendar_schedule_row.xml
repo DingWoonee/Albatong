@@ -3,36 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="53dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"
-    android:id="@+id/row_background"
-    android:background="@drawable/employee_background_main_schedule">
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="3dp"
+    android:id="@+id/row_background">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/scheduleDateText"
-            android:layout_width="50dp"
+        <View
+            android:id="@+id/storeColorView"
+            android:layout_width="10dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:lineSpacingExtra="2.5dp"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            tools:text="THU\nJUN 30"
-            android:layout_marginLeft="5dp"/>
+            android:background="@drawable/employee_background_main_schedule"/>
         <TextView
             android:id="@+id/scheduleNameText"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="4.5"
+            android:layout_marginLeft="9dp"
             android:text="Mom's Touch"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:textColor="@color/white"
+            android:textSize="19sp"
+            android:gravity="left|center"
+            android:textColor="@color/black"
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/scheduleStartTimeText"
@@ -40,18 +36,16 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:text="00:00"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="23sp"
+            android:textColor="@color/black"
+            android:textSize="21sp"
             android:gravity="center"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:text="~"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="23sp"
+            android:textColor="@color/black"
+            android:textSize="21sp"
             android:gravity="center"/>
         <TextView
             android:id="@+id/scheduleEndText"
@@ -59,9 +53,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:text="00:00"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="23sp"
+            android:textColor="@color/black"
+            android:textSize="21sp"
             android:gravity="center"/>
     </LinearLayout>
     <View

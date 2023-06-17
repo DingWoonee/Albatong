@@ -209,6 +209,7 @@ class EmployeeFragmentCalendar : Fragment() {
                             }
                         }
                     }
+                    monthSchedule[i] = monthSchedule[i].sortedWith(compareBy({ it.startTime }, { it.endTime })).toMutableList()
                 }
                 if(isFirst) {
                     calendarBinding()
@@ -243,8 +244,6 @@ class EmployeeFragmentCalendar : Fragment() {
             val year = date.year //년
 
             scheduleAdapter?.items = monthSchedule[dayOfMonth-1]
-            scheduleAdapter?.date =
-                dayOfWeek.toString().substring(0,3)+"\n"+Month.fromNumStr(month.toString())
             scheduleAdapter?.notifyDataSetChanged()
         }
     }
