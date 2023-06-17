@@ -174,11 +174,6 @@ class SignAcitivity : AppCompatActivity() {
                                                         override fun onDataChange(snapshot: DataSnapshot) {
                                                             for(employee in snapshot.children) {
                                                                 Firebase.database.getReference("Users/employee/${employee.key}/Sign/${data.schedule?.store_id}: ${data.selectedDate!!} ${s.startTime}-${s.endTime}").setValue(null)
-                                                                finish()
-                                                                overridePendingTransition(0, 0)
-                                                                val intent = intent //인텐트
-                                                                startActivity(intent) //액티비티 열기
-                                                                overridePendingTransition(0, 0)
                                                             }
                                                         }
 
@@ -213,10 +208,5 @@ class SignAcitivity : AppCompatActivity() {
     private fun rejectExchange(data: SignData) {
         // 알림 제거
         Firebase.database.getReference("Users/employee/${userID}/Sign/${data.schedule?.store_id}: ${data.selectedDate!!} ${data.schedule?.startTime}-${data.schedule?.endTime}").setValue(null)
-        finish()
-        overridePendingTransition(0, 0)
-        val intent = intent //인텐트
-        startActivity(intent) //액티비티 열기
-        overridePendingTransition(0, 0)
     }
 }
