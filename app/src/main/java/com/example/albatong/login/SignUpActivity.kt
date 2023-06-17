@@ -237,7 +237,7 @@ class SignUpActivity : AppCompatActivity() {
                     employerDB.child(signUpId.text.toString()).setValue(newUserData)
 
                 val i = Intent(this@SignUpActivity, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(i)
             }
         }
