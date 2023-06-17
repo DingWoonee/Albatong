@@ -19,13 +19,19 @@ class ERActivitySpecificMain : AppCompatActivity() {
     val imgarr = arrayListOf<Int>(R.drawable.baseline_calendar_month_24, R.drawable.baseline_people_alt_24,R.drawable.baseline_access_alarm_24,R.drawable.baseline_content_paste_go_24)
     lateinit var binding: ErActivitySpecificMainBinding
     val userid:String="null"
+    var store_name:String ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ErActivitySpecificMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        store_name = intent.getStringExtra("store_name")
+
+        setSupportActionBar(binding.toolbarErSpecific)
+        if (store_name != null) {
+            supportActionBar?.title = store_name
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val employerSettingButton: ImageButton = findViewById(R.id.employerSettingButton)
