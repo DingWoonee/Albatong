@@ -42,7 +42,9 @@ class SplashActivity : AppCompatActivity() {
                     startActivity(i)
                 }
             } else {
-                startActivity(Intent(this, LoginActivity::class.java))
+                val i = Intent(this, LoginActivity::class.java)
+                i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(i)
             }
         }, 1500)  // 1.5초 동안 스플래시 화면을 보여줍니다.
     }

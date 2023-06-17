@@ -7,6 +7,7 @@ import android.os.Build.VERSION_CODES.P
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.albatong.databinding.LoginActivityBinding
 import com.example.albatong.ee.EEActivitySpecificMain
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
     var loginResult :Int = 0
     lateinit var sharedPref:SharedPreferences
     var wasLogout = true
+    private var backKeyPressedTime: Long = 0
 
     companion object{
         var uId:String = "null"
@@ -54,6 +56,18 @@ class LoginActivity : AppCompatActivity() {
         super.onResume()
 
         checkLoginData()
+    }
+    override fun onBackPressed() {
+        // 현재 시간이 마지막으로 뒤로 가기 버튼을 눌렀던 시간보다 2초 이상 크면
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis()
+            Toast.makeText(this, "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        // 마지막 '뒤로 가기'버튼 누르기 후, 2초가 지나지 않은 상태에서 '뒤로 가기'버튼을 누르면
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish() // 앱 종료
+        }
     }
 
     fun checkLoginData() {

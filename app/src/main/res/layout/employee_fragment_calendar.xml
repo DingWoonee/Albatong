@@ -74,12 +74,7 @@
             app:cv_monthHeaderResource="@layout/employee_calendar_header"
             app:cv_outDateStyle="endOfGrid"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/main_color"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="2.5dp"
-            android:layout_height="1.5dp"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scheduleRecyclerView"
