@@ -1,10 +1,16 @@
 package com.example.albatong.login
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isGone
@@ -13,6 +19,7 @@ import androidx.core.widget.addTextChangedListener
 import com.example.albatong.R
 import com.example.albatong.data.UserData
 import com.example.albatong.databinding.SignUpActivityBinding
+import com.example.albatong.databinding.SignUpDialogInfoCheckBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -145,20 +152,35 @@ class SignUpActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     fun inputCheckDlg(role: String, onOk: () -> Unit){
+        val dlgBinding = SignUpDialogInfoCheckBinding.inflate(layoutInflater)
+
+        val signUpName = binding.signUpName.text
+        val signupId = binding.signUpId.text
+        val signupTel = binding.signUpTel.text
+        val signUpEmail = binding.signUpEmail.text
+
+        dlgBinding.id.text = signupId
+        dlgBinding.email.text = signUpEmail
+        dlgBinding.tel.text = signupTel
+        dlgBinding.role.text = role
+
         val builder = AlertDialog.Builder(this)
-        builder.setMessage(
-            "\n이름:　${binding.signUpName.text}\n" +
-                    "ID:　　　　${binding.signUpId.text}\n" +
-                    "전화번호:　${binding.signUpTel.text}\n" +
-                    "이메일:　　${binding.signUpEmail.text}")
-            .setTitle("정보 확인    -    $role")
-            .setPositiveButton("OK"){ _,_ ->
-                onOk()
-            }.setNegativeButton("Cancel"){ dlg , _ ->
-                dlg.dismiss()
-            }
-        val dlg = builder.create()
-        dlg.show()
+        val dlg = builder.setView(dlgBinding.root).show()
+
+        dlg.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dlg.window?.setGravity(Gravity.CENTER)
+        dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+
+        dlgBinding.registerBtn.setOnClickListener{
+            onOk()
+        }
+
+        dlgBinding.cancelBtn.setOnClickListener{
+            dlg?.dismiss()
+
+        }
     }
     private fun isUserExist(){
         val employeeDB = rdb.child("employee")
@@ -215,6 +237,7 @@ class SignUpActivity : AppCompatActivity() {
                     employerDB.child(signUpId.text.toString()).setValue(newUserData)
 
                 val i = Intent(this@SignUpActivity, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(i)
             }
         }
