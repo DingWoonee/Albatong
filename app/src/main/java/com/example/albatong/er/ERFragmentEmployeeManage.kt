@@ -3,8 +3,11 @@ package com.example.albatong.er
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +16,13 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
 import com.example.albatong.data.Schedule
+import com.example.albatong.databinding.ErEmployeeDialogBinding
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
@@ -77,31 +82,42 @@ class ERFragmentEmployeeManage : Fragment() {
 
     private fun showFireDialog() {
         if (fireDialog == null) {
-
+            val dlgBinding = ErEmployeeDialogBinding.inflate(layoutInflater)
+            val nameSpinner = dlgBinding.nameSpinner
             val dialogView = layoutInflater.inflate(R.layout.er_employee_dialog, null)
-            val nameSpinner = dialogView.findViewById<Spinner>(R.id.nameSpinner)
-
             val dialogBuilder = AlertDialog.Builder(requireContext())
-                .setView(dialogView)
-                .setPositiveButton("확인") { _, _ ->
-                    val id = nameSpinner.selectedItem.toString().split("/")[0]
+            fireDialog = dialogBuilder.setView(dlgBinding.root).show()
 
-                    val confirmationDialogBuilder = AlertDialog.Builder(requireContext())
-                    confirmationDialogBuilder.setTitle("추방 확인")
-                    confirmationDialogBuilder.setMessage("정말로 추방시키시겠습니까?")
-                    confirmationDialogBuilder.setPositiveButton("확인") { _, _ ->
-                        performFiring(id)
-                    }
-                    confirmationDialogBuilder.setNegativeButton("취소", null)
+            fireDialog?.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+            fireDialog?.window?.setGravity(Gravity.CENTER)
+            fireDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                    val confirmationDialog = confirmationDialogBuilder.create()
-                    confirmationDialog.show()
+            dlgBinding.registerBtn.setOnClickListener{
+                val id = nameSpinner.selectedItem.toString().split("/")[0]
+
+                val confirmationDialogBuilder = AlertDialog.Builder(requireContext())
+                confirmationDialogBuilder.setTitle("추방 확인")
+                confirmationDialogBuilder.setMessage("정말로 추방시키시겠습니까?")
+                confirmationDialogBuilder.setPositiveButton("확인") { _, _ ->
+                    performFiring(id)
                 }
-                .setNegativeButton("취소", null)
+                confirmationDialogBuilder.setNegativeButton("취소", null)
 
-            fireDialog = dialogBuilder.create()
+                val confirmationDialog = confirmationDialogBuilder.create()
+                confirmationDialog.show()
 
-            edb.addValueEventListener(object : ValueEventListener {
+                val erFragment = parentFragment as? ERFragmentScheduleManage
+                erFragment?.setDialogOpen(false)
+
+                fireDialog?.dismiss()
+            }
+
+            dlgBinding.cancelBtn.setOnClickListener{
+                fireDialog?.dismiss()
+
+            }
+
+            edb.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val employeeList: MutableList<String> = ArrayList()
 
@@ -119,6 +135,8 @@ class ERFragmentEmployeeManage : Fragment() {
                     )
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     nameSpinner.adapter = adapter
+
+                    fireDialog?.show()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -128,7 +146,6 @@ class ERFragmentEmployeeManage : Fragment() {
 
         }
 
-        fireDialog?.show()
     }
 
     private fun performFiring(id: String) {

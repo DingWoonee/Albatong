@@ -15,8 +15,8 @@ import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ERActivitySpecificMain : AppCompatActivity() {
-    val textarr = arrayListOf<String>("일정 관리", "직원 관리", "인수인계" , "공지사항")
-    val imgarr = arrayListOf<Int>(R.drawable.baseline_calendar_month_24, R.drawable.baseline_people_alt_24,R.drawable.baseline_content_paste_go_24,R.drawable.baseline_access_alarm_24)
+    val textarr = arrayListOf<String>("일정 관리", "직원 관리", "공지사항" , "인수인계")
+    val imgarr = arrayListOf<Int>(R.drawable.baseline_calendar_month_24, R.drawable.baseline_people_alt_24,R.drawable.baseline_access_alarm_24,R.drawable.baseline_content_paste_go_24)
     lateinit var binding: ErActivitySpecificMainBinding
     val userid:String="null"
 

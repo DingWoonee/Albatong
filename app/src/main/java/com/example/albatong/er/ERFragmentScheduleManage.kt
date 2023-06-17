@@ -1,6 +1,7 @@
 package com.example.albatong.er
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
 import com.example.albatong.data.Schedule
+import com.example.albatong.databinding.ErScheduleDialogBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -35,12 +37,20 @@ class ERFragmentScheduleManage : Fragment() {
     private lateinit var edb: DatabaseReference
     private lateinit var cdb: DatabaseReference
     private var scheduleDialog: AlertDialog? = null
-
+    private var isDialogOpen: Boolean = false
 
     private lateinit var scheduleRecyclerView: RecyclerView
     var scheduleAdapter: ERAdapterSchedule ?= null
     var store_id: String? = null
     var store_name:String? = null
+
+    private lateinit var mondayCheckBox: CheckBox
+    private lateinit var tuesdayCheckBox: CheckBox
+    private lateinit var wednesdayCheckBox: CheckBox
+    private lateinit var thursdayCheckBox: CheckBox
+    private lateinit var fridayCheckBox: CheckBox
+    private lateinit var saturdayCheckBox: CheckBox
+    private lateinit var sundayCheckBox: CheckBox
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,14 +114,16 @@ class ERFragmentScheduleManage : Fragment() {
 
         schedulePlusButton.setOnClickListener {
             val selectedDate = scheduleDateTextView.text.toString()
-            showScheduleDialog(selectedDate)
+            if (!isDialogOpen) {
+                isDialogOpen = true
+                showScheduleDialog(selectedDate)
+            }
         }
 
         timeTableButton.setOnClickListener {
             val selectedDate = scheduleDateTextView.text.toString()
             showTimeTableActivity(selectedDate,store_id!!)
         }
-
 
         return view
     }
@@ -141,69 +153,79 @@ class ERFragmentScheduleManage : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         scheduleAdapter?.startListening()
         scheduleAdapter?.notifyDataSetChanged()
     }
 
+
     override fun onStop() {
         super.onStop()
-        if (scheduleDialog != null && scheduleDialog!!.isShowing) {
-            scheduleDialog!!.dismiss()
-        }
         scheduleAdapter?.stopListening()
+        scheduleAdapter?.notifyDataSetChanged()
     }
 
 
     private fun showTimeTableActivity(selectedDate: String, store_id:String) {
         val intent = Intent(requireContext(), ERActivityTimeTable::class.java)
-        intent.putExtra("store_id",store_id!!)
+        intent.putExtra("store_id", store_id)
         intent.putExtra("selectedDate", selectedDate)
         startActivity(intent)
     }
 
+    fun setDialogOpen(isOpen: Boolean) {
+        isDialogOpen = isOpen
+    }
+
     private fun showScheduleDialog(selectedDate: String) {
-        val dialogView = layoutInflater.inflate(R.layout.er_schedule_dialog, null)
-        val nameSpinner = dialogView.findViewById<Spinner>(R.id.nameSpinner)
-        val startHourSpinner = dialogView.findViewById<Spinner>(R.id.startHourSpinner)
-        val startMinuteSpinner = dialogView.findViewById<Spinner>(R.id.startMinuteSpinner)
-        val endHourSpinner = dialogView.findViewById<Spinner>(R.id.endHourSpinner)
-        val endMinuteSpinner = dialogView.findViewById<Spinner>(R.id.endMinuteSpinner)
-        val editSalary = dialogView.findViewById<TextView>(R.id.editSalary)
+        if (!isDialogOpen) {
+            return
+        }
 
+        val dlgBinding = ErScheduleDialogBinding.inflate(layoutInflater)
+        val nameSpinner = dlgBinding.nameSpinner
         val dialogBuilder = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setTitle("$selectedDate")
-            .setPositiveButton("저장") { _, _ ->
-                val id = nameSpinner.selectedItem.toString().split("/")[0]
-                val name = nameSpinner.selectedItem.toString().split("/")[1]
-                val startTime = "${startHourSpinner.selectedItem}:${startMinuteSpinner.selectedItem}"
-                val endTime = "${endHourSpinner.selectedItem}:${endMinuteSpinner.selectedItem}"
-                val salary = editSalary.text.toString()
+        scheduleDialog = dialogBuilder.setView(dlgBinding.root).show()
 
-                if (name.isNotEmpty() && id.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty() && salary.isNotEmpty()) {
-                    if (isTimeValid(startTime, endTime)) {
-                        if(salary.toInt()>=9620)
-                            saveScheduleToDatabase(selectedDate, name, id, startTime, endTime, salary)
-                        else
-                            Toast.makeText(requireContext(),"최저시급 기준을 넘어야 합니다!",Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "시간을 올바르게 설정해주세요!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+        scheduleDialog?.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+        scheduleDialog?.window?.setGravity(Gravity.CENTER)
+        scheduleDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dlgBinding.registerBtn.setOnClickListener{
+
+            val id = nameSpinner.selectedItem.toString().split("/")[0]
+            val name = nameSpinner.selectedItem.toString().split("/")[1]
+            val startTime = "${dlgBinding.startHourSpinner.selectedItem}:${dlgBinding.startMinuteSpinner.selectedItem}"
+            val endTime = "${dlgBinding.endHourSpinner.selectedItem}:${dlgBinding.endMinuteSpinner.selectedItem}"
+            val salary = dlgBinding.editSalary.text.toString()
+
+            if (name.isNotEmpty() && id.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty() && salary.isNotEmpty()) {
+                if (isTimeValid(startTime, endTime)) {
+                    if(salary.toInt()>=9620)
+                        saveScheduleToDatabase(selectedDate, name, id, startTime, endTime, salary)
+                    else
+                        Toast.makeText(requireContext(),"최저시급 기준을 넘어야 합니다!",Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(requireContext(), "모든 데이터를 양식에 맞춰 입력해주세요!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "시간을 올바르게 설정해주세요!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            } else {
+                Toast.makeText(requireContext(), "모든 데이터를 양식에 맞춰 입력해주세요!", Toast.LENGTH_SHORT).show()
             }
-            .setNegativeButton("취소", null)
+            isDialogOpen = false
+            scheduleDialog?.dismiss()
+        }
 
-        scheduleDialog = dialogBuilder.create()
-        scheduleDialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dlgBinding.cancelBtn.setOnClickListener{
+            isDialogOpen = false
+            scheduleDialog?.dismiss()
 
+        }
 
-        edb.addValueEventListener(object : ValueEventListener {
+        edb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val employeeList: MutableList<String> = ArrayList()
 
@@ -222,6 +244,8 @@ class ERFragmentScheduleManage : Fragment() {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 nameSpinner.adapter = adapter
 
+                scheduleDialog?.show()
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -229,11 +253,6 @@ class ERFragmentScheduleManage : Fragment() {
 
             }
         })
-
-        scheduleDialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        scheduleDialog?.window?.setGravity(Gravity.BOTTOM)
-        scheduleDialog?.show()
-
 
 
     }

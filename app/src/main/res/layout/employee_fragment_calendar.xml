@@ -13,7 +13,8 @@
         android:id="@+id/exFiveAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="#fafafa">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -74,12 +75,7 @@
             app:cv_monthHeaderResource="@layout/employee_calendar_header"
             app:cv_outDateStyle="endOfGrid"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/main_color"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="2.5dp"
-            android:layout_height="1.5dp"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scheduleRecyclerView"
