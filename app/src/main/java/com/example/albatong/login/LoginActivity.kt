@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         public const val KEY_USER_PW_FOR_AUTO_LOGIN = "user_pw_for_auto_login"
         public const val KEY_USER_ID_FOR_AUTO_LOGIN = "user_id_for_auto_login"
         public const val KEY_SAVED_ID = "savedID"
+        public const val KEY_IS_EMPLOYER = "isEmployer"
 
         var sign:Int = 1
     }
@@ -200,6 +201,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val editor = sharedPref.edit()
                     editor.putBoolean("wasLogout", false)
+                    editor.putBoolean(KEY_IS_EMPLOYER, true)
                     editor.apply()
                 }
                 val i = Intent(this@LoginActivity, EmployerActivityStoreList::class.java)
@@ -220,6 +222,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val editor = sharedPref.edit()
                     editor.putBoolean("wasLogout", false)
+                    editor.putBoolean(KEY_IS_EMPLOYER, false)
                     editor.apply()
                 }
                 val i = Intent(this@LoginActivity, EmployeeActivityMain::class.java)
