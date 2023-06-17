@@ -1,24 +1,19 @@
 package com.example.albatong.login
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils.split
 import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.albatong.R
-import com.example.albatong.data.*
-import com.example.albatong.databinding.ActivityDetailBinding
+import com.example.albatong.data.Schedule
+import com.example.albatong.data.SignData
 import com.example.albatong.databinding.ActivitySignAcitivityBinding
-import com.example.albatong.databinding.SignDetailBinding
 import com.example.albatong.databinding.SignDialogBinding
 import com.example.albatong.employer.EmployerActivityStoreList
 import com.google.firebase.database.DataSnapshot
@@ -27,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlin.math.log
 
 class SignAcitivity : AppCompatActivity() {
     lateinit var binding: ActivitySignAcitivityBinding
@@ -166,7 +160,6 @@ class SignAcitivity : AppCompatActivity() {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         for(n in snapshot.children) {
                                             var s = n.getValue(Schedule::class.java)
-                                            Log.i("check", userName.toString())
                                             if(s?.name == senderName && s?.startTime == storedSchedule?.startTime && s?.endTime == storedSchedule?.endTime) {
                                                 DB.child("${userID} : ${s?.startTime}-${s?.endTime}").setValue(
                                                     Schedule(userName!!, s!!.storeName, s.startTime, s.endTime, s.salary, s.store_id)
@@ -175,6 +168,25 @@ class SignAcitivity : AppCompatActivity() {
 
                                                 // 알림 삭제
                                                 Toast.makeText(this@SignAcitivity, "일정 변경 완료", Toast.LENGTH_SHORT).show()
+
+                                                Firebase.database.getReference("Users/employee").addListenerForSingleValueEvent(
+                                                    object : ValueEventListener {
+                                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                                            for(employee in snapshot.children) {
+                                                                Firebase.database.getReference("Users/employee/${employee.key}/Sign/${data.schedule?.store_id}: ${data.selectedDate!!} ${s.startTime}-${s.endTime}").setValue(null)
+                                                                finish()
+                                                                overridePendingTransition(0, 0)
+                                                                val intent = intent //인텐트
+                                                                startActivity(intent) //액티비티 열기
+                                                                overridePendingTransition(0, 0)
+                                                            }
+                                                        }
+
+                                                        override fun onCancelled(error: DatabaseError) {
+
+                                                        }
+                                                    }
+                                                )
                                             }
                                         }
                                     }
@@ -200,5 +212,11 @@ class SignAcitivity : AppCompatActivity() {
 
     private fun rejectExchange(data: SignData) {
         // 알림 제거
+        Firebase.database.getReference("Users/employee/${userID}/Sign/${data.schedule?.store_id}: ${data.selectedDate!!} ${data.schedule?.startTime}-${data.schedule?.endTime}").setValue(null)
+        finish()
+        overridePendingTransition(0, 0)
+        val intent = intent //인텐트
+        startActivity(intent) //액티비티 열기
+        overridePendingTransition(0, 0)
     }
 }
