@@ -151,15 +151,10 @@ class ERsettingActivity : AppCompatActivity() {
                 val result = editor.commit()
                 if (result) {
                     val intent = Intent(applicationContext, LoginActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 }
             }
-
-
-
-
-            }
         }
-
+    }
 }
