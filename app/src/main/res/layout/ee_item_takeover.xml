@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_weight="1"
         android:text="title"
         android:layout_marginLeft="10dp"/>
@@ -33,11 +34,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:text="userid" />
 
         <TextView
             android:id="@+id/cmt_date_tv"
             android:gravity="right"
+            android:textColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

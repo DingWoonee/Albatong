@@ -28,11 +28,12 @@
 
     <Button
         android:id="@+id/userdelete"
-        android:layout_width="500dp"
-        android:layout_height="50dp"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="9dp"
         android:background="@drawable/round_button"
         android:text="회원탈퇴"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textSize="20sp"
 
@@ -45,10 +46,11 @@
 
     <Button
         android:id="@+id/userLogout"
-        android:layout_width="500dp"
-        android:layout_height="50dp"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
         android:background="@drawable/round_button"
         android:text="로그아웃"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textSize="20sp"
 
@@ -146,7 +148,8 @@
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/baseline_person_24"
-            tools:layout_editor_absoluteY="98dp" />
+            tools:layout_editor_absoluteY="98dp"
+            app:tint="#A4A4A4" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
