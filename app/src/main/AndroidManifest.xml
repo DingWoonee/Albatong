@@ -43,10 +43,6 @@
             android:exported="true"
             android:label="알바 메인" />
         <activity
-            android:name=".er.ERActivityNotificationList"
-            android:exported="false"
-            android:label="알림 내역" />
-        <activity
             android:name=".er.ERsettingActivity"
             android:exported="false"
             android:label="설정" />

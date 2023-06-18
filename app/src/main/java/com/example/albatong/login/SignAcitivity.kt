@@ -3,7 +3,6 @@ package com.example.albatong.login
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Toast

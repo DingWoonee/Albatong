@@ -10,7 +10,6 @@ import com.example.albatong.databinding.ErItemScheduleListBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
-
 class ERAdapterSchedule(options: FirebaseRecyclerOptions<Schedule>) :
     FirebaseRecyclerAdapter<Schedule, ERAdapterSchedule.ScheduleViewHolder>(options) {
 

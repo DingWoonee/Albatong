@@ -9,14 +9,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.*
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.R
-import com.example.albatong.data.Employee
 import com.example.albatong.data.RequestManager
 import com.example.albatong.data.Schedule
 import com.example.albatong.data.SignData

@@ -3,7 +3,6 @@ package com.example.albatong.ee
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.albatong.R
 import com.example.albatong.databinding.EeItemTakeoverBinding
 
 class EEAdapterTakeOver(val items:ArrayList<EEMyData>)

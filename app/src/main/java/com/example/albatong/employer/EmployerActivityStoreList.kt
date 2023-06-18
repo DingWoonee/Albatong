@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,9 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.albatong.data.*
 import com.example.albatong.databinding.EmployerActivityStoreListBinding
 import com.example.albatong.databinding.EmployerDialogStoreAddBinding
-import com.example.albatong.er.ERActivityNotificationList
 import com.example.albatong.er.ERActivitySpecificMain
-import com.example.albatong.er.ERsettingActivity
 import com.example.albatong.login.SignAcitivity
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
@@ -36,7 +33,6 @@ class EmployerActivityStoreList : AppCompatActivity() {
     val storelist: ArrayList<String> = ArrayList()
 
     companion object{
-        var settingUserId2:String? = null
         var settingStoreId2:String? = null
     }
 

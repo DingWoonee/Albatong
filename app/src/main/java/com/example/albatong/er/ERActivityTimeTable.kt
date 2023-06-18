@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ERActivityTimeTable : AppCompatActivity() {
-
     private lateinit var store_id:String
     private lateinit var selectedDate: String
     private lateinit var recyclerView: RecyclerView

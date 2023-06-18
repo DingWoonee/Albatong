@@ -6,9 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.data.Schedule
 import com.example.albatong.databinding.EmployeeCalendarScheduleRowBinding
-import com.example.albatong.employee.EmployeeAdapterMainCalendar.EmployeeScheduleViewHolder
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
 
 class EmployeeAdapterMainCalendar(var items:MutableList<Schedule>)
     : RecyclerView.Adapter<EmployeeAdapterMainCalendar.EmployeeScheduleViewHolder>() {

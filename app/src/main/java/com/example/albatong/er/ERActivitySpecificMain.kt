@@ -1,16 +1,12 @@
 package com.example.albatong.er
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageButton
-import androidx.core.widget.ImageViewCompat
 import com.example.albatong.R
 import com.example.albatong.databinding.ErActivitySpecificMainBinding
-import com.example.albatong.login.LoginActivity
 import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -38,7 +34,6 @@ class ERActivitySpecificMain : AppCompatActivity() {
         val employerNotificationHistoryButton: ImageButton = findViewById(R.id.employerNotificationHistoryButton)
         employerSettingButton.background = null
         employerNotificationHistoryButton.background = null
-
 
         initLayout()
         init()

@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.example.albatong.R
-import com.example.albatong.ee.EEActivitySpecificMain
 import com.example.albatong.employee.EmployeeActivityMain
 import com.example.albatong.employer.EmployerActivityStoreList
-import com.example.albatong.er.ERActivitySpecificMain
 import com.example.albatong.login.LoginActivity.Companion.KEY_IS_EMPLOYER
 import com.example.albatong.login.LoginActivity.Companion.KEY_USER_ID_FOR_AUTO_LOGIN
 import com.example.albatong.login.LoginActivity.Companion.KEY_WAS_LOGOUT

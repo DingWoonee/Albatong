@@ -1,23 +1,15 @@
 package com.example.albatong.ee
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.albatong.R
 import com.example.albatong.databinding.ActivityEesettingBinding
 import com.example.albatong.employee.EmployeeActivityMain
 import com.example.albatong.employee.EmployeeFragmentStoreList
 import com.example.albatong.login.LoginActivity
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.childEvents
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.example.albatong.login.LoginActivity.Companion.KEY_USER_ID_FOR_AUTO_LOGIN
 import com.example.albatong.login.LoginActivity.Companion.KEY_USER_PW_FOR_AUTO_LOGIN

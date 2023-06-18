@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.viewModels
 import com.example.albatong.R
 import com.example.albatong.data.UserData
 import com.example.albatong.databinding.EmployeeActivityMainBinding
@@ -13,14 +12,12 @@ import com.example.albatong.login.SignAcitivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class EmployeeActivityMain : AppCompatActivity() {
     lateinit var binding: EmployeeActivityMainBinding
-    val viewModel: EmployeeViewModel by viewModels()
     val textarr = arrayListOf<String>("일정", "급여", "근무지")
     val imgarr = arrayListOf<Int>(
         R.drawable.baseline_calendar_month_24, R.drawable.money_image, R.drawable.workspace_image)
@@ -33,7 +30,6 @@ class EmployeeActivityMain : AppCompatActivity() {
         setContentView(binding.root)
 
         val userID = intent.getStringExtra("user_id")
-        val userName = intent.getStringExtra("user_name")
         val userDB = Firebase.database.getReference("Users/employee")
 
         userDB.child("$userID").addListenerForSingleValueEvent(object :
@@ -41,7 +37,6 @@ class EmployeeActivityMain : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     user = dataSnapshot.getValue(UserData::class.java)!!
-                    viewModel.setLiveData(user!!)
                 } else {
                     Log.e("Employee", "Not a registered user")
                 }

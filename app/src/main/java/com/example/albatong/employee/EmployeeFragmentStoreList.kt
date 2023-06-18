@@ -12,22 +12,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.albatong.data.*
 import com.example.albatong.databinding.EmployeeDialogAddBinding
 import com.example.albatong.databinding.EmployeeFragmentItemListBinding
 import com.example.albatong.ee.EEActivitySpecificMain
-import com.example.albatong.ee.EEsettingActivity
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlin.random.Random
 
 class EmployeeFragmentStoreList : Fragment() {
-
     var binding: EmployeeFragmentItemListBinding?= null
     var adapter: EmployeeAdapterItemRecyclerView?= null
     var employeeDB: DatabaseReference?=null
