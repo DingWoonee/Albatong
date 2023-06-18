@@ -233,6 +233,8 @@ class EEFragmentCalendar : Fragment(), EEAdapterCalendar.OnItemClickListener {
                     notificationRef.addListenerForSingleValueEvent(
                         object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                if(employee.key == userID)
+                                    return
                                 val msg = "${store_name}\n${schedule.name}님께서 대타 요청을 보냈습니다."
                                 notificationRef.child("$store_id: $selectedDate ${schedule.startTime}-${schedule.endTime}").setValue(SignData(msg, date, "2", schedule, selectedDate, dayOfWeek))
                             }

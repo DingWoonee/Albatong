@@ -53,6 +53,7 @@ class ERActivitySpecificMain : AppCompatActivity() {
 
         binding.employerNotificationHistoryButton.setOnClickListener {
             val i = Intent(this@ERActivitySpecificMain, SignAcitivity::class.java)
+            i.putExtra("user_type", intent.getStringExtra("user_type"))
             i.putExtra("user_id", userID)
             startActivity(i)
         }

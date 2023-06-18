@@ -224,6 +224,8 @@ class LoginActivity : AppCompatActivity() {
                 i2.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 i.putExtra("user_id",user_id)
                 i2.putExtra("user_id",user_id)
+                i.putExtra("user_type", "employer")
+                i2.putExtra("user_type", "employer")
                 startActivity(i)
             }
             3 -> {
@@ -245,6 +247,8 @@ class LoginActivity : AppCompatActivity() {
                 i1.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 i.putExtra("user_id",user_id)
                 i1.putExtra("user_id",user_id)
+                i.putExtra("user_type", "employee")
+                i1.putExtra("user_type", "employee")
                 startActivity(i)
             }
         }

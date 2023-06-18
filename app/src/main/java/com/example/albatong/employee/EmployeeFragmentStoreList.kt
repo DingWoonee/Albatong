@@ -31,7 +31,6 @@ class EmployeeFragmentStoreList : Fragment() {
     var binding: EmployeeFragmentItemListBinding?= null
     var adapter: EmployeeAdapterItemRecyclerView?= null
     var employeeDB: DatabaseReference?=null
-    val model:EmployeeViewModel by activityViewModels()
     var user: UserData?=null
     var userID: String?=null
 
@@ -52,11 +51,6 @@ class EmployeeFragmentStoreList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        model.selectedUser.observe(viewLifecycleOwner, Observer {
-            if(it != null)
-                user = it
-        })
 
         userID = requireActivity().intent.getStringExtra("user_id")
 
