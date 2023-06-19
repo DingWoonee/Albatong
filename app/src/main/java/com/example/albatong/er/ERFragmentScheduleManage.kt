@@ -41,14 +41,6 @@ class ERFragmentScheduleManage : Fragment() {
     var store_id: String? = null
     var store_name:String? = null
 
-    private lateinit var mondayCheckBox: CheckBox
-    private lateinit var tuesdayCheckBox: CheckBox
-    private lateinit var wednesdayCheckBox: CheckBox
-    private lateinit var thursdayCheckBox: CheckBox
-    private lateinit var fridayCheckBox: CheckBox
-    private lateinit var saturdayCheckBox: CheckBox
-    private lateinit var sundayCheckBox: CheckBox
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

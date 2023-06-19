@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_dialog_all"
+    android:paddingTop="30dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원을 탈퇴하시겠습니까?"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="(탈퇴 후에는 정보를 복구할 수 없습니다)"
+        android:textSize="15sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="탈퇴"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/baseline_error_outline_24"
+            android:paddingStart="55dp"
+            android:paddingEnd="55dp"
+            android:background="@drawable/background_button_fire_left"/>
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/background_button_right"/>
+    </LinearLayout>
+
+</LinearLayout>
