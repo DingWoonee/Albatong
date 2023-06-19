@@ -2,11 +2,17 @@ package com.example.albatong.er
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albatong.data.Schedule
 import com.example.albatong.databinding.ErItemScheduleListBinding
+import com.example.albatong.databinding.ErScheduleDeleteDialogBinding
+import com.example.albatong.databinding.ErSettingConfirmuserDialogBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
@@ -35,19 +41,25 @@ class ERAdapterSchedule(options: FirebaseRecyclerOptions<Schedule>) :
         }
 
         private fun showDeleteConfirmationDialog(context: Context, item: Schedule) {
-            AlertDialog.Builder(context)
-                .setTitle("삭제 확인")
-                .setMessage("정말로 삭제하시겠습니까?")
-                .setPositiveButton("확인") { dialog, _ ->
-                    // 확인 버튼을 클릭한 경우, Firebase와 RecyclerView에서 해당 아이템을 삭제
-                    deleteItem(item)
-                    dialog.dismiss()
-                }
-                .setNegativeButton("취소") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
+            val inflater = LayoutInflater.from(context)
+            val dlgBinding = ErScheduleDeleteDialogBinding.inflate(inflater)
+            val userBuilder = AlertDialog.Builder(context)
+            val dlg = userBuilder.setView(dlgBinding.root).show()
+
+            dlg.window?.setLayout(900, ViewGroup.LayoutParams.WRAP_CONTENT)
+            dlg.window?.setGravity(Gravity.CENTER)
+            dlg.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            dlgBinding.registerBtn.setOnClickListener {
+                deleteItem(item)
+                dlg.dismiss()
+            }
+
+            dlgBinding.cancelBtn.setOnClickListener {
+                dlg.dismiss()
+            }
         }
+
 
         private fun deleteItem(item: Schedule) {
             val position = snapshots.indexOf(item)
