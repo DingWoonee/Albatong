@@ -86,7 +86,7 @@ class ERFragmentTakeOver : Fragment() {
             run {
                 adapter.addItem(
                     EEMyData(
-                        "1",
+                        "사장",
                         Data.toString(),
                         dlgBinding.titleEt.text.toString(),
                         dlgBinding.contentEt.text.toString()
