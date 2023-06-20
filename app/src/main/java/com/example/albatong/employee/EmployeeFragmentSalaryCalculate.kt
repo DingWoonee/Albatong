@@ -90,14 +90,13 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                 for (store in snapshot.children) {
                     val storeID = store.key!!
                     var storeName: String?=null
-                    totalMinutes = 0
-                    storeSalary = 0
 
                     val storeDB = Firebase.database.getReference("Stores/$storeID/storeManager/calendar")
                     storeDB.child(year.toString()+"년").child(month.toString()+"월")
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             totalMinutes = 0
+                            storeSalary = 0
 
                             for (day in snapshot.children) {
                                 for(schedule in day.children) {
@@ -105,7 +104,7 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                                         val time = schedule.getValue(Schedule::class.java)!!
                                         storeName = time.storeName
                                         var dayMinutes = calculateSalary(time.startTime, time.endTime)
-                                        Log.w("알바/시간",storeName + dayMinutes.toString())
+                                        //Log.w("알바/시간",storeName + dayMinutes.toString())
                                         totalMinutes += dayMinutes
                                         storeSalary += (dayMinutes / 60) * time.salary
                                     }
@@ -114,9 +113,9 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
 
                             if(storeName != null && totalMinutes != 0) {
                                 totalSalary += storeSalary
-                                Log.w("ss",storeSalary.toString())
+                                //Log.w("ss",storeSalary.toString())
                                 binding!!.totalSalary.text = "총 급여: ￦"+formatNumberWithCommas(totalSalary)
-                                Log.w("total",totalSalary.toString())
+                                //Log.w("total",totalSalary.toString())
 
                                 adapter!!.values.add(UserSalary(storeName!!, totalMinutes, storeSalary))
                             }
