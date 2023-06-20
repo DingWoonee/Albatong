@@ -56,7 +56,7 @@ class EmployeeActivityMain : AppCompatActivity() {
         binding.employerNotificationHistoryButton.setOnClickListener {
             val intent = Intent(this@EmployeeActivityMain, SignAcitivity::class.java)
             intent.putExtra("user_id", userID)
-            intent.putExtra("user_type", this.intent.getStringExtra("user_type"))
+            intent.putExtra("user_type", "employee")
             startActivity(intent)
         }
 
