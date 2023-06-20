@@ -57,11 +57,11 @@ class SignAcitivity : AppCompatActivity() {
 
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerViewDB = Firebase.database.getReference("Users/$userType/$userID/Sign")
-        val query = recyclerViewDB.limitToLast(50)
+        val query = recyclerViewDB.orderByChild("date")
         val option = FirebaseRecyclerOptions.Builder<SignData>()
             .setQuery(query, SignData::class.java)
             .build()
-        adapter = SignAdapter(option)
+        adapter = SignAdapter(option, 0)
         adapter.itemClickListener = object : SignAdapter.OnItemClickListener {
             override fun OnItemClick(data: SignData, position: Int) {
                 if(data.type == "2") {
@@ -89,6 +89,15 @@ class SignAcitivity : AppCompatActivity() {
                         rejectExchange(data)
                         dlg.dismiss()
                     }
+                }
+            }
+        }
+        adapter.onDataChangedListener = object : SignAdapter.OnDataChangedListener {
+            override fun onDataChanged() {
+                // Scroll to bottom.
+                val newPosition = adapter.itemCount - 1
+                if (newPosition >= 0) {
+                    binding.recyclerView2.scrollToPosition(newPosition)
                 }
             }
         }
