@@ -3,6 +3,7 @@ package com.example.albatong.ee
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import com.example.albatong.R
 import com.example.albatong.databinding.EeActivitySpecificMainBinding
@@ -21,7 +22,10 @@ class EEActivitySpecificMain : AppCompatActivity() {
         binding = EeActivitySpecificMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Log.i("인텐트",intent.toString())
         val userID = intent.getStringExtra("user_id")
+
+        Log.i("유저 아이디", userID.toString())
 
         binding.eeViewPager.adapter = EEAdapterViewPage(this)
         TabLayoutMediator(binding.eeTabLayout, binding.eeViewPager) {
@@ -40,7 +44,7 @@ class EEActivitySpecificMain : AppCompatActivity() {
         binding.employeeNotificationHistoryButton.setOnClickListener {
             val intent = Intent(this@EEActivitySpecificMain,SignAcitivity::class.java)
             intent.putExtra("user_id", userID)
-            intent.putExtra("user_type", intent.getStringExtra("user_type"))
+            intent.putExtra("user_type", "employee")
             startActivity(intent)
         }
 
