@@ -299,13 +299,15 @@ class EmployeeFragmentCalendar : Fragment() {
                                 schedule2.setBackgroundColor(storeListMap[daySchedule[1].store_id]!!)
                                 //schedule2.text = daySchedule[1].storeName
                             }
-                            3 -> {
-                                schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
-                                //schedule1.text = daySchedule[0].storeName
-                                schedule2.setBackgroundColor(storeListMap[daySchedule[1].store_id]!!)
-                                //schedule2.text = daySchedule[1].storeName
-                                schedule3.setBackgroundColor(storeListMap[daySchedule[2].store_id]!!)
-                                //schedule3.text = daySchedule[2].storeName
+                            else -> {
+                                if (daySchedule.count() >= 3) {
+                                    schedule1.setBackgroundColor(storeListMap[daySchedule[0].store_id]!!)
+                                    //schedule1.text = daySchedule[0].storeName
+                                    schedule2.setBackgroundColor(storeListMap[daySchedule[1].store_id]!!)
+                                    //schedule2.text = daySchedule[1].storeName
+                                    schedule3.setBackgroundColor(storeListMap[daySchedule[2].store_id]!!)
+                                    //schedule3.text = daySchedule[2].storeName
+                                }
                             }
                         }
                     }
