@@ -97,6 +97,7 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                     storeDB.child(year.toString()+"년").child(month.toString()+"월")
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
+                            totalMinutes = 0
 
                             for (day in snapshot.children) {
                                 for(schedule in day.children) {
@@ -104,6 +105,7 @@ class EmployeeFragmentSalaryCalculate : Fragment() {
                                         val time = schedule.getValue(Schedule::class.java)!!
                                         storeName = time.storeName
                                         var dayMinutes = calculateSalary(time.startTime, time.endTime)
+                                        Log.w("알바/시간",storeName + dayMinutes.toString())
                                         totalMinutes += dayMinutes
                                         storeSalary += (dayMinutes / 60) * time.salary
                                     }
