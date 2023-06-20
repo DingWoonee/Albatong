@@ -449,6 +449,7 @@ class ERFragmentAnnouncement : Fragment() {
 
                                                     FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
                                                         .child("Sign").setValue(SigndataR)
+                                                    adapter.notifyDataSetChanged()
                                                     SigndataR.clear()
                                                 }
                                         }
@@ -457,6 +458,7 @@ class ERFragmentAnnouncement : Fragment() {
 
                                             FirebaseDatabase.getInstance().getReference("Users").child("employer").child(userId.toString())
                                                 .child("Sign").setValue(SigndataR)
+                                            adapter.notifyDataSetChanged()
                                             SigndataR.clear()
                                         }
                                     }
@@ -469,7 +471,7 @@ class ERFragmentAnnouncement : Fragment() {
                         }
 
 
-                        //adapter.notifyDataSetChanged()
+                        adapter.notifyDataSetChanged()
 
                     }
                 }
