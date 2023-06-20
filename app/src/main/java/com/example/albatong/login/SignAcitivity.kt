@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.albatong.data.Schedule
 import com.example.albatong.data.SignData
+import com.example.albatong.data.Store
 import com.example.albatong.databinding.ActivitySignAcitivityBinding
 import com.example.albatong.databinding.SignDialogBinding
 import com.example.albatong.employer.EmployerActivityStoreList
@@ -19,6 +20,8 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SignAcitivity : AppCompatActivity() {
     lateinit var binding: ActivitySignAcitivityBinding
@@ -30,6 +33,7 @@ class SignAcitivity : AppCompatActivity() {
     var userID: String? = null
     var userName: String? = null
     var userType: String ?= null
+    var employerID: String ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +101,11 @@ class SignAcitivity : AppCompatActivity() {
 
     private fun acceptExchange(data: SignData) {
         // 일정 교환
+        Firebase.database.getReference("Stores/${data.schedule?.store_id}").get().addOnSuccessListener {
+            if (it.exists())
+                employerID = it.getValue(Store::class.java)?.storeInfo?.employerId
+        }
+
         val requestDB = Firebase.database.getReference("Stores/${data.schedule?.store_id}/storeManager")
         requestDB.child("request").addListenerForSingleValueEvent(
             object : ValueEventListener {
@@ -124,7 +133,7 @@ class SignAcitivity : AppCompatActivity() {
                                         for(n in snapshot.children) {
                                             var s = n.getValue(Schedule::class.java)
                                             if(s?.name == senderName && s?.startTime == storedSchedule?.startTime && s?.endTime == storedSchedule?.endTime) {
-                                                DB.child("${userID} : ${s?.startTime}-${s?.endTime}").setValue(
+                                                DB.child("$userID : ${s?.startTime}-${s?.endTime}").setValue(
                                                     Schedule(userName!!, s!!.storeName, s.startTime, s.endTime, s.salary, s.store_id)
                                                 )
                                                 DB.child(n.key!!).setValue(null)
@@ -146,7 +155,30 @@ class SignAcitivity : AppCompatActivity() {
                                                     }
                                                 )
 
+                                                // 사장 알림 추가
 
+                                                Log.i("check", "$employerID")
+                                                Firebase.database.getReference("Users/employer/$employerID/Sign").addListenerForSingleValueEvent(
+                                                    object : ValueEventListener {
+                                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                                            val current = LocalDateTime.now()
+                                                            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                                            val date = current.format(formatter)
+
+                                                            var count = 0
+                                                            if(n in snapshot.children) {
+                                                                count++
+                                                            }
+                                                            var msg = "${data.schedule?.storeName}\n일정 변경(${data.selectedDate!!}): $senderName -> $userName"
+                                                            Firebase.database.getReference("Users/employer/$employerID/Sign").child(count.toString())
+                                                                .setValue(SignData(msg, date, "1", null, null, null))
+                                                        }
+
+                                                        override fun onCancelled(error: DatabaseError) {
+
+                                                        }
+                                                    }
+                                                )
 
                                             }
                                         }
