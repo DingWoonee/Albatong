@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -115,7 +116,7 @@ class ERFragmentAnnouncement : Fragment() {
 
     private fun showDialog() {
         val dlgBinding = ActivityEereBinding.inflate(layoutInflater)
-        val current = LocalDateTime.now().plusSeconds(32398)
+        val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val Data = current.format(formatter)
 
@@ -364,9 +365,10 @@ class ERFragmentAnnouncement : Fragment() {
                         data.addAll(data5)
 
                         if(LoginActivity.sign==1){
-                            val current = LocalDateTime.now().plusSeconds(32398)
+                            val current = LocalDateTime.now()
                             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss")
                             val Date = current.format(formatter)
+                            Log.i("시간",Date.toString())
 
                             Toast.makeText(context,"중요공지가 등록되었습니다.",Toast.LENGTH_SHORT).show()
 
