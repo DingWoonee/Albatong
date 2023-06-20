@@ -26,7 +26,7 @@ class EmployeeFragmentStoreList : Fragment() {
     var binding: EmployeeFragmentItemListBinding?= null
     var adapter: EmployeeAdapterItemRecyclerView?= null
     var employeeDB: DatabaseReference?=null
-    var user: UserData?=null
+    var userName: String?=null
     var userID: String?=null
 
     companion object{
@@ -50,6 +50,10 @@ class EmployeeFragmentStoreList : Fragment() {
         userID = requireActivity().intent.getStringExtra("user_id")
 
         employeeDB = Firebase.database.getReference("Users/employee/$userID")
+        employeeDB!!.get().addOnSuccessListener {
+            if(it.exists())
+                userName = it.getValue(UserData::class.java)?.name
+        }
 
         binding!!.apply {
             list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -129,7 +133,7 @@ class EmployeeFragmentStoreList : Fragment() {
 
                     // DB 등록
                     employeeDB!!.child("store").child(code).setValue(StoreList(store.storeInfo.storeName, code, generateColor()))
-                    storeDB.child("$code/storeInfo/employee").child("$userID").setValue(Employee("$userID", "${user?.name}"))
+                    storeDB.child("$code/storeInfo/employee").child("$userID").setValue(Employee("$userID", "$userName"))
                     Toast.makeText(context, "${store.storeInfo.storeName} 알바 등록됨", Toast.LENGTH_SHORT).show()
                 }
                 else {
