@@ -9,7 +9,7 @@ import com.example.albatong.databinding.SignDetailBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
-class SignAdapter(var options: FirebaseRecyclerOptions<SignData>, var itemCountForScroll:Int)
+class SignAdapter(var options: FirebaseRecyclerOptions<SignData>)
     : FirebaseRecyclerAdapter<SignData, SignAdapter.ViewHolder>(options) {
 
     interface OnItemClickListener{
@@ -41,7 +41,6 @@ class SignAdapter(var options: FirebaseRecyclerOptions<SignData>, var itemCountF
         Log.i("check", model.title.toString())
         holder.binding.signTitle.text = model.title
         holder.binding.signDate.text = model.date
-        itemCountForScroll++
     }
 
     override fun onDataChanged() {

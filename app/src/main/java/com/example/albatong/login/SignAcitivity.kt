@@ -61,7 +61,7 @@ class SignAcitivity : AppCompatActivity() {
         val option = FirebaseRecyclerOptions.Builder<SignData>()
             .setQuery(query, SignData::class.java)
             .build()
-        adapter = SignAdapter(option, 0)
+        adapter = SignAdapter(option)
         adapter.itemClickListener = object : SignAdapter.OnItemClickListener {
             override fun OnItemClick(data: SignData, position: Int) {
                 if(data.type == "2") {
